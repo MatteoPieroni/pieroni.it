@@ -4,11 +4,8 @@
 
 ## general
 
-- nav
-- main nav
 - search
 - hero
-- sub nav
 - home content
 - magazzini block
 - professionisti block
