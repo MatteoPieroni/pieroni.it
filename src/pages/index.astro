@@ -19,6 +19,14 @@ import '../styles/global.css';
   </head>
   <body>
     <Menu />
+    <header class="home__header">
+      <h1 class="page-title text-center">
+        <span style="font-weight: 500"
+          >Nuovi caminetti, stufe o generatori di calore a costo zero?</span
+        >
+      </h1>
+      <a class="button" href="/promo-camini/">Scopri subito!</a>
+    </header>
     <main id="content" class="site-content">
       <div class="bg-dark-blue">
         <div class="row link-sezioni max-w-cont">
@@ -150,6 +158,33 @@ import '../styles/global.css';
 </html>
 
 <style>
+  .home__header {
+    min-height: 70vh;
+    background-image: url('/hero-fuoco.jpg');
+    background-position: center;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem 1.5rem;
+  }
+
+  .home__header .page-title {
+    font-size: 2.5em;
+    color: var(--text-contrast);
+    margin-bottom: 2rem;
+    text-align: center;
+
+    @media (min-width: 960px) {
+      font-size: 4.5em;
+    }
+  }
+
+  .home__header .button {
+    padding: 1rem 2rem;
+  }
+
   .site-content {
     margin: 0 1.5rem;
   }
