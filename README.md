@@ -7,9 +7,7 @@
 - search
 - hero
 - home content
-- magazzini block
 - professionisti block
-- footer
 
 ## Categories
 

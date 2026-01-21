@@ -1,0 +1,110 @@
+---
+// Locations component showing Diecimo and Lucca
+
+const locations = [
+  {
+    name: 'Diecimo',
+    href: '/magazzino-edile/diecimo-borgo-a-mozzano/',
+    image: '/location-diecimo.jpg',
+    title: 'Visitaci a Diecimo!',
+  },
+  {
+    name: 'Lucca',
+    href: '/magazzino-edile/lucca-capannori/',
+    image: '/location-lucca.jpg',
+    title: 'Visitaci a Lucca!',
+  },
+];
+---
+
+<section class="locations">
+  <div class="locations-grid">
+    {
+      locations.map((location) => (
+        <div class="location-card">
+          <a href={location.href} title={location.title}>
+            <div class="location-image">
+              <img src={location.image} alt={`Immagine ${location.name}`} />
+              <h3>{location.name}</h3>
+            </div>
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .locations-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+
+    @media (max-width: 960px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .location-card > a {
+    position: relative;
+    display: block;
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.12),
+      0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .location-card > a:hover {
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.16),
+      0 3px 6px rgba(0, 0, 0, 0.23);
+  }
+
+  .location-card > a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    transition: background 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+  }
+
+  .location-card > a:hover::before {
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .location-image {
+    position: relative;
+    width: 100%;
+    padding-bottom: 66.67%; /* 3:2 aspect ratio */
+    overflow: hidden;
+  }
+
+  .location-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .location-image h3 {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5em;
+    color: var(--color-text-contrast);
+    background: var(--color-blue);
+    margin: 0;
+    padding: 1rem 3rem;
+    z-index: 2;
+    font-weight: 100;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+</style>
