@@ -5,6 +5,7 @@
 ## general
 
 - search
+- menu arrows
 
 ## Categories
 

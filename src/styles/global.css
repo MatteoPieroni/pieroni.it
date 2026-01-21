@@ -104,6 +104,11 @@ img {
 
 .margin-container {
   margin-inline: var(--page-margin);
+
+  @media (min-width: 960px) {
+    max-width: 1200px;
+    margin: auto;
+  }
 }
 
 /* Header (Storefront-ish) – generic helpers only */
