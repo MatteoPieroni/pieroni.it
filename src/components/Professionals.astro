@@ -1,0 +1,144 @@
+---
+// Professionals component - "Sei un professionista?" block
+
+const professionalData = {
+  title: 'Sei un professionista?',
+  description:
+    'Se sei un professionista ci sono molte ragioni per servirsi da noi.',
+  highlight: 'Scoprile subito!',
+  buttonText: 'Scopri cosa ti abbiamo riservato',
+  href: '/professionisti-edilizia/',
+  image: '/professionals.jpg',
+  imageAlt:
+    'Uomo con barba brizzolata e camicia disegna un progetto ad un tavolo di legno',
+};
+---
+
+<section class="professionals">
+  <div class="col-full">
+    <div class="professionals-card">
+      <div class="professionals-image">
+        <a href={professionalData.href} title={professionalData.buttonText}>
+          <img src={professionalData.image} alt={professionalData.imageAlt} />
+        </a>
+      </div>
+      <div class="professionals-content">
+        <h2>{professionalData.title}</h2>
+        <p>
+          {professionalData.description}
+          <br />
+          <span>{professionalData.highlight}</span>
+        </p>
+        <a href={professionalData.href} class="button">
+          {professionalData.buttonText}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .professionals {
+    padding: 2rem 0;
+  }
+
+  .professionals-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  .professionals-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid #ee8900;
+    width: 100%;
+    height: 100%;
+    background: none;
+    z-index: 1;
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .professionals-card:hover::before {
+    transform: translate(5px, 5px);
+  }
+
+  .professionals-image,
+  .professionals-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .professionals-image {
+    width: 100%;
+    padding: 0;
+
+    @media (min-width: 768px) {
+      width: 50%;
+    }
+  }
+
+  .professionals-image a {
+    display: block;
+  }
+
+  .professionals-image img {
+    width: 100%;
+    border-radius: var(--radius);
+    height: auto;
+    display: block;
+    transform: translate(-5px, -10px);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .professionals-card:hover .professionals-image img {
+    transform: translate(-10px, -15px);
+  }
+
+  .professionals-content {
+    width: 100%;
+    padding: 0.5rem;
+    align-self: center;
+    text-transform: uppercase;
+
+    @media (min-width: 960px) {
+      width: 50%;
+      padding: 3rem;
+      font-size: 1.5rem;
+    }
+  }
+
+  .professionals-content h2 {
+    margin: 0;
+    font-size: 2.5em;
+    line-height: 0.8;
+    font-weight: 100;
+    letter-spacing: 1px;
+  }
+
+  .professionals-content p {
+    margin-block-start: 0.5rem;
+    font-size: 1.5em;
+    line-height: 1;
+    color: #a7a7a7;
+  }
+
+  .professionals-content p span {
+    color: #ee8900;
+  }
+
+  .professionals-content .button {
+    font-size: 1em;
+    line-height: 2em;
+    position: relative;
+    margin: 2rem 0;
+    text-transform: uppercase;
+  }
+</style>
