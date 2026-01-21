@@ -6,12 +6,14 @@
 
 :root {
   --color-blue: #142863;
-  --color-text: #333333;
-  --color-text-contrast: #ffffff;
-  --color-link: #111827;
-  --color-link-contrast: #ffffff;
-  --color-bg: #ffffff;
-  --color-bg-darker: #f0f0f0;
+  --text: #333333;
+  --text-contrast: #ffffff;
+  --link-text: #111827;
+  --link-text-contrast: #ffffff;
+  --button-bg: #ff8900;
+  --button-text: #111827;
+  --bg: #ffffff;
+  --bg-darker: #f0f0f0;
   --radius: 0.25rem;
 }
 
@@ -22,17 +24,32 @@ body {
   font-family:
     'Source Sans Pro', 'HelveticaNeue-Light', 'Helvetica Neue Light',
     'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
-  color: var(--color-text);
-  background: var(--color-bg);
+  color: var(--text);
+  background: var(--bg);
 }
 
 a {
-  color: var(--color-link);
+  color: var(--link-text);
   /* text-decoration: none; */
 }
 
 a:hover {
+  color: var(--link-text);
   /* text-decoration: underline; */
+}
+
+button,
+a.button {
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: var(--button-bg);
+  color: var(--button-text);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+
+  &:hover {
+    border-color: var(--color-blue);
+  }
 }
 
 img {

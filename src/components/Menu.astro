@@ -263,7 +263,7 @@ const mobileMenu: MenuItem[] = [
     text-transform: lowercase;
 
     &:not(:last-child) {
-      border-inline-end: 1px solid var(--color-link);
+      border-inline-end: 1px solid var(--link-text);
     }
   }
 
@@ -370,7 +370,7 @@ const mobileMenu: MenuItem[] = [
   .menu ul {
     position: absolute;
     white-space: nowrap;
-    background: var(--color-bg-darker);
+    background: var(--bg-darker);
     box-shadow: 0 20px 66px 0 rgba(34, 48, 73, 0.2);
     z-index: 1;
     left: -99999em;
@@ -408,9 +408,9 @@ const mobileMenu: MenuItem[] = [
 
   .menu-toggle {
     position: relative;
-    background: var(--color-bg);
+    background: var(--bg);
     font-weight: 600;
-    color: var(--color-text);
+    color: var(--text);
     cursor: pointer;
     margin-right: 0;
     margin-left: auto;
@@ -495,7 +495,7 @@ const mobileMenu: MenuItem[] = [
   }
 
   .handheld-navigation a:hover {
-    background: var(--color-bg-darker);
+    background: var(--bg-darker);
   }
 
   .menu__featured--container {
