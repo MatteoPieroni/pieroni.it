@@ -20,6 +20,42 @@ import '../styles/global.css';
   <body>
     <Menu />
     <main id="content" class="site-content">
+      <div class="bg-dark-blue">
+        <div class="row link-sezioni max-w-cont">
+          <div class="small-6 medium-4 large-2">
+            <a href="/materiali-edili/" class="button button__link-sezioni"
+              >Edilizia</a
+            >
+          </div>
+          <div class="small-6 medium-4 large-2">
+            <a href="/arredo-bagno/" class="button button__link-sezioni"
+              >Bagno</a
+            >
+          </div>
+          <div class="small-6 medium-4 large-2">
+            <a href="/ferramenta/" class="button button__link-sezioni"
+              >Ferramenta</a
+            >
+          </div>
+          <div class="small-6 medium-4 large-2">
+            <a
+              href="/piastrelle-rivestimenti-bagno/"
+              class="button button__link-sezioni">Mattonelle</a
+            >
+          </div>
+          <div class="small-6 medium-4 large-2">
+            <a href="/stufe-caldaie-pellet/" class="button button__link-sezioni"
+              >Riscaldamento</a
+            >
+          </div>
+          <div class="small-6 medium-4 large-2">
+            <a
+              href="/c/riscaldamento/pellet-prezzi-offerta/"
+              class="button button__link-sezioni">Pellet</a
+            >
+          </div>
+        </div>
+      </div>
       <div class="col-full">
         <div class="container--rows">
           <section class="row">
@@ -128,6 +164,37 @@ import '../styles/global.css';
 
   h3 {
     font-size: 1.75em;
+  }
+
+  .bg-dark-blue {
+    background-color: var(--color-blue);
+    padding: 2rem 0;
+  }
+
+  .link-sezioni {
+    display: flex;
+    margin: 0 auto;
+    gap: 1rem;
+    overflow-y: scroll;
+    flex-wrap: nowrap;
+  }
+
+  .button__link-sezioni {
+    width: fit-content;
+    display: block;
+    padding: 1rem 2rem;
+    background: #eee;
+    color: #333;
+    border-radius: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+  }
+
+  .button__link-sezioni:hover {
+    background: var(--button-bg);
+    color: var(--button-text);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 
   .row {
