@@ -15,6 +15,12 @@
   --bg: #ffffff;
   --bg-darker: #f0f0f0;
   --radius: 0.25rem;
+
+  --page-margin: 1.5rem;
+
+  @media (min-width: 960px) {
+    --page-margin: 2rem;
+  }
 }
 
 html,
@@ -32,9 +38,30 @@ h1,
 h2,
 h3,
 h4 {
+  margin: 0;
   font-weight: 300;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-block-end: 1.5rem;
+}
+
+h2 {
+  font-size: 1.75rem;
+  margin-block-end: 1.25rem;
+}
+
+h3 {
+  font-size: 1.45rem;
+  margin-block-end: 1.1rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+  margin-block-end: 1rem;
 }
 
 a {
@@ -67,91 +94,16 @@ img {
   display: block;
 }
 
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.container {
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
-
-.col-full {
-  @media (min-width: 768px) {
-    max-width: 1120px;
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  margin: 0 -0.75rem;
-}
-
-.column {
-  padding: 0 0.75rem;
-  min-width: 0;
-}
-
-.small-12 {
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .medium-3 {
-    width: 25%;
-  }
-  .medium-4 {
-    width: 33.3333%;
-  }
-  .medium-6 {
-    width: 50%;
-  }
-  .medium-9 {
-    width: 75%;
-  }
-}
-
-@media (min-width: 1024px) {
-  .large-2 {
-    width: 16.6667%;
-  }
-  .large-6 {
-    width: 50%;
-  }
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text--white {
-  color: #fff;
-}
-
-.background--cover {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.display--flex {
-  display: flex;
-}
-
 .show-on-desktop {
   display: none;
 
   @media (min-width: 960px) {
     display: block;
   }
+}
+
+.margin-container {
+  margin-inline: var(--page-margin);
 }
 
 /* Header (Storefront-ish) – generic helpers only */

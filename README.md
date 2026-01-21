@@ -5,9 +5,6 @@
 ## general
 
 - search
-- hero
-- home content
-- professionisti block
 
 ## Categories
 
