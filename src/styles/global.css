@@ -6,7 +6,9 @@
 
 :root {
   --color-text: #333333;
+  --color-text-contrast: #ffffff;
   --color-link: #111827;
+  --color-link-contrast: #ffffff;
   --color-bg: #ffffff;
   --color-bg-darker: #f0f0f0;
   --radius: 0.25rem;
@@ -25,11 +27,11 @@ body {
 
 a {
   color: var(--color-link);
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
 a:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 
 img {
