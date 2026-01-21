@@ -1,0 +1,412 @@
+---
+// Pieroni.it-style header with desktop + mobile navigation
+
+type MenuItem = {
+  label: string;
+  href: string;
+  children?: MenuItem[];
+  extraClass?: string;
+};
+
+const secondaryMenu: MenuItem[] = [
+  { label: 'Chi Siamo', href: '/chi-siamo/' },
+  { label: 'Professionisti', href: '/professionisti-edilizia/' },
+  { label: 'Gli Speciali', href: '/category/gli-speciali/' },
+  { label: 'Blog', href: '/category/blog/' },
+  { label: 'Outlet', href: 'https://outlet.pieroni.it/' }
+];
+
+const primaryMenu: MenuItem[] = [
+  { label: 'Edilizia', href: '/materiali-edili/' },
+  {
+    label: 'Sala Mostra',
+    href: '/sala-mostra/',
+    children: [
+      {
+        label: 'Bagno',
+        href: '/arredo-bagno/',
+        children: [
+          { label: 'Cabine e Piatti Doccia', href: '/c/bagno/piatti-doccia/' },
+          { label: 'Vasche da Bagno', href: '/c/bagno/vasche-da-bagno/' },
+          { label: 'Mobili Bagno e Sanitari', href: '/c/bagno/mobili-bagno/' },
+          { label: 'Accessori Bagno', href: '/c/bagno/accessori-bagno/' }
+        ]
+      },
+      {
+        label: 'Mattonelle',
+        href: '/piastrelle-rivestimenti-bagno/',
+        children: [
+          { label: 'Pavimenti', href: '/c/piastrelle/pavimenti/' },
+          { label: 'Rivestimenti', href: '/c/piastrelle/rivestimenti-bagno/' },
+          { label: 'Esterni', href: '/c/piastrelle/piastrelle-per-esterno/' }
+        ]
+      },
+      {
+        label: 'Riscaldamento',
+        href: '/stufe-caldaie-pellet/',
+        children: [
+          { label: 'Stufe', href: '/c/riscaldamento/stufe-a-pellet-e-legna/' },
+          { label: 'Camini', href: '/c/riscaldamento/camini-inserti/' },
+          { label: 'Caldaie', href: '/c/riscaldamento/caldaie-a-pellet/' },
+          {
+            label: 'Offerte e Prezzi Pellet',
+            href: '/c/riscaldamento/pellet-prezzi-offerta/',
+            extraClass: 'offertacamini'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: 'Ferramenta',
+    href: '/ferramenta/',
+    children: [{ label: 'Scarpe antinfortunistiche', href: '/ferramenta/scarpe-antinfortunistiche/' }]
+  },
+  {
+    label: 'Dove Siamo',
+    href: '/magazzino-edile/',
+    children: [
+      { label: 'Diecimo', href: '/magazzino-edile/diecimo-borgo-a-mozzano/' },
+      { label: 'Lucca', href: '/magazzino-edile/lucca-capannori/' }
+    ]
+  },
+  { label: 'Ristrutturazioni', href: '/ristrutturazione/' }
+];
+
+const mobileMenu: MenuItem[] = [
+  { label: 'Materiali Edili e Attrezzature per l’Edilizia', href: '/materiali-edili/' },
+  { label: 'Sala Mostra', href: '/sala-mostra/' },
+  { label: 'Ferramenta, Utensileria e Abbigliamento', href: '/ferramenta/' },
+  { label: 'Ristrutturazioni', href: '/ristrutturazione' },
+  { label: 'Outlet', href: 'https://outlet.pieroni.it/' },
+  { label: 'Dove Siamo', href: '/magazzino-edile/' },
+  { label: 'Professionisti Edilizia, Sala Mostra, Riscaldamento', href: '/professionisti-edilizia/' },
+  { label: 'Gli Speciali', href: '/category/gli-speciali/' },
+  { label: 'Blog', href: '/category/blog/' },
+  { label: 'Chiusura camini', href: '/chiusura-camini/', extraClass: 'offertacamini' }
+];
+---
+
+<header id="masthead" class="site-header" role="banner">
+  <div class="col-full max-w-full">
+    <nav class="secondary-navigation" role="navigation" aria-label="Navigazione secondaria">
+      <div class="col-full no-padding">
+        <ul id="menu-secondario" class="menu">
+          {secondaryMenu.map((item) => (
+            <li class="menu-item">
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+
+    <a class="skip-link screen-reader-text" href="#site-navigation">Vai alla navigazione</a>
+    <a class="skip-link screen-reader-text" href="#content">Vai al contenuto</a>
+
+    <div class="col-full cont-head">
+      <div class="site-branding">
+        <a href="/" class="custom-logo-link" rel="home" aria-current="page">
+          <img
+            width="400"
+            height="192"
+            src="/logo-pieroni-srl-edilizia-sala-mostra.png"
+            class="custom-logo"
+            alt="Pieroni srl Logo"
+          />
+        </a>
+      </div>
+
+      <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="Navigazione principale">
+        <button class="menu-toggle" aria-controls="site-navigation" aria-expanded="false">
+          <span>Menu</span>
+        </button>
+
+        <div class="primary-navigation">
+          <ul id="menu-principale" class="menu">
+            {(() => {
+              const renderMenu = (items: MenuItem[]) =>
+                items.map((item) => (
+                  <li
+                    class={`menu-item${item.children ? ' menu-item-has-children' : ''}${
+                      item.extraClass ? ' ' + item.extraClass : ''
+                    }`}
+                  >
+                    <a href={item.href}>{item.label}</a>
+                    {item.children && (
+                      <ul class="sub-menu">
+                        {renderMenu(item.children)}
+                      </ul>
+                    )}
+                  </li>
+                ));
+
+              return renderMenu(primaryMenu);
+            })()}
+          </ul>
+        </div>
+
+        <div class="handheld-navigation" aria-label="Navigazione mobile">
+          <ul id="menu-mobile" class="menu">
+            {mobileMenu.map((item) => (
+              <li class={`menu-item${item.extraClass ? ' ' + item.extraClass : ''}`}>
+                <a href={item.href}>{item.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </nav>
+
+      <form role="search" method="get" class="search-form" action="/">
+        <label>
+          <span class="screen-reader-text">Ricerca per:</span>
+          <input type="search" class="search-field" placeholder="Cerca …" value="" name="s" />
+        </label>
+        <input type="submit" class="search-submit" value="Cerca" />
+      </form>
+    </div>
+
+    <div class="menu__featured--container">
+      <nav class="menu__featured" aria-label="Scorciatoie">
+        <a href="/sala-mostra/">Sala Mostra</a>
+        <a href="/materiali-edili/">Edilizia</a>
+        <a href="/professionisti-edilizia/">Professionisti</a>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--color-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  .secondary-navigation {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    font-size: 0.9rem;
+    background: #f5f5f5;
+  }
+
+  .secondary-navigation ul.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.35rem 0;
+  }
+
+  .secondary-navigation ul.menu a {
+    padding: 0.3rem 0.6rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .secondary-navigation ul.menu a:hover {
+    text-decoration: underline;
+  }
+
+  .cont-head {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.8rem 0;
+  }
+
+  .site-branding {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  .site-header .custom-logo-link img {
+    max-width: 88px;
+    border-radius: 0;
+    height: auto;
+  }
+
+  @media (min-width: 768px) {
+    .site-header .custom-logo-link img {
+      max-height: 70px;
+      max-width: none;
+      width: auto;
+    }
+  }
+
+  .main-navigation {
+    flex: 1 1 auto;
+  }
+
+  .primary-navigation {
+    display: none;
+  }
+
+  .main-navigation ul.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .main-navigation ul.menu > li > a {
+    display: inline-block;
+    padding: 0.45rem 0.8rem;
+    color: var(--color-text);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  .main-navigation ul.menu > li > a:hover {
+    text-decoration: underline;
+  }
+
+  .menu-item-has-children {
+    position: relative;
+  }
+
+  .menu-item-has-children > .sub-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    padding: 0.5rem 0;
+    z-index: 50;
+  }
+
+  .menu-item-has-children:hover > .sub-menu {
+    display: block;
+  }
+
+  .menu-item-has-children .sub-menu li a {
+    white-space: nowrap;
+    display: block;
+    padding: 0.4rem 0.9rem;
+    font-size: 0.9rem;
+  }
+
+  .offertacamini a {
+    color: darkorange !important;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .search-form {
+    display: none;
+  }
+
+  .menu__featured--container {
+    background: #111827;
+  }
+
+  .menu__featured {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0.65rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+  }
+
+  .menu__featured a {
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .menu__featured a:hover {
+    text-decoration: underline;
+  }
+
+  .menu-toggle {
+    border: 1px solid #ddd;
+    border-radius: var(--radius);
+    padding: 0.4rem 0.7rem;
+    background: var(--color-bg);
+    font-size: 0.9rem;
+    cursor: pointer;
+  }
+
+  .handheld-navigation {
+    display: none;
+    margin-top: 0.75rem;
+  }
+
+  .handheld-navigation.is-open {
+    display: block;
+  }
+
+  .handheld-navigation .menu {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .handheld-navigation a {
+    display: block;
+    padding: 0.45rem 0.5rem;
+    text-decoration: none;
+    color: var(--color-text);
+    border-radius: var(--radius);
+  }
+
+  .handheld-navigation a:hover {
+    background: #f3f4f6;
+  }
+
+  @media (min-width: 960px) {
+    .menu-toggle {
+      display: none;
+    }
+
+    .primary-navigation {
+      display: block;
+    }
+
+    .handheld-navigation {
+      display: none !important;
+    }
+  }
+
+  @media (max-width: 959px) {
+    .cont-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+  }
+</style>
+
+<script>
+  if (typeof window !== 'undefined') {
+    window.addEventListener('DOMContentLoaded', () => {
+      const header = document.getElementById('masthead');
+      if (!header) return;
+
+      const toggle = header.querySelector('.menu-toggle');
+      const handheldNav = header.querySelector('.handheld-navigation');
+      if (!toggle || !handheldNav) return;
+
+      const openClass = 'is-open';
+
+      const setOpen = (open) => {
+        handheldNav.classList.toggle(openClass, open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      };
+
+      toggle.addEventListener('click', () => {
+        const isOpen = handheldNav.classList.contains(openClass);
+        setOpen(!isOpen);
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth >= 960) {
+          setOpen(false);
+        }
+      });
+    });
+  }
+</script>
+
