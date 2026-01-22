@@ -2,6 +2,7 @@
 import CategoryLayout from '../layouts/CategoryLayout.astro';
 
 const title = 'Mattonelle, Pavimenti e Rivestimenti';
+const breadcrumbs = [{ label: title, href: '/piastrelle-rivestimenti-bagno/' }];
 const heroImage = '/pieroni-sala-mostra-mattonelle-rivestimenti-esterni-pavimenti.jpg';
 const description = `
   <p>Quando decidiamo di costruire la nostra casa o di ristrutturarla, fra le scelte più difficili ci sono i pavimenti, perché fanno parte della nostra vita, sono il terreno sul quale camminiamo ogni giorno.<br /> Diventa importante allora avere qualcuno che ci offra le giuste alternative e sappia consigliarci al meglio. Siamo qui per voi!<br /> Sapremo indicarvi le scelte migliori secondo i vostri gusti e le vostre necessità: <strong>cotto, parquet, finto legno, marmo, gres, ceramica</strong>, i materiali della vostra casa.</p>
@@ -46,4 +47,5 @@ const gridItems = [
   heroImage={heroImage}
   description={description}
   gridItems={gridItems}
+  breadcrumbs={breadcrumbs}
 />

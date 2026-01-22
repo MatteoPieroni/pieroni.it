@@ -1,0 +1,44 @@
+---
+interface Props {
+  items?: Array<{
+    label: string;
+    href: string;
+  }>;
+}
+
+const { items = [] } = Astro.props;
+
+// Don't render if no items provided
+if (items.length === 0) {
+  return null;
+}
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="/">Home</a>
+  {
+    items.map((item, index) => (
+      <>
+        <span class="breadcrumb-separator"> / </span>
+        {index === items.length - 1 ? (
+          <span class="breadcrumb-current">{item.label}</span>
+        ) : (
+          <a href={item.href}>{item.label}</a>
+        )}
+      </>
+    ))
+  }
+</nav>
+
+<style>
+  .breadcrumb {
+    font-size: 0.875em;
+    padding: 1rem 0;
+  }
+
+  .breadcrumb-separator {
+    display: inline-block;
+    padding: 0 0.5em;
+    opacity: 0.6;
+  }
+</style>

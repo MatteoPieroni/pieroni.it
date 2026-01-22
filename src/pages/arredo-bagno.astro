@@ -2,7 +2,9 @@
 import CategoryLayout from '../layouts/CategoryLayout.astro';
 
 const title = 'Sala Mostra Mobili Bagno, Sanitari, Vasche e Docce';
-const heroImage = '/pieroni-sala-mostra-bagno-doccie-sanitari-vasche-rubinetti-accessori-mobili.jpg';
+const breadcrumbs = [{ label: title, href: '/arredo-bagno/' }];
+const heroImage =
+  '/pieroni-sala-mostra-bagno-doccie-sanitari-vasche-rubinetti-accessori-mobili.jpg';
 const description = `
   <p>La nostra sala mostra offre una vasta gamma di docce, cabine doccia, box, piatti, pareti, in tutti i materiali e di tutte le forme e dimensioni.<br /> Grazie alle marche più famose e a quelle meno famose, possiamo soddisfare il desiderio di tutti e di tutte le tasche, dalla doccia per la ristrutturazione alla sauna o hammam, passando per idromassaggio e cromoterapia.</p>
 `;
@@ -56,4 +58,5 @@ const gridItems = [
   heroImage={heroImage}
   description={description}
   gridItems={gridItems}
+  breadcrumbs={breadcrumbs}
 />

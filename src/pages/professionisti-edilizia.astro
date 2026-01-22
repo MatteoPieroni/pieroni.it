@@ -4,7 +4,14 @@ import Hero from '../components/Hero.astro';
 import Locations from '../components/Locations.astro';
 ---
 
-<MenuLayout>
+<MenuLayout
+  breadcrumbs={[
+    {
+      label: 'Professionisti Edilizia, Sala Mostra, Riscaldamento',
+      href: '/professionisti-edilizia/',
+    },
+  ]}
+>
   <Hero title="Professionisti Edilizia, Sala Mostra, Riscaldamento" />
   <div class="margin-container row">
     <div class="intro">

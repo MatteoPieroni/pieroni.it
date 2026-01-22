@@ -16,12 +16,16 @@ interface Props {
     linkHref?: string;
     linkText?: string;
   }>;
+  breadcrumbs: Array<{
+    label: string;
+    href: string;
+  }>;
 }
 
-const { title, heroImage, description, gridItems } = Astro.props;
+const { title, heroImage, description, gridItems, breadcrumbs } = Astro.props;
 ---
 
-<MenuLayout>
+<MenuLayout breadcrumbs={breadcrumbs}>
   <Hero title={title} heroImage={heroImage} />
 
   <div class="margin-container row">

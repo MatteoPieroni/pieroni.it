@@ -233,12 +233,15 @@ const mobileMenu: MenuItem[] = [
   .site-header {
     --menu-padding: 1rem;
 
+    border-block-end: 1px solid #f0f0f0;
     padding-inline: var(--menu-padding);
     padding-block-start: var(--menu-padding);
 
     @media (min-width: 960px) {
       --menu-padding: 0;
     }
+
+    z-index: 3;
   }
 
   .secondary-navigation__container {
@@ -254,7 +257,7 @@ const mobileMenu: MenuItem[] = [
   .secondary-navigation ul.menu {
     display: flex;
     justify-content: flex-end;
-    padding: 0.75rem 0;
+    padding: 0.5rem 0;
   }
 
   .secondary-navigation li {
@@ -372,7 +375,7 @@ const mobileMenu: MenuItem[] = [
     white-space: nowrap;
     background: var(--bg-darker);
     box-shadow: 0 20px 66px 0 rgba(34, 48, 73, 0.2);
-    z-index: 1;
+    z-index: 4;
     left: -99999em;
     padding: 0;
   }

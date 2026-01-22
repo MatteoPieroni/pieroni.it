@@ -1,38 +1,36 @@
 # pieroni.it
 
-# Plan:
-
 ## general
 
 - search
+
+## styles adjustments
+
 - menu arrows
-
-## Categories
-
-- hero
-- description
-- sub cat grid
+- breadcrumbs
 
 ### pages
 
-- edilizia
-- Sala Mostra
-- Bagno
+- Sala Mostra (fix)
+- scarpe antinfortunistiche
+
+## Products
+
 - Cabine e Piatti Doccia
 - Vasche da Bagno
 - Mobili Bagno e Sanitari
 - Accessori Bagno
-- Mattonelle
 - Pavimenti
 - Rivestimenti
 - Esterni
-- Riscaldamento
 - Stufe
 - Camini
 - Caldaie
 - Offerte e Prezzi Pellet
-- ferramenta
-- scarpe antinfortunistiche
+
+## Product
+
+- page
 
 ## Dove siamo
 
@@ -41,10 +39,6 @@
 - magazzino layout
 - diecimo
 - lucca
-
-## Pages
-
-- professionisti
 
 ## Complex
 

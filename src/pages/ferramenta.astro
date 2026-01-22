@@ -2,6 +2,9 @@
 import CategoryLayout from '../layouts/CategoryLayout.astro';
 
 const title = 'Ferramenta, Utensileria e Abbigliamento';
+const breadcrumbs = [
+  { label: 'Ferramenta, Utensileria e Abbigliamento', href: '/ferramenta/' },
+];
 const heroImage = '/pieroni-edilizia-ferramenta-imprese-professionisti.jpg';
 const description = `
   <p>Nei nostri magazzini potete trovare tutto il materiale di cui avete bisogno, sia che siate un'impresa di edilizia e abbiate bisogno di un <strong>ingrosso di ferramenta</strong>, sia che siate un privato in cerca dei giusti <strong>attrezzi</strong>.</p>
@@ -64,4 +67,5 @@ const gridItems = [
   heroImage={heroImage}
   description={description}
   gridItems={gridItems}
+  breadcrumbs={breadcrumbs}
 />
