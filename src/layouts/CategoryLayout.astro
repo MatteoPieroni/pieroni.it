@@ -7,7 +7,7 @@ import Professionals from '../components/Professionals.astro';
 interface Props {
   title: string;
   heroImage: string;
-  gridItems: Array<{
+  gridItems?: Array<{
     image: string;
     imageAlt: string;
     title: string;
@@ -22,13 +22,8 @@ interface Props {
   withoutLocations?: boolean;
 }
 
-const {
-  title,
-  heroImage,
-  gridItems,
-  breadcrumbs,
-  withoutLocations,
-} = Astro.props;
+const { title, heroImage, gridItems, breadcrumbs, withoutLocations } =
+  Astro.props;
 ---
 
 <MenuLayout breadcrumbs={breadcrumbs}>
@@ -40,36 +35,38 @@ const {
     </div>
   </div>
 
-  <section class="subcategories-grid margin-container row">
-    {
-      gridItems.map((item) => (
-        <div class="card">
-          {item.linkHref ? (
-            <a href={item.linkHref} title={item.linkText || item.title}>
-              <img src={item.image} alt={item.imageAlt} />
-            </a>
-          ) : (
-            <img src={item.image} alt={item.imageAlt} />
-          )}
-          <div class="card-body">
+  {
+    gridItems?.length && (
+      <section class="subcategories-grid margin-container row">
+        {gridItems.map((item) => (
+          <div class="card">
             {item.linkHref ? (
               <a href={item.linkHref} title={item.linkText || item.title}>
-                <h2>{item.title}</h2>
+                <img src={item.image} alt={item.imageAlt} />
               </a>
             ) : (
-              <h2>{item.title}</h2>
+              <img src={item.image} alt={item.imageAlt} />
             )}
-            <Fragment set:html={item.description} />
-            {item.linkHref && item.linkText && (
-              <a href={item.linkHref} title={item.linkText} class="button">
-                {item.linkText}
-              </a>
-            )}
+            <div class="card-body">
+              {item.linkHref ? (
+                <a href={item.linkHref} title={item.linkText || item.title}>
+                  <h2>{item.title}</h2>
+                </a>
+              ) : (
+                <h2>{item.title}</h2>
+              )}
+              <Fragment set:html={item.description} />
+              {item.linkHref && item.linkText && (
+                <a href={item.linkHref} title={item.linkText} class="button">
+                  {item.linkText}
+                </a>
+              )}
+            </div>
           </div>
-        </div>
-      ))
-    }
-  </section>
+        ))}
+      </section>
+    )
+  }
 
   {
     !withoutLocations && (

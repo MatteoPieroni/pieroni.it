@@ -12,7 +12,6 @@
 ### pages
 
 - Sala Mostra (fix)
-- scarpe antinfortunistiche
 - Privacy
 
 ## Products

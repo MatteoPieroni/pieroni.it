@@ -1,0 +1,108 @@
+---
+import CategoryLayout from '../../layouts/CategoryLayout.astro';
+
+const title = 'Scarpe antinfortunistiche';
+const breadcrumbs = [
+  { label: 'Ferramenta, Utensileria e Abbigliamento', href: '/ferramenta/' },
+  {
+    label: 'Scarpe antinfortunistiche',
+    href: '/ferramenta/scarpe-antinfortunistiche/',
+  },
+];
+const heroImage =
+  '/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza-banner.jpg';
+const description = `
+  <p>
+    Le scarpe antinfortunistiche non sono tutte uguali. Scegliere quella più
+    adatta alle tue esigenze è molto importante per essere protetti e
+    preparati.
+    <br />
+    La prima distinzione da fare è quella del tuo ambiente di lavoro: se
+    lavori principalmente al chiuso, per esempio, probabilmente
+    l'idrorepellenza del tessuto non è un requisito fondamentale, mentre lo
+    sarà la traspirazione del piede.
+  </p>
+  <p>
+    Le scarpe antinfortunistiche si dividono in <strong>cinque grandi categorie</strong>. Le prime tre sono adatte per
+    l'estate e i lavori al chiuso. Sono più leggere e traspirano di più. Le
+    ultime due si prestano meglio ai lavori all'aperto, in presenza di
+    liquidi o nella stagione fredda. Sono più pesanti e idrorepellenti.
+  </p>
+  <p>Ecco le cinque categorie di scarpe antinfortunistiche:</p>
+  <ul>
+    <li>
+      Le scarpe <strong>SB</strong> sono quelle a protezione "base", hanno il
+      puntale rinforzato per proteggere le dita del piede e la suola
+      antiscivolo.
+    </li>
+    <li>
+      Le scarpe <strong>S1</strong> sono leggermente più protettive del
+      piede. In aggiunta alle SB, hanno la copertura del tallone "assorbi
+      shock" e proprietà antistatiche.
+    </li>
+    <li>
+      Le scarpe <strong>S1P</strong> rappresentano la scelta migliore per il
+      lavoro estivo. In aggiunta alle S1, sono dotate anche di soletta
+      anti-perforazione sulla suola.
+    </li>
+    <li>
+      Le scarpe <strong>S2</strong> sono già scarpe da inverno o da esterno.
+      Mancano della soletta anti-perforazione, ma la tomaia è resistente ai
+      liquidi.
+    </li>
+    <li>
+      Le scarpe <strong>S3</strong> sono quelle che proteggono in maniera
+      migliore il piede, pagando un po' in leggerezza. Come le S2 hanno la
+      tomaia resistente ai liquidi, ma in più sono dotate di soletta
+      anti-perforazione.
+    </li>
+  </ul>
+`;
+---
+
+<CategoryLayout title={title} heroImage={heroImage} breadcrumbs={breadcrumbs}>
+  <div slot="description">
+    <div class="row">
+      <Fragment set:html={description} />
+    </div>
+
+    <div class="row">
+      <h2>Scarpe U-Power</h2>
+      <img
+        src="/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza.jpg"
+        alt="Scarpa da lavoro in stile sportivo con accenti di colore verde, marca U-Power"
+      />
+      <p>
+        Se cerchi il meglio per le tue calzature da lavoro, devi assolutamente
+        rivolgerti al nostro catalogo di scarpe infortunistiche U-Power.
+      </p>
+      <p>
+        Grazie ai numerosi studi fatti dall'azienda sui materiali utilizzati
+        nelle calzature, nasce l'innovativa tecnologia <strong
+          >Infinergy®</strong
+        >: un sistema di ammortizzazione del movimento che riesce a
+        immagazzinare e poi restituire l'energia durante la camminata.
+      </p>
+      <p>
+        Tutte le scarpe infortunistiche U-Power sono incredibilmente leggere e
+        flessibili, rimangono comode anche dopo molte ore di utilizzo e
+        assicurano un'elevata resistenza a urti, abrasioni e variazioni di
+        temperatura.
+      </p>
+      <p>
+        Pieroni è lieta di essere rivenditore ufficiale U-Power, scopri tutti i
+        modelli di scarpe infortunistiche disponibili per ogni tua esigenza.
+      </p>
+      <p>
+        <a
+          href="https://www.u-power.it/"
+          target="_blank"
+          rel="noreferrer noopener"
+          class="button"
+        >
+          Vedi il sito di U-Power
+        </a>
+      </p>
+    </div>
+  </div>
+</CategoryLayout>
