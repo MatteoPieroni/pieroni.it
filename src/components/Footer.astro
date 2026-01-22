@@ -216,8 +216,12 @@ const socialLinks = [
   .site-footer {
     background: var(--color-blue);
     color: var(--text-contrast);
+    margin-block-start: 1rem;
     padding: 2rem 0;
     padding-block-end: 4rem;
+    @media (min-width: 960px) {
+      margin-block-start: 3rem;
+    }
   }
 
   .site-footer ul {

@@ -64,6 +64,11 @@ h4 {
   margin-block-end: 1rem;
 }
 
+p {
+  font-size: 1rem;
+  line-height: 1.5em;
+}
+
 a {
   color: var(--link-text);
   /* text-decoration: none; */
