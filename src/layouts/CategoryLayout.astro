@@ -20,9 +20,17 @@ interface Props {
     label: string;
     href: string;
   }>;
+  withoutLocations?: boolean;
 }
 
-const { title, heroImage, description, gridItems, breadcrumbs } = Astro.props;
+const {
+  title,
+  heroImage,
+  description,
+  gridItems,
+  breadcrumbs,
+  withoutLocations,
+} = Astro.props;
 ---
 
 <MenuLayout breadcrumbs={breadcrumbs}>
@@ -65,9 +73,13 @@ const { title, heroImage, description, gridItems, breadcrumbs } = Astro.props;
     }
   </section>
 
-  <div class="row">
-    <Locations />
-  </div>
+  {
+    !withoutLocations && (
+      <div class="row">
+        <Locations />
+      </div>
+    )
+  }
 
   <div class="margin-container row">
     <Professionals />

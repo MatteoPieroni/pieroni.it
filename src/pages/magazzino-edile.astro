@@ -1,0 +1,42 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+
+const title = 'Dove Siamo';
+const breadcrumbs = [{ label: 'Dove Siamo', href: '/magazzino-edile/' }];
+const heroImage = '/pieroni-srl-map-magazzini.jpg';
+const description = `
+  <p>Avere 2 magazzini ci permette di raggiungerti nel posto più vicino possibile.</p>
+`;
+
+const gridItems = [
+  {
+    image: '/pieroni-magazzino-sala-mostra-diecimo-borgo-mozzano-lucca.jpg',
+    imageAlt: 'Pieroni Magazzino Diecimo',
+    title: 'Magazzino di Diecimo',
+    description: `
+      <p>Magazzino Edile, Sala Mostra di Diecimo</p>
+    `,
+    linkHref: 'diecimo-borgo-a-mozzano/',
+    linkText: 'Scopri il magazzino di Diecimo',
+  },
+  {
+    image: '/pieroni-magazzino-lucca-edile.jpg',
+    imageAlt: 'Pieroni Magazzino Lucca',
+    title: 'Magazzino di Lucca',
+    description: `
+      <p>Magazzino Edile di Lucca</p>
+    `,
+    linkHref: 'lucca-capannori/',
+    linkText: 'Scopri il magazzino di Lucca',
+  },
+];
+---
+
+<CategoryLayout
+  title={title}
+  heroImage={heroImage}
+  description={description}
+  gridItems={gridItems}
+  breadcrumbs={breadcrumbs}
+  withoutLocations={true}
+/>
