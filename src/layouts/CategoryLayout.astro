@@ -1,6 +1,6 @@
 ---
 import MenuLayout from './MenuLayout.astro';
-import CategoryHero from '../components/CategoryHero.astro';
+import Hero from '../components/Hero.astro';
 import Locations from '../components/Locations.astro';
 import Professionals from '../components/Professionals.astro';
 
@@ -22,7 +22,7 @@ const { title, heroImage, description, gridItems } = Astro.props;
 ---
 
 <MenuLayout>
-  <CategoryHero title={title} heroImage={heroImage} />
+  <Hero title={title} heroImage={heroImage} />
 
   <div class="margin-container row">
     <div class="small-12 intro-text">

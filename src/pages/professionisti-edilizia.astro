@@ -1,0 +1,89 @@
+---
+import MenuLayout from '../layouts/MenuLayout.astro';
+import Hero from '../components/Hero.astro';
+import Locations from '../components/Locations.astro';
+---
+
+<MenuLayout>
+  <Hero title="Professionisti Edilizia, Sala Mostra, Riscaldamento" />
+  <div class="margin-container row">
+    <div class="intro">
+      <div>
+        <img
+          src="/gilet-pieroni-srl-diecimo-lucca-fornaci-barga-edilizia.png"
+        />
+      </div>
+
+      <div>
+        <h2>Professionalità impareggiabile</h2><div
+          class="professionisti__servizi--descrizione"
+        >
+          <p>
+            I servizi che offriamo a tutti i professionisti che lavorano con noi
+            sono:
+          </p>
+          <ul>
+            <li>
+              Una professionalità Impareggiabile<br /> Gli anni di esperienza che
+              ci portiamo alle spalle ci consentono di offrire la nostra conoscenza
+              a tutte le imprese e professionisti che si rivolgono a noi
+            </li>
+            <li>
+              Un’ampia varietà di scelta<br /> Con una vastissima gamma di fornitori
+              possiamo rispondere a tutti i bisogni che potresti avere nel tuo lavoro
+            </li>
+            <li>
+              Una selezione di prodotti di eccellenza<br /> Grazie alla scelta specifica
+              di prodotti top di gamma e all’avanguardia sei sicuro di avere ogni
+              strumento nel momento giusto
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <Locations />
+  </div>
+
+  <div class="margin-container row">
+    <h2>I nostri rappresentanti</h2>
+    <div class="rappresentanti">
+      <div class="rappresentanti__card">
+        <h3>Moreno Guidi</h3>
+        <a href="mailto:moreno@pieroni.it">moreno@pieroni.it</a>
+      </div>
+    </div>
+  </div>
+</MenuLayout>
+
+<style>
+  .intro {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    @media (min-width: 960px) {
+      gap: 2rem;
+      flex-wrap: nowrap;
+    }
+  }
+
+  .rappresentanti {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(1, 1fr);
+
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .rappresentanti__card {
+    padding: 2rem;
+    box-shadow:
+      rgba(0, 0, 0, 0.06) 0 2px 4px,
+      rgba(0, 0, 0, 0.05) 0 0.5px 1px;
+  }
+</style>

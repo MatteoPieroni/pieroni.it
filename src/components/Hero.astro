@@ -1,7 +1,7 @@
 ---
 interface Props {
   title: string;
-  heroImage: string;
+  heroImage?: string;
 }
 
 const { title, heroImage } = Astro.props;
@@ -9,7 +9,7 @@ const { title, heroImage } = Astro.props;
 
 <header
   class="article-header hero"
-  style={`background-image:url('${heroImage}')`}
+  {...heroImage && { style: `background-image:url('${heroImage}')` }}
 >
   <h1 class="page-title text-center">{title}</h1>
 </header>
