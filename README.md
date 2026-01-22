@@ -13,6 +13,7 @@
 
 - Sala Mostra (fix)
 - scarpe antinfortunistiche
+- Privacy
 
 ## Products
 
@@ -32,20 +33,21 @@
 
 - page
 
-## Dove siamo
-
-- map
-- dove siamo page
-- magazzino layout
-- diecimo
-- lucca
-
 ## Complex
 
 - blog
 - speciali
 - products
 - search
+
+## Other
+
+- SEO
+  - Page titles
+  - page description
+  - opengraph spec
+  - favicons
+- cookie banner
 
 # Astro Starter Kit: Minimal
 

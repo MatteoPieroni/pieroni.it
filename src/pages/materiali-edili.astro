@@ -47,7 +47,8 @@ const gridItems = [
 <CategoryLayout
   title={title}
   heroImage={heroImage}
-  description={description}
   gridItems={gridItems}
   breadcrumbs={breadcrumbs}
-/>
+>
+  <Fragment slot="description" set:html={description} />
+</CategoryLayout>
