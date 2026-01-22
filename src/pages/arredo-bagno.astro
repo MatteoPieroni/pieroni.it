@@ -1,0 +1,59 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+
+const title = 'Sala Mostra Mobili Bagno, Sanitari, Vasche e Docce';
+const heroImage = '/pieroni-sala-mostra-bagno-doccie-sanitari-vasche-rubinetti-accessori-mobili.jpg';
+const description = `
+  <p>La nostra sala mostra offre una vasta gamma di docce, cabine doccia, box, piatti, pareti, in tutti i materiali e di tutte le forme e dimensioni.<br /> Grazie alle marche più famose e a quelle meno famose, possiamo soddisfare il desiderio di tutti e di tutte le tasche, dalla doccia per la ristrutturazione alla sauna o hammam, passando per idromassaggio e cromoterapia.</p>
+`;
+
+const gridItems = [
+  {
+    image: '/pieroni-bagno-cabine-doccia-docce-piatti-sezioni.jpg',
+    imageAlt: 'Cabine e Piatti Doccia',
+    title: 'Cabine e Piatti Doccia',
+    description: `
+      <p>La nostra sala mostra offre una vasta gamma di docce, cabine doccia, box, piatti, pareti, in tutti i materiali e di tutte le forme e dimensioni.<br /> Grazie alle marche più famose e a quelle meno famose, possiamo soddisfare il desiderio di tutti e di tutte le tasche, dalla doccia per la ristrutturazione alla sauna o hammam, passando per idromassaggio e cromoterapia.</p>
+    `,
+    linkHref: '/c/bagno/piatti-doccia/',
+    linkText: 'Scopri le nostre docce!',
+  },
+  {
+    image: '/pieroni-bagno-vasca-idromassaggio-sezioni.jpg',
+    imageAlt: 'Vasche da Bagno e Idromassaggi',
+    title: 'Vasche da Bagno e Idromassaggi',
+    description: `
+      <p>La selezione delle vasche non ha niente da invidiare a quella delle docce, con una grande disponibilità di materiali e misure vi offriamo la soluzione più adatta per voi.<br /> Angolare, a nicchia, al centro della stanza. E poi normale o idromassaggio, a cascata o vasca-doccia? Non vi resta che venire a trovare la vostra.</p>
+    `,
+    linkHref: '/c/bagno/vasche-da-bagno/',
+    linkText: 'Scopri le nostre vasche!',
+  },
+  {
+    image: '/pieroni-bagno-sanitari-mobili-bidet-wc-water-sezioni.jpg',
+    imageAlt: 'Sanitari e Mobili da Bagno',
+    title: 'Sanitari e Mobili da Bagno',
+    description: `
+      <p>Da sempre nel campo della vendita dei materiali da bagno, le aziende che vi proponiamo per i sanitari sono le migliori del mercato.<br /> Perché anche quando si parla dei sanitari, siano wc, bidet, lavabo o rubinetti, contano la qualità, il prezzo, l'estetica e la garanzia.</p>
+    `,
+    linkHref: '/c/bagno/mobili-bagno/',
+    linkText: 'Scopri i nostri sanitari!',
+  },
+  {
+    image: '/pieroni-bagno-accessori-porta-asciugamani-sapone-sezioni.jpg',
+    imageAlt: 'Accessori Bagno',
+    title: 'Accessori Bagno',
+    description: `
+      <p>Non potevano mancare tutti quei complementi che sono fondamentali per la vita di tutti i giorni e che definiscono lo stile del nostro bagno.<br /> Porta sapone, porta asciugamani, porta carta igienica, e poi termoarredi, specchi e tutto ciò di cui avete bisogno nel vostro bagno.</p>
+    `,
+    linkHref: '/c/bagno/accessori-bagno/',
+    linkText: 'Scopri i nostri accessori!',
+  },
+];
+---
+
+<CategoryLayout
+  title={title}
+  heroImage={heroImage}
+  description={description}
+  gridItems={gridItems}
+/>

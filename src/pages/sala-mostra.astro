@@ -1,0 +1,51 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+
+const title = 'Sala Mostra';
+const heroImage = '/pieroni-sala-mostra-pavimenti-rivestimenti-esterni-mattonelle-piastrelle-bagno-docce-vasche-accessori-mobili-riscaldamento-stufe-camini-caldaie.jpg';
+const description = `
+  <p>La sala mostra di Pieroni è il fiore all'occhiello della scelta per i bisogni di <strong>privati</strong> e <strong>professionisti</strong>, che si tratti della costruzione di una <strong>casa nuova</strong> o della <strong>ristrutturazione</strong> della tua abitazione attuale.</p>
+  <p><strong>I materiali sono esaminati e scelti</strong> con l'attenzione garantita da <strong>anni di lavoro nel settore</strong>.</p>
+  <p>Gli esperti della sala mostra ti seguiranno nel tuo viaggio dal primo sguardo, per passare al <strong>progetto completo</strong>, alla consegna degli ordini e in <strong>assistenza ai professionisti</strong> che si occuperanno di trasformare il progetto in realtà.</p>
+`;
+
+const gridItems = [
+  {
+    image: '/sala-mostra-bagno-sanitari-vache-docce-wc-rubinetti-accessori.jpg',
+    imageAlt: 'Sala Mostra Bagno Sanitari Vasche Docce Wc Rubinetti Accessori',
+    title: 'Bagno',
+    description: `
+      <p>La nostra sala mostra offre una vasta gamma di docce, cabine doccia, box, piatti, pareti, in tutti i materiali e di tutte le forme e dimensioni.</p>
+    `,
+    linkHref: '/arredo-bagno/',
+    linkText: 'Vai alla sezione bagno',
+  },
+  {
+    image: '/sala-mostra-pavimenti-rivestimenti-esterni.jpg',
+    imageAlt: 'Sala Mostra Pavimenti Rivestimenti Esterni',
+    title: 'Mattonelle',
+    description: `
+      <p>Quando decidiamo di costruire la nostra casa o di ristrutturarla, fra le scelte più difficili ci sono i pavimenti, perché fanno parte della nostra vita, sono il terreno sul quale camminiamo ogni giorno.</p>
+    `,
+    linkHref: '/piastrelle-rivestimenti-bagno/',
+    linkText: 'Vai alla sezione mattonelle',
+  },
+  {
+    image: '/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino.jpg',
+    imageAlt: 'Sala Mostra Riscaldamento Stufe Caldaie Camini Pellet Legna',
+    title: 'Riscaldamento',
+    description: `
+      <p>Una <strong>stufa a pellet o a legna</strong> può cambiare la maniera di riscaldare le vostre stanze, e anche l'ambiente stesso.<br /> Vi offriamo una varietà di scelta che vi garantisce la migliore soluzione di funzionalità ed estetica, senza dimenticare il risparmio di queste fonti di calore rinnovabili.</p>
+    `,
+    linkHref: '/stufe-caldaie-pellet/',
+    linkText: 'Vai alla sezione riscaldamento',
+  },
+];
+---
+
+<CategoryLayout
+  title={title}
+  heroImage={heroImage}
+  description={description}
+  gridItems={gridItems}
+/>
