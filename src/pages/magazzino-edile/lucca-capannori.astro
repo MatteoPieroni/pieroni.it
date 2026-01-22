@@ -1,0 +1,33 @@
+---
+import LocationLayout from '../../layouts/LocationLayout.astro';
+
+const title = 'Lucca';
+const heroImage = '/pieroni-srl-map-magazzini.jpg';
+const locationName = 'Magazzino di Lucca';
+const address = {
+  label: 'Via della Canovetta 341, Lucca (LU)',
+  href: 'https://maps.google.com/maps?ll=43.862562,10.521387&z=16&t=m&hl=it-IT&gl=IT&mapclient=embed&daddr=Pieroni%20srl%20Via%20della%20Canovetta%2C%20341%2055100%20Lucca%20LU@43.8625617,10.5213868',
+};
+const phone = '0583-838375';
+const email = 'info@pieroni.it';
+const hours = [
+  { day: 'Da Lunedì a Venerdì', times: '07:30 – 12:00' },
+  { day: '', times: '13:30 – 18:00' },
+  { day: 'Sabato', times: '07:30 – 12:00' },
+];
+const breadcrumbs = [
+  { label: 'Dove Siamo', href: '/magazzino-edile/' },
+  { label: 'Lucca', href: '/magazzino-edile/lucca-capannori/' },
+];
+---
+
+<LocationLayout
+  title={title}
+  heroImage={heroImage}
+  locationName={locationName}
+  address={address}
+  phone={phone}
+  email={email}
+  hours={hours}
+  breadcrumbs={breadcrumbs}
+/>

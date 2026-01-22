@@ -1,0 +1,116 @@
+---
+import Hero from '../components/Hero.astro';
+import MenuLayout from './MenuLayout.astro';
+
+interface Props {
+  title: string;
+  heroImage: string;
+  locationName: string;
+  address: {
+    label: string;
+    href: string;
+  };
+  phone: string;
+  email: string;
+  hours: Array<{
+    day: string;
+    times: string;
+  }>;
+  breadcrumbs: Array<{
+    label: string;
+    href: string;
+  }>;
+}
+
+const {
+  title,
+  locationName,
+  heroImage,
+  address,
+  phone,
+  email,
+  hours,
+  breadcrumbs,
+} = Astro.props;
+---
+
+<MenuLayout breadcrumbs={breadcrumbs}>
+  <Hero title={title} heroImage={heroImage} />
+
+  <div class="margin-container">
+    <div class="location-info row">
+      <p>
+        <strong>
+          {locationName}
+        </strong>
+      </p>
+      <p>
+        <a href={address.href} target="_blank">
+          {address.label}
+        </a>
+      </p>
+      <p>
+        <strong>Numero di Telefono</strong> – <a
+          href={`tel:${phone.replace(/-/g, '')}`}>{phone}</a
+        >
+      </p>
+      <p>
+        <strong>Email</strong> – <a href={`mailto:${email}`}>{email}</a>
+      </p>
+    </div>
+
+    <div class="location-hours row">
+      <h2>Orari {title}</h2>
+      <table class="hours-table">
+        <thead>
+          <tr>
+            <th>Giorni</th>
+            <th>Orario</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            hours.map((hour) => (
+              <tr>
+                <td>{hour.day || ''}</td>
+                <td>{hour.times}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</MenuLayout>
+
+<style>
+  .location-info {
+    text-align: center;
+  }
+
+  .location-info p {
+    margin-block-end: 1rem;
+  }
+
+  .location-hours h2 {
+    text-align: center;
+  }
+
+  .hours-table {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    border-collapse: collapse;
+  }
+
+  .hours-table th,
+  .hours-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--bg-darker);
+  }
+
+  .hours-table th {
+    font-weight: 600;
+    text-align: left;
+  }
+</style>
