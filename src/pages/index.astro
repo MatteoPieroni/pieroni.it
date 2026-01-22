@@ -1,166 +1,132 @@
 ---
-import Menu from '../components/Menu.astro';
+import MenuLayout from '../layouts/MenuLayout.astro';
 import Locations from '../components/Locations.astro';
 import Professionals from '../components/Professionals.astro';
-import Footer from '../components/Footer.astro';
-import '@fontsource/source-sans-pro/300.css';
-import '@fontsource/source-sans-pro/400.css';
-import '@fontsource/source-sans-pro/600.css';
-import '../styles/global.css';
 ---
 
-<html lang="it">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Pieroni srl - Edilizia, Sala Mostra, Riscaldamento</title>
-  </head>
-  <body>
-    <Menu />
+<MenuLayout>
+  <header class="home__header">
+    <h1 class="page-title">
+      <span>Nuovi caminetti, stufe o generatori di calore a costo zero?</span>
+    </h1>
+    <a class="button" href="/promo-camini/">Scopri subito!</a>
+  </header>
 
-    <main id="content">
-      <header class="home__header">
-        <h1 class="page-title">
-          <span
-            >Nuovi caminetti, stufe o generatori di calore a costo zero?</span
-          >
-        </h1>
-        <a class="button" href="/promo-camini/">Scopri subito!</a>
-      </header>
-
-      <div class="link-sezioni">
-        <div class="margin-container link-sezioni__container">
-          <div>
-            <a href="/materiali-edili/" class="button button__link-sezioni"
-              >Edilizia</a
-            >
-          </div>
-          <div>
-            <a href="/arredo-bagno/" class="button button__link-sezioni"
-              >Bagno</a
-            >
-          </div>
-          <div>
-            <a href="/ferramenta/" class="button button__link-sezioni"
-              >Ferramenta</a
-            >
-          </div>
-          <div>
-            <a
-              href="/piastrelle-rivestimenti-bagno/"
-              class="button button__link-sezioni">Mattonelle</a
-            >
-          </div>
-          <div>
-            <a href="/stufe-caldaie-pellet/" class="button button__link-sezioni"
-              >Riscaldamento</a
-            >
-          </div>
-          <div>
-            <a
-              href="/c/riscaldamento/pellet-prezzi-offerta/"
-              class="button button__link-sezioni">Pellet</a
-            >
-          </div>
-        </div>
+  <div class="link-sezioni">
+    <div class="margin-container link-sezioni__container">
+      <div>
+        <a href="/materiali-edili/" class="button button__link-sezioni"
+          >Edilizia</a
+        >
       </div>
-
-      <section class="row margin-container about">
-        <div>
-          <h2>A proposito di Pieroni</h2>
-          <p class="about__text">
-            Dal 1948 al vostro servizio, la Pieroni srl è stata costruita un
-            mattone alla volta dalla famiglia Pieroni.
-            <br />
-            Quasi 70 anni di storia ci hanno portati a essere una delle aziende storiche
-            più grandi della Mediavalle, con 2 sedi, una a Diecimo e l'altra a Lucca.
-            <br />
-            Il <strong>personale</strong> della nostra azienda è <strong
-              >preparato e aggiornato</strong
-            >{' '}
-            sulle novità dei diversi settori, sia in Sala Mostra che in Magazzino.
-            <br />
-            La nostra disponibilità e precisione seguono quello che è la nostra mission:{
-              ' '
-            }
-            <strong>Qualità e Professionalità per la Tua Casa!</strong>
-          </p>
-          <a class="button" href="/chi-siamo/"> SCOPRI LA NOSTRA STORIA </a>
-        </div>
-        <div class="about__img">
-          <img src="/salamostra.jpg" alt="Sala mostra Pieroni" />
-        </div>
-      </section>
-
-      <section class="row margin-container">
-        <div>
-          <h3>I nostri Showroom</h3>
-          <p>
-            I nostri Showroom sono per noi la testimonianza della passione che
-            mettiamo nel nostro lavoro.
-          </p>
-          <p>
-            Offriamo ai nostri clienti un vastissimo assortimento di{' '}
-            <a href="/materiali-edili/">materiali edili ed utensileria</a>,{' '}
-            <a href="/ferramenta/">ferramenta per l'edilizia</a> e termoidraulica,
-            con un ampio magazzino edile in pronta consegna.
-          </p>
-          <p>
-            Nelle nostre sale espositive di Barga, Diecimo e Lucca possiamo
-            vantare un ampissima gamma di <a
-              href="/piastrelle-rivestimenti-bagno/"
-              >piastrelle, mattonelle, ceramiche e rivestimenti</a
-            >{' '}
-            per bagni e cucine, pavimentazioni di tutte le tipologie: dai pavimenti
-            in legno parquet, al gres porcellanato per esterni ed interni, dal marmo
-            fino al classico pavimento in cotto.
-          </p>
-          <p>
-            Nei nostri showroom potrete trovare tantissime tipologie di{' '}
-            <a href="/arredo-bagno/">mobili lavabo e arredo bagno</a>, dallo
-            stile moderno al più classico oltre ovviamente ad un ampia selezione
-            di cabine doccia, vasche da bagno idromassaggio, sanitari standard e
-            sospesi e tutti gli accessori: rubinetteria, miscelatori, specchi,
-            ecc.
-          </p>
-          <p>
-            Anche il settore del riscaldamento domestico è per noi molto
-            importante, con l'area delle nostre esposizioni dedicata alle{' '}
-            <a href="/stufe-caldaie-pellet/"
-              >caldaie a pellet e legna, agli inserti per i caminetti, alle
-              stufe a pellet idro e aria</a
-            >, alla fornitura e consegna di{' '}
-            <a href="/c/riscaldamento/pellet-prezzi-offerta/"
-              >pellet di prima qualità austriaco</a
-            >{' '}
-            di faggio a prezzi sempre competitivi.
-          </p>
-        </div>
-      </section>
-
-      <div class="row">
-        <Locations />
+      <div>
+        <a href="/arredo-bagno/" class="button button__link-sezioni">Bagno</a>
       </div>
-
-      <div class="row margin-container">
-        <Professionals />
+      <div>
+        <a href="/ferramenta/" class="button button__link-sezioni">Ferramenta</a
+        >
       </div>
-    </main>
-    <Footer />
-  </body>
-</html>
+      <div>
+        <a
+          href="/piastrelle-rivestimenti-bagno/"
+          class="button button__link-sezioni">Mattonelle</a
+        >
+      </div>
+      <div>
+        <a href="/stufe-caldaie-pellet/" class="button button__link-sezioni"
+          >Riscaldamento</a
+        >
+      </div>
+      <div>
+        <a
+          href="/c/riscaldamento/pellet-prezzi-offerta/"
+          class="button button__link-sezioni">Pellet</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <section class="row margin-container about">
+    <div>
+      <h2>A proposito di Pieroni</h2>
+      <p class="about__text">
+        Dal 1948 al vostro servizio, la Pieroni srl è stata costruita un mattone
+        alla volta dalla famiglia Pieroni.
+        <br />
+        Quasi 70 anni di storia ci hanno portati a essere una delle aziende storiche
+        più grandi della Mediavalle, con 2 sedi, una a Diecimo e l'altra a Lucca.
+        <br />
+        Il <strong>personale</strong> della nostra azienda è <strong
+          >preparato e aggiornato</strong
+        >{' '}
+        sulle novità dei diversi settori, sia in Sala Mostra che in Magazzino.
+        <br />
+        La nostra disponibilità e precisione seguono quello che è la nostra mission:{
+          ' '
+        }
+        <strong>Qualità e Professionalità per la Tua Casa!</strong>
+      </p>
+      <a class="button" href="/chi-siamo/"> SCOPRI LA NOSTRA STORIA </a>
+    </div>
+    <div class="about__img">
+      <img src="/salamostra.jpg" alt="Sala mostra Pieroni" />
+    </div>
+  </section>
+
+  <section class="row margin-container">
+    <div>
+      <h3>I nostri Showroom</h3>
+      <p>
+        I nostri Showroom sono per noi la testimonianza della passione che
+        mettiamo nel nostro lavoro.
+      </p>
+      <p>
+        Offriamo ai nostri clienti un vastissimo assortimento di{' '}
+        <a href="/materiali-edili/">materiali edili ed utensileria</a>,{' '}
+        <a href="/ferramenta/">ferramenta per l'edilizia</a> e termoidraulica, con
+        un ampio magazzino edile in pronta consegna.
+      </p>
+      <p>
+        Nelle nostre sale espositive di Barga, Diecimo e Lucca possiamo vantare
+        un ampissima gamma di <a href="/piastrelle-rivestimenti-bagno/"
+          >piastrelle, mattonelle, ceramiche e rivestimenti</a
+        >{' '}
+        per bagni e cucine, pavimentazioni di tutte le tipologie: dai pavimenti in
+        legno parquet, al gres porcellanato per esterni ed interni, dal marmo fino
+        al classico pavimento in cotto.
+      </p>
+      <p>
+        Nei nostri showroom potrete trovare tantissime tipologie di{' '}
+        <a href="/arredo-bagno/">mobili lavabo e arredo bagno</a>, dallo stile
+        moderno al più classico oltre ovviamente ad un ampia selezione di cabine
+        doccia, vasche da bagno idromassaggio, sanitari standard e sospesi e
+        tutti gli accessori: rubinetteria, miscelatori, specchi, ecc.
+      </p>
+      <p>
+        Anche il settore del riscaldamento domestico è per noi molto importante,
+        con l'area delle nostre esposizioni dedicata alle{' '}
+        <a href="/stufe-caldaie-pellet/"
+          >caldaie a pellet e legna, agli inserti per i caminetti, alle stufe a
+          pellet idro e aria</a
+        >, alla fornitura e consegna di{' '}
+        <a href="/c/riscaldamento/pellet-prezzi-offerta/"
+          >pellet di prima qualità austriaco</a
+        >{' '}
+        di faggio a prezzi sempre competitivi.
+      </p>
+    </div>
+  </section>
+
+  <div class="row">
+    <Locations />
+  </div>
+
+  <div class="row margin-container">
+    <Professionals />
+  </div>
+</MenuLayout>
 
 <style>
-  .row {
-    margin-block-end: 2.5rem;
-
-    @media (min-width: 960px) {
-      margin-block-end: 4rem;
-    }
-  }
-
   .home__header {
     min-height: 70vh;
     background-image: url('/hero-fuoco.jpg');

@@ -1,0 +1,168 @@
+---
+import MenuLayout from './MenuLayout.astro';
+import Locations from '../components/Locations.astro';
+import Professionals from '../components/Professionals.astro';
+
+interface Props {
+  title: string;
+  heroImage: string;
+  description: string;
+  gridItems: Array<{
+    image: string;
+    imageAlt: string;
+    title: string;
+    description: string;
+    linkHref?: string;
+    linkText?: string;
+  }>;
+}
+
+const { title, heroImage, description, gridItems } = Astro.props;
+---
+
+<MenuLayout>
+  <header
+    class="article-header hero"
+    style={`background-image:url('${heroImage}')`}
+  >
+    <h1 class="page-title text-center">{title}</h1>
+  </header>
+
+  <div class="margin-container row">
+    <div class="small-12 intro-text">
+      <Fragment set:html={description} />
+    </div>
+  </div>
+
+  <section class="subcategories-grid margin-container row">
+    {
+      gridItems.map((item) => (
+        <div class="card">
+          {item.linkHref ? (
+            <a href={item.linkHref} title={item.linkText || item.title}>
+              <img src={item.image} alt={item.imageAlt} />
+            </a>
+          ) : (
+            <img src={item.image} alt={item.imageAlt} />
+          )}
+          <div class="card-body">
+            {item.linkHref ? (
+              <a href={item.linkHref} title={item.linkText || item.title}>
+                <h2>{item.title}</h2>
+              </a>
+            ) : (
+              <h2>{item.title}</h2>
+            )}
+            <Fragment set:html={item.description} />
+            {item.linkHref && item.linkText && (
+              <a href={item.linkHref} title={item.linkText} class="button">
+                {item.linkText}
+              </a>
+            )}
+          </div>
+        </div>
+      ))
+    }
+  </section>
+
+  <div class="row">
+    <Locations />
+  </div>
+
+  <div class="margin-container row">
+    <Professionals />
+  </div>
+</MenuLayout>
+
+<style>
+  .text--white {
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .hero {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-block-end: 2rem;
+    width: 100%;
+    min-height: 40vh;
+    background-color: var(--color-blue);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--text-contrast);
+
+    @media (min-width: 960px) {
+      margin-block-end: 3rem;
+    }
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .hero .page-title {
+    position: relative;
+    font-size: 2em;
+    z-index: 1;
+  }
+
+  @media (min-width: 768px) {
+    .hero .page-title {
+      font-size: 4em;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .hero .page-title {
+      font-size: 5em;
+    }
+  }
+
+  .intro-text p {
+    margin-block-end: 1rem;
+    line-height: 1.6;
+  }
+
+  .subcategories-grid {
+    @media (min-width: 960px) {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .card-body {
+    padding: 1.5rem;
+  }
+
+  .card-body h2 {
+    margin: 0 0 1rem;
+    font-size: 1.75em;
+    font-weight: 100;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .card-body p {
+    margin-block-end: 1rem;
+    line-height: 1.6;
+  }
+</style>

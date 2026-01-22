@@ -106,8 +106,16 @@ img {
   margin-inline: var(--page-margin);
 
   @media (min-width: 960px) {
-    max-width: 1200px;
+    max-width: 1120px;
     margin: auto;
+  }
+}
+
+.row {
+  margin-block-end: 2.5rem;
+
+  @media (min-width: 960px) {
+    margin-block-end: 4rem;
   }
 }
 
