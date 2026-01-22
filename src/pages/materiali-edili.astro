@@ -1,0 +1,49 @@
+---
+import CategoryLayout from '../layouts/CategoryLayout.astro';
+
+const title = "Materiali Edili e Attrezzature per l'Edilizia";
+const heroImage = '/pieroni-edilizia-materiali-edili-imprese-professionisti-e1516918079837.jpg';
+const description = `
+  <p>I <strong>materiali edili</strong> sono la forza della Pieroni srl.<br /> La competenza dei nostri responsabili è impareggiabile, grazie agli anni di specializzazione e di lavoro concreto in questo settore.</p>
+  <p>I nostri <strong>magazzini edili</strong> forniscono un ampia scelta e la disponibilità richiesta da chi vende all'ingrosso qualsiasi tipologia di <strong>materiali da costruzione</strong> e <strong>attrezzatura edile</strong>: dal cartongesso alle <strong>macchine edili</strong> al <strong>noleggio attrezzature</strong>, puoi trovare tutto ciò che riguarda la costruzione per le imprese e per i privati.<br /> La qualità è garantita da un'accurata scelta dei fornitori, siano essi aziende locali o marchi internazionale. Per avere la sicurezza di scegliere sempre il meglio!</p>
+`;
+
+const gridItems = [
+  {
+    image: '/pieroni-edilizia-materiali-edili-imprese-professionisti-srl.jpg',
+    imageAlt: 'Vendita Materiale Edile',
+    title: 'Vendita Materiale Edile',
+    description: `
+      <p>La vendita di materiali edili è da sempre la punta di diamante dell'attività.</p>
+      <p>Con una varietà di <strong>materiali scelti e studiati</strong> appositamente per i bisogni delle <strong>imprese</strong> e del <strong>privato</strong>, il <strong>magazzino</strong> è sempre ben <strong>fornito</strong> e pronto ad allargare la propria offerta per incontrare le necessità più disparate.</p>
+    `,
+  },
+  {
+    image: '/pieroni-edilizia-termoidraulica-idraulica-imprese-professionisti-srl.jpg',
+    imageAlt: 'Prodotti Per Termoidraulica',
+    title: 'Prodotti Per Termoidraulica',
+    description: `
+      <p>Il settore <strong>termoidraulico</strong> richiede una conoscenza adeguata delle caratteristiche di prodotti e sistemi <strong>termoidraulici</strong>. Per questo ci avvaliamo di esperti del settore <strong>impianti idrici</strong>.</p>
+      <p>Le nostre Sale Mostra e i nostri magazzini ci permettono di offrire un'ampia scelta nel settore termoidraulico, e un servizio di assistenza per privati e ditte.</p>
+    `,
+  },
+  {
+    image: '/pieroni-edilizia-servizi-imprese-professionisti-srl.jpg',
+    imageAlt: 'Servizi per Imprese Edili e Aziende',
+    title: 'Servizi per Imprese Edili e Aziende',
+    description: `
+      <p>Pieroni srl lavora da sempre con imprese e ditte edili, per la costruzione, rifinitura e tutto quanto riguarda l'edilizia.</p>
+      <p>Per questo mettiamo a disposizione di queste aziende la competenza di esperti nei vari settori, consulenza per la ricerca delle migliori soluzioni, assistenza in caso di dubbi o problematiche, ciascun aspetto del vostro lavoro di ogni giorno.</p>
+    `,
+    linkHref: '/professionisti-edilizia/',
+    linkText: 'Vai ai servizi per Imprese',
+  },
+];
+---
+
+<CategoryLayout
+  title={title}
+  heroImage={heroImage}
+  description={description}
+  gridItems={gridItems}
+/>
