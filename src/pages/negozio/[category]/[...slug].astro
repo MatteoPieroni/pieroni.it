@@ -1,13 +1,10 @@
 ---
-import categoriesData from '../../../data/products/categories.json';
 import { getProductPathsToGenerate } from '../../../data/products';
 
 export async function getStaticPaths() {
   console.log('test');
 
-  const paths = await getProductPathsToGenerate(categoriesData);
-
-  console.log({ paths });
+  const paths = await getProductPathsToGenerate();
 
   return paths;
 }
