@@ -11,7 +11,6 @@
 
 ### pages
 
-- Sala Mostra (fix)
 - Privacy
 
 ## Products

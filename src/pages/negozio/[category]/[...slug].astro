@@ -1,0 +1,108 @@
+---
+import categoriesData from '../../../data/products/categories.json';
+import { getProductPathsToGenerate } from '../../../data/products';
+
+export async function getStaticPaths() {
+  console.log('test');
+
+  const paths = await getProductPathsToGenerate(categoriesData);
+
+  console.log({ paths });
+
+  return paths;
+}
+
+// interface Props {
+//   product: any;
+// }
+
+const { product } = Astro.props;
+// const { category, slug } = Astro.params;
+
+const title = product.title;
+
+// // Extract sub-categories from slug (all except the last element which is the product slug)
+// const subCategories = slug ? slug.slice(0, -1) : [];
+// const productSlug = slug ? slug[slug.length - 1] : product.slug;
+
+// // Build breadcrumbs dynamically
+const breadcrumbs = [{ label: 'Negozio', href: '/negozio/' }];
+
+// // Add category breadcrumb
+// const categoryLabel = category
+//   ? category.charAt(0).toUpperCase() + category.slice(1)
+//   : 'Categoria';
+// breadcrumbs.push({
+//   label: categoryLabel,
+//   href: `/negozio/${category}/`,
+// });
+
+// // Add sub-category breadcrumbs
+// let subCategoryPath = `/negozio/${category}/`;
+// for (let i = 0; i < subCategories.length; i++) {
+//   const subCat = subCategories[i];
+//   subCategoryPath += `${subCat}/`;
+//   const subCatLabel =
+//     subCat.charAt(0).toUpperCase() + subCat.slice(1).replace(/-/g, ' ');
+//   breadcrumbs.push({
+//     label: subCatLabel,
+//     href: subCategoryPath,
+//   });
+// }
+
+// Add product breadcrumb
+// const title = product.name;
+// breadcrumbs.push({
+//   label: title,
+//   href: `/negozio/${category}/${slug?.join('/') || productSlug}/`,
+// });
+
+// Prepare images
+const galleryImages = product.images || [];
+const images = {
+  featured: galleryImages[0]
+    ? {
+        src: galleryImages[0].src,
+        alt: galleryImages[0].alt || title,
+      }
+    : undefined,
+  gallery: galleryImages.slice(1).map((img: any) => ({
+    src: img.src,
+    alt: img.alt || title,
+  })),
+};
+
+// Prepare description
+const description = product.description || product.fullDescription;
+const fullDescription = product.fullDescription;
+
+// Prepare attributes
+const attributes =
+  product.attributes?.map((attr: any) => ({
+    name: attr.name,
+    slug: attr.slug,
+    options: attr.options || [],
+    visible: attr.visible,
+  })) || [];
+
+// // Prepare categories
+const categories =
+  product.categories?.map((cat: any) => ({
+    name: cat.name,
+    slug: cat.slug,
+  })) || [];
+
+import ProductLayout from '../../../layouts/ProductLayout.astro';
+---
+
+<ProductLayout
+  title={title}
+  breadcrumbs={breadcrumbs}
+  images={images}
+  description={description}
+  fullDescription={fullDescription}
+  attributes={attributes}
+  categories={categories}
+  ctaText="Sei interessato? Prendi un appuntamento!"
+  ctaLink="/appuntamento-sala-mostra/"
+/>

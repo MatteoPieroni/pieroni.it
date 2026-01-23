@@ -1,0 +1,268 @@
+---
+import MenuLayout from './MenuLayout.astro';
+
+interface ProductImage {
+  src: string;
+  alt?: string;
+}
+
+interface ProductAttribute {
+  name: string;
+  slug?: string;
+  options: string[];
+  visible?: boolean;
+}
+
+interface ProductCategory {
+  name: string;
+  slug?: string;
+}
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{
+    label: string;
+    href: string;
+  }>;
+  images?: {
+    featured?: ProductImage;
+    gallery?: ProductImage[];
+  };
+  description?: string;
+  fullDescription?: string;
+  attributes?: ProductAttribute[];
+  categories?: ProductCategory[];
+  ctaText?: string;
+  ctaLink?: string;
+}
+
+const {
+  title,
+  breadcrumbs,
+  images,
+  description,
+  fullDescription,
+  attributes,
+  categories,
+  ctaText = 'Sei interessato? Prendi un appuntamento!',
+  ctaLink = '/appuntamento-sala-mostra/',
+} = Astro.props;
+---
+
+<MenuLayout breadcrumbs={breadcrumbs}>
+  <div class="margin-container product-page">
+    <h1>{title}</h1>
+
+    <div class="product-content">
+      {images && (
+        <div class="product-gallery">
+          {images.featured && (
+            <div class="featured-image">
+              <img
+                src={images.featured.src}
+                alt={images.featured.alt || title}
+                loading="lazy"
+              />
+            </div>
+          )}
+          {images.gallery && images.gallery.length > 0 && (
+            <div class="gallery-images">
+              {images.gallery.map((image) => (
+                <img
+                  src={image.src}
+                  alt={image.alt || title}
+                  loading="lazy"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      <div class="product-info">
+        {description && (
+          <div class="product-description" set:html={description} />
+        )}
+
+        {fullDescription && (
+          <div class="product-full-description">
+            <h2>Descrizione</h2>
+            <div set:html={fullDescription} />
+          </div>
+        )}
+
+        {attributes && attributes.length > 0 && (
+          <div class="product-attributes">
+            <h2>Informazioni aggiuntive</h2>
+            <table>
+              <tbody>
+                {attributes
+                  .filter((attr) => attr.visible !== false)
+                  .map((attr) => (
+                    <tr>
+                      <td>{attr.name}</td>
+                      <td>
+                        {attr.options.map((option: string, index: number) => {
+                          const slug =
+                            attr.slug ||
+                            attr.name.toLowerCase().replace(/\s+/g, '-');
+                          const optionSlug = option
+                            .toLowerCase()
+                            .replace(/\s+/g, '-');
+                          return (
+                            <>
+                              {index > 0 && ', '}
+                              <a href={`/${slug}/${optionSlug}/`}>{option}</a>
+                            </>
+                          );
+                        })}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+
+        {categories && categories.length > 0 && (
+          <div class="product-categories">
+            <p>
+              <strong>Categorie:</strong>{' '}
+              {categories.map((cat, index) => (
+                <>
+                  {index > 0 && ', '}
+                  <a href={cat.slug ? `/c/${cat.slug}/` : '#'}>{cat.name}</a>
+                </>
+              ))}
+            </p>
+          </div>
+        )}
+
+        <div class="product-cta">
+          <p>
+            <strong>{ctaText}</strong>
+          </p>
+          <a href={ctaLink} class="button">
+            Prendi un appuntamento
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</MenuLayout>
+
+<style>
+  .product-page {
+    padding-block: 2rem;
+  }
+
+  .product-page h1 {
+    margin-block-end: 2rem;
+  }
+
+  .product-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-block-start: 2rem;
+
+    @media (min-width: 960px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .product-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .featured-image img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+  }
+
+  .gallery-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .gallery-images img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .gallery-images img:hover {
+    opacity: 0.8;
+  }
+
+  .product-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .product-description {
+    line-height: 1.6;
+  }
+
+  .product-full-description {
+    margin-block-start: 2rem;
+  }
+
+  .product-full-description h2 {
+    margin-block-end: 1rem;
+  }
+
+  .product-attributes {
+    margin-block-start: 2rem;
+  }
+
+  .product-attributes h2 {
+    margin-block-end: 1rem;
+  }
+
+  .product-attributes table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-block-start: 1rem;
+  }
+
+  .product-attributes td {
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--bg-darker);
+    text-align: left;
+  }
+
+  .product-attributes td:first-child {
+    font-weight: 600;
+    width: 40%;
+  }
+
+  .product-categories {
+    margin-block-start: 1rem;
+  }
+
+  .product-cta {
+    margin-block-start: 2rem;
+    padding: 1.5rem;
+    background: var(--bg-darker);
+    border-radius: var(--radius);
+    text-align: center;
+  }
+
+  .product-cta p {
+    margin: 0;
+  }
+
+  .product-cta .button {
+    margin-block-start: 1rem;
+    display: inline-block;
+  }
+</style>
