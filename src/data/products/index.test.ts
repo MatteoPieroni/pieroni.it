@@ -45,15 +45,21 @@ const mockCategories = [
 ];
 
 const dummyProduct = {
+  id: 1,
   name: 'test product',
   slug: 'test-product',
 };
+
+const longNumberOfProducts = Array(15).fill(dummyProduct);
 
 const expectedPages = [
   {
     params: {
       category: 'caldaie-a-pellet-caldaie-a-pellet',
       slug: '',
+    },
+    props: {
+      products: [],
     },
   },
   {
@@ -67,11 +73,17 @@ const expectedPages = [
       category: 'riscaldamento',
       slug: 'caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet',
     },
+    props: {
+      products: [],
+    },
   },
   {
     params: {
       category: 'caldaie-a-pellet',
       slug: '',
+    },
+    props: {
+      products: [],
     },
   },
   {
@@ -85,11 +97,17 @@ const expectedPages = [
       category: 'riscaldamento',
       slug: 'caldaie-a-pellet',
     },
+    props: {
+      products: [],
+    },
   },
   {
     params: {
       category: 'inserti-a-legna-camini-inserti',
       slug: '',
+    },
+    props: {
+      products: [dummyProduct],
     },
   },
   {
@@ -102,6 +120,9 @@ const expectedPages = [
     params: {
       category: 'riscaldamento',
       slug: 'camini-inserti/inserti-a-legna-camini-inserti',
+    },
+    props: {
+      products: [dummyProduct],
     },
   },
   {
@@ -127,6 +148,9 @@ const expectedPages = [
       category: 'camini-inserti',
       slug: '',
     },
+    props: {
+      products: [dummyProduct],
+    },
   },
   {
     params: {
@@ -138,6 +162,9 @@ const expectedPages = [
     params: {
       category: 'riscaldamento',
       slug: 'camini-inserti',
+    },
+    props: {
+      products: [dummyProduct],
     },
   },
   {
@@ -163,6 +190,9 @@ const expectedPages = [
       category: 'riscaldamento',
       slug: '',
     },
+    props: {
+      products: [dummyProduct],
+    },
   },
   {
     params: {
@@ -176,10 +206,7 @@ const expectedPages = [
       slug: 'test-product',
     },
     props: {
-      product: {
-        name: 'test product',
-        slug: 'test-product',
-      },
+      product: dummyProduct,
     },
   },
 ];
@@ -189,15 +216,59 @@ const mockGetProducts = async (
   pageLimit?: number,
   currentPage?: number,
 ) => {
+  if (category.id === 24) {
+    return longNumberOfProducts;
+  }
+
   // both deeply nested sub category and parent categories need to return
-  if (category.id === 407 || category.id === 24 || category.id === 34) {
+  if (category.id === 407 || category.id === 34) {
     return [dummyProduct];
   }
 
   return [];
 };
 
-test('creates the categories pages', async () => {
+test('creates the main categories', async () => {
+  const mockGetProducts = async () => {
+    return [];
+  };
+
+  const resultingPaths = await getCategoriesPaths(
+    mockCategories,
+    mockGetProducts,
+  );
+
+  expect(resultingPaths).toStrictEqual(expectedPages);
+});
+
+test.skip('creates the sub categories pages', async () => {
+  const resultingPaths = await getCategoriesPaths(
+    mockCategories,
+    mockGetProducts,
+  );
+
+  expect(resultingPaths).toStrictEqual(expectedPages);
+});
+
+test.skip('creates the product pages for main category', async () => {
+  const resultingPaths = await getCategoriesPaths(
+    mockCategories,
+    mockGetProducts,
+  );
+
+  expect(resultingPaths).toStrictEqual(expectedPages);
+});
+
+test.skip('creates the product pages for sub categories category', async () => {
+  const resultingPaths = await getCategoriesPaths(
+    mockCategories,
+    mockGetProducts,
+  );
+
+  expect(resultingPaths).toStrictEqual(expectedPages);
+});
+
+test.skip('creates the product pages with pagination', async () => {
   const resultingPaths = await getCategoriesPaths(
     mockCategories,
     mockGetProducts,

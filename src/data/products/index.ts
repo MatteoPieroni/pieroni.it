@@ -84,7 +84,7 @@ export const getProductPathsToGenerate = async () => {
   return paths;
 };
 
-const processProducts = (products: any[], mainCategory: Category) => {
+const processProductPaths = (products: any[], mainCategory: Category) => {
   return products.map((product) => ({
     params: {
       category: mainCategory.slug,
@@ -172,15 +172,18 @@ const processSubCategory = async (
     }
   }
 
+  // 1. get the current category products
+  const products = await fetchProducts(category);
+
   // current category path
   const currentCategoryPath = {
     params: {
       category: category.slug,
       slug: '',
     },
-    // props: {
-    //   product: productFields,
-    // },
+    props: {
+      products: products,
+    },
   };
 
   // current pagination paths
@@ -207,13 +210,14 @@ const processSubCategory = async (
       category: mainCategory.slug,
       slug: `${parentsSlug}${category.slug}`,
     },
+    props: {
+      products: products,
+    },
   };
 
   // all products paths
   // rewrite to main category product
 
-  // 1. get the current category products
-  const products = await fetchProducts(category);
   // 2. add rewrite to main category product for
   // - category/product
   // - full subcategories path
@@ -245,8 +249,6 @@ const processMainCategory = async (
   const paths: PageData[] = [];
 
   const products = await fetchProducts(category);
-  const processedProducts = processProducts(products, category);
-  console.log({ t: JSON.stringify(processedProducts, null, 2) });
 
   if (category.children) {
     for (const subCategory of category.children) {
@@ -269,28 +271,35 @@ const processMainCategory = async (
       category: category.slug,
       slug: '',
     },
-    // props: {
-    //   product: productFields,
-    // },
+    props: {
+      products: products.slice(0, paginationLimit),
+    },
   };
 
   // current pagination paths
-  const pagesPaths = [
-    {
+  const numberOfPages = Math.ceil(products.length / paginationLimit);
+
+  const pagePaths = [];
+
+  for (let pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
+    pagePaths.push({
       params: {
         category: category.slug,
-        slug: 'page/1',
+        slug: `page/${pageNumber}`,
       },
-      // props: {
-      //   product: productFields,
-      // },
-    },
-  ];
+      props: {
+        products: products.slice(
+          paginationLimit * pageNumber,
+          paginationLimit * (pageNumber + 1),
+        ),
+      },
+    });
+  }
 
   // all products paths
-  const productPaths = processedProducts;
+  const productPaths = processProductPaths(products, category);
 
-  const currentPaths = [currentCategoryPath, ...pagesPaths, ...productPaths];
+  const currentPaths = [currentCategoryPath, ...pagePaths, ...productPaths];
 
   paths.push(...currentPaths);
 
