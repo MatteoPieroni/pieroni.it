@@ -1,0 +1,185 @@
+[
+  {
+    "id": 27,
+    "name": "Bagno",
+    "slug": "bagno",
+    "count": 89,
+    "children": [
+      {
+        "id": 22,
+        "name": "Accessori Bagno",
+        "slug": "accessori-bagno",
+        "count": 39,
+        "children": []
+      },
+      {
+        "id": 19,
+        "name": "Cabine e Piatti Doccia",
+        "slug": "piatti-doccia",
+        "count": 25,
+        "children": []
+      },
+      {
+        "id": 21,
+        "name": "Mobili Bagno e Sanitari",
+        "slug": "mobili-bagno",
+        "count": 17,
+        "children": []
+      },
+      {
+        "id": 20,
+        "name": "Vasche da Bagno",
+        "slug": "vasche-da-bagno",
+        "count": 8,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "name": "Mattonelle",
+    "slug": "piastrelle",
+    "count": 25,
+    "children": [
+      {
+        "id": 31,
+        "name": "Esterni",
+        "slug": "piastrelle-per-esterno",
+        "count": 5,
+        "children": []
+      },
+      {
+        "id": 29,
+        "name": "Pavimenti",
+        "slug": "pavimenti",
+        "count": 15,
+        "children": []
+      },
+      {
+        "id": 30,
+        "name": "Rivestimenti",
+        "slug": "rivestimenti-bagno",
+        "count": 13,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "name": "Offerte",
+    "slug": "offerte",
+    "count": 0,
+    "children": []
+  },
+  {
+    "id": 32,
+    "name": "Outlet",
+    "slug": "outlet",
+    "count": 0,
+    "children": []
+  },
+  {
+    "id": 24,
+    "name": "Riscaldamento",
+    "slug": "riscaldamento",
+    "count": 73,
+    "children": [
+      {
+        "id": 35,
+        "name": "Caldaie",
+        "slug": "caldaie-a-pellet",
+        "count": 9,
+        "children": [
+          {
+            "id": 406,
+            "name": "Caldaie a pellet",
+            "slug": "caldaie-a-pellet-caldaie-a-pellet",
+            "count": 3,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": 34,
+        "name": "Camini",
+        "slug": "camini-inserti",
+        "count": 38,
+        "children": [
+          {
+            "id": 407,
+            "name": "Inserti a legna",
+            "slug": "inserti-a-legna-camini-inserti",
+            "count": 10,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": 368,
+        "name": "Inserti",
+        "slug": "inserti",
+        "count": 0,
+        "children": [
+          {
+            "id": 390,
+            "name": "Inserti a legna",
+            "slug": "inserti-a-legna",
+            "count": 0,
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": 25,
+        "name": "Offerte e Prezzi Pellet",
+        "slug": "pellet-prezzi-offerta",
+        "count": 4,
+        "children": []
+      },
+      {
+        "id": 33,
+        "name": "Stufe",
+        "slug": "stufe-a-pellet-e-legna",
+        "count": 24,
+        "children": [
+          {
+            "id": 370,
+            "name": "Stufe a legna",
+            "slug": "stufe-a-legna",
+            "count": 4,
+            "children": []
+          },
+          {
+            "id": 372,
+            "name": "Stufe a pellet",
+            "slug": "stufe-a-pellet",
+            "count": 11,
+            "children": [
+              {
+                "id": 408,
+                "name": "Inserti a pellet",
+                "slug": "inserti-a-pellet",
+                "count": 2,
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": 371,
+            "name": "Termostufe a pellet",
+            "slug": "termostufe-a-pellet",
+            "count": 5,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "name": "Uncategorized",
+    "slug": "uncategorized",
+    "count": 0,
+    "children": []
+  }
+]
