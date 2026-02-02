@@ -325,3 +325,124 @@ export const getCategoriesPaths = async (
 
   return paths;
 };
+
+type FlatCategory = Omit<(typeof categoriesData)[number], 'children'>;
+type CategoryCollection = Record<number, FlatCategory>;
+
+export const getFlatCategories: (
+  categories: typeof categoriesData,
+) => CategoryCollection = (categories = categoriesData) => {
+  return categories.reduce<CategoryCollection>(
+    (acc, { children, ...current }) => {
+      if (children.length > 0) {
+        const flattenedChildren = getFlatCategories(children);
+
+        return { ...acc, [current.id]: current, ...flattenedChildren };
+      }
+
+      return { ...acc, [current.id]: current };
+    },
+    {},
+  );
+};
+
+type FlatCategoryWithProducts = {
+  products: any[];
+} & FlatCategory;
+
+type CategoryCollectionWithProduct = Record<number, FlatCategoryWithProducts>;
+
+export const enrichCategoriesWithProducts = async (
+  categories: CategoryCollection,
+  fetchProducts = getProductsInCategory,
+) => {
+  const categoriesWithProducts: CategoryCollectionWithProduct = {};
+
+  for (const category of Object.values(categories)) {
+    const products = await fetchProducts(category);
+
+    categoriesWithProducts[category.id] = {
+      ...category,
+      products,
+    };
+  }
+
+  return categoriesWithProducts;
+};
+
+export const getCategoryPaths = (
+  category: FlatCategoryWithProducts,
+  limit: number,
+) => {
+  if (category.count <= limit) {
+    return {
+      ...category,
+      pages: {
+        main: {
+          slug: category.slug,
+          products: category.products,
+        },
+        rewrites: [
+          {
+            slug: `${category.slug}/page/1`,
+          },
+        ],
+      },
+    };
+  }
+
+  const splitProducts = [];
+
+  for (let index = 0; index < category.products.length; index += limit) {
+    const pageProducts = category.products.slice(index, index + limit);
+    splitProducts.push(pageProducts);
+  }
+
+  // remove the first page products
+  const firstPageProducts = splitProducts.shift();
+
+  const mainPage = {
+    slug: category.slug,
+    products: firstPageProducts,
+  };
+
+  const otherPages = [];
+
+  for (const [index, pageProducts] of splitProducts.entries()) {
+    otherPages.push({
+      // the first index is taken by a rewrite
+      slug: `${category.slug}/page/${index + 2}`,
+      products: pageProducts,
+    });
+  }
+
+  return {
+    ...category,
+    pages: {
+      main: mainPage,
+      pagination: otherPages,
+      rewrites: [
+        {
+          slug: `${category.slug}/page/1`,
+        },
+      ],
+    },
+  };
+};
+
+const collectChildren = (categoryId: number, currentCategory: Category, parents: Category[]) => {
+  const allParents = [];
+
+  while (true) {
+    if (currentCategory.id === categoryId) {
+      break;
+    };
+  }
+}
+
+export const getRewritesWithParent = (
+  flatCategories: CategoryCollection,
+  categories: typeof categoriesData,
+) => {
+  const categoryWithParent = 
+};

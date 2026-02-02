@@ -1,7 +1,7 @@
 import type { Category } from './types';
 
 export const getProductsInCategory = async (
-  category: Category,
+  category: Pick<Category, 'id'>,
   pageLimit = 100,
   page = 1,
 ) => {

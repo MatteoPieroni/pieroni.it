@@ -1,6 +1,12 @@
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
-import { getCategoriesPaths } from '.';
+import {
+  getFlatCategories,
+  getCategoriesPaths,
+  enrichCategoriesWithProducts,
+  getCategoryPaths,
+  getRewritesWithParent,
+} from '.';
 import type { Category } from './types';
 
 const mockCategories = [
@@ -228,7 +234,7 @@ const mockGetProducts = async (
   return [];
 };
 
-test('creates the main categories', async () => {
+test.skip('creates the main categories', async () => {
   const mockGetProducts = async () => {
     return [];
   };
@@ -276,3 +282,174 @@ test.skip('creates the product pages with pagination', async () => {
 
   expect(resultingPaths).toStrictEqual(expectedPages);
 });
+
+test('generates a list of all categories', () => {
+  const resultingCategories = getFlatCategories(mockCategories);
+
+  expect(resultingCategories).toStrictEqual({
+    24: {
+      id: 24,
+      name: 'Riscaldamento',
+      slug: 'riscaldamento',
+      count: 73,
+    },
+    35: {
+      id: 35,
+      name: 'Caldaie',
+      slug: 'caldaie-a-pellet',
+      count: 9,
+    },
+    406: {
+      id: 406,
+      name: 'Caldaie a pellet',
+      slug: 'caldaie-a-pellet-caldaie-a-pellet',
+      count: 3,
+    },
+    34: {
+      id: 34,
+      name: 'Camini',
+      slug: 'camini-inserti',
+      count: 38,
+    },
+    407: {
+      id: 407,
+      name: 'Inserti a legna',
+      slug: 'inserti-a-legna-camini-inserti',
+      count: 10,
+    },
+  });
+});
+
+const mockFlatCategory = {
+  id: 24,
+  name: 'Riscaldamento',
+  slug: 'riscaldamento',
+  count: 73,
+};
+
+const createMockGetProducts =
+  (products?: (typeof dummyProduct)[]) => async () => {
+    return products || [];
+  };
+
+test('adds products to a category', async () => {
+  const mockedGetProducts = createMockGetProducts([dummyProduct]);
+
+  const categoriesWithProducts = await enrichCategoriesWithProducts(
+    {
+      24: mockFlatCategory,
+    },
+    mockedGetProducts,
+  );
+
+  expect(categoriesWithProducts).toStrictEqual({
+    24: {
+      ...mockFlatCategory,
+      products: [dummyProduct],
+    },
+  });
+});
+
+describe('generates main category pages', () => {
+  test('with less products than limit', () => {
+    const categoryWithPages = getCategoryPaths(
+      {
+        ...mockFlatCategory,
+        count: 3,
+        products: [dummyProduct],
+      },
+      3,
+    );
+
+    expect(categoryWithPages).toStrictEqual({
+      ...mockFlatCategory,
+      count: 3,
+      products: [dummyProduct],
+      pages: {
+        main: {
+          slug: 'riscaldamento',
+          products: [dummyProduct],
+        },
+        rewrites: [{ slug: 'riscaldamento/page/1' }],
+      },
+    });
+  });
+
+  test('with more products than limit', () => {
+    const categoryWithPages = getCategoryPaths(
+      {
+        ...mockFlatCategory,
+        count: 4,
+        products: [dummyProduct, dummyProduct, dummyProduct, dummyProduct],
+      },
+      3,
+    );
+
+    expect(categoryWithPages).toStrictEqual({
+      ...mockFlatCategory,
+      count: 4,
+      products: [dummyProduct, dummyProduct, dummyProduct, dummyProduct],
+      pages: {
+        main: {
+          slug: 'riscaldamento',
+          products: [dummyProduct, dummyProduct, dummyProduct],
+        },
+        rewrites: [{ slug: 'riscaldamento/page/1' }],
+        pagination: [
+          {
+            slug: 'riscaldamento/page/2',
+            products: [dummyProduct],
+          },
+        ],
+      },
+    });
+  });
+});
+
+test('generates subcategory pages', () => {
+  const resultingCategories = getRewritesWithParent({
+    24: {
+      id: 24,
+      name: 'Riscaldamento',
+      slug: 'riscaldamento',
+      count: 73,
+    },
+    35: {
+      id: 35,
+      name: 'Caldaie',
+      slug: 'caldaie-a-pellet',
+      count: 9,
+    },
+    406: {
+      id: 406,
+      name: 'Caldaie a pellet',
+      slug: 'caldaie-a-pellet-caldaie-a-pellet',
+      count: 3,
+    },
+  });
+
+  expect(resultingCategories).toStrictEqual({
+    24: {
+      rewrites: [],
+    },
+    35: {
+      rewrites: [
+        { slug: 'riscaldamento/caldaie-a-pellet' },
+        { slug: 'riscaldamento/caldaie-a-pellet/page/1' },
+      ],
+    },
+    406: {
+      rewrites: [
+        // testing here
+        {
+          slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet',
+        },
+        {
+          slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        },
+      ],
+    },
+  });
+});
+
+describe.skip('generates product pages');
