@@ -1,22 +1,48 @@
 ---
-import { getProductPathsToGenerate } from '../../../data/products';
+import { getAllCategories } from '../../data/products';
 
 export async function getStaticPaths() {
   console.log('test');
 
-  const paths = await getProductPathsToGenerate();
+  const { categories, productsPages } = await getAllCategories();
 
-  return paths;
+  const categoryPages = categories.map((category) => ({
+    params: {
+      slug: category.slug,
+    },
+    props: {
+      ...('products' in category
+        ? {
+            products: category.products,
+            subCategories: category.subCategories,
+            title: category.title,
+          }
+        : {}),
+      ...('rewrite' in category ? { rewrite: category.rewrite } : {}),
+    },
+  }));
+
+  const usableProductPages = productsPages.map((page) => ({
+    params: {
+      slug: page.slug,
+    },
+    props: {
+      ...('product' in page ? { product: page.product } : {}),
+      ...('rewrite' in page ? { rewrite: page.rewrite } : {}),
+    },
+  }));
+
+  return [...categoryPages, ...usableProductPages];
 }
 
 // interface Props {
 //   product: any;
 // }
 
-const { product } = Astro.props;
+const { product, title: catTitle } = Astro.props;
 // const { category, slug } = Astro.params;
 
-const title = product.title;
+const title = product?.title || catTitle;
 
 // // Extract sub-categories from slug (all except the last element which is the product slug)
 // const subCategories = slug ? slug.slice(0, -1) : [];
@@ -89,7 +115,7 @@ const categories =
     slug: cat.slug,
   })) || [];
 
-import ProductLayout from '../../../layouts/ProductLayout.astro';
+import ProductLayout from '../../layouts/ProductLayout.astro';
 ---
 
 <ProductLayout
