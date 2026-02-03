@@ -1,149 +1,6 @@
 import { getProductsInCategory } from './adapter';
-import type { Category, Product } from './types';
+import type { Category } from './types';
 import categoriesData from './categories.json';
-
-type PageData = {
-  params: { category: string; slug: string };
-  props: { product: Product } | { rewrite: string };
-};
-
-const processCategory = async (
-  category: Category,
-  mainCategory?: Category,
-  parentsSubCategories?: Category[],
-) => {
-  const paths: PageData[] = [];
-  const isSubCategory = !!mainCategory;
-
-  if (category.children) {
-    for (const subCategory of category.children) {
-      const subCategoryPaths = await processCategory(
-        subCategory,
-        // we either have a main category that we're carrying or we're processing the mainCategory
-        mainCategory || category,
-        // we only want parents if we're not in the top category
-        // add the previous parents and the current parent from which we're checking the children
-        isSubCategory ? [...(parentsSubCategories || []), category] : [],
-      );
-
-      paths.push(...subCategoryPaths);
-    }
-  }
-
-  const currentCategoryProducts = await getProductsInCategory(category);
-  const currentPaths = currentCategoryProducts.map((product) => {
-    const productFields = {
-      title: product.name,
-      images: product.images,
-      description: product.short_description,
-      fullDescription: product.description,
-      attributes: product.attributes,
-      categories: product.categories,
-    };
-
-    return [
-      {
-        params: {
-          category: category.slug,
-          slug: product.slug,
-        },
-        props: {
-          product: productFields,
-        },
-      },
-      ...(mainCategory
-        ? [
-            {
-              params: {
-                category: mainCategory.slug,
-                slug: `${parentsSubCategories?.map((parent) => parent.slug).join('/')}/${category.slug}/${product.slug}`,
-              },
-              props: {
-                product: productFields,
-              },
-            },
-          ]
-        : []),
-    ];
-  });
-
-  paths.push(...currentPaths.flat());
-
-  return paths;
-};
-
-export const getProductPathsToGenerate = async () => {
-  const paths: PageData[] = [];
-
-  for (const category of categoriesData) {
-    const subCategoryPaths = await processCategory(category);
-
-    paths.push(...subCategoryPaths);
-  }
-
-  return paths;
-};
-
-const processProductPaths = (products: any[], mainCategory: Category) => {
-  return products.map((product) => ({
-    params: {
-      category: mainCategory.slug,
-      slug: product.slug,
-    },
-    props: {
-      product,
-    },
-  }));
-};
-
-const processProductsWithRewrites = (
-  products: any[],
-  category: Category,
-  mainCategory: Category,
-  parentsSubCategories: Category[],
-  mainCategoryProducts: any[],
-) => {
-  const productPaths = products.map((product) => {
-    const mainCategoryProductRef = mainCategoryProducts.find(
-      (mainCategoryProduct) => mainCategoryProduct.id === product.id,
-    );
-
-    if (!mainCategoryProductRef) {
-      throw new Error(`Categories mismatch: ${product.id}`);
-    }
-
-    // current category path with product
-    const currentPath = {
-      params: {
-        category: category.slug,
-        slug: product.slug,
-      },
-      props: {
-        rewrite: `${mainCategory.slug}/${product.slug}`,
-      },
-    };
-
-    const parentsSlug =
-      parentsSubCategories.length === 0
-        ? ''
-        : parentsSubCategories.map((parent) => parent.slug).join('/') + '/';
-
-    // nested path that includes all segments of subcategories
-    const allSubCategoriesPath = {
-      params: {
-        category: mainCategory.slug,
-        slug: `${parentsSlug}${category.slug}/${product.slug}`,
-      },
-      props: {
-        rewrite: `${mainCategory.slug}/${product.slug}`,
-      },
-    };
-
-    return [currentPath, allSubCategoriesPath];
-  });
-
-  return productPaths.flat();
-};
 
 export type FlatCategory = Omit<(typeof categoriesData)[number], 'children'> & {
   subCategories?: Omit<(typeof categoriesData)[number], 'children'>[];
@@ -286,7 +143,7 @@ const splitProductsIntoPages = (array: unknown[], limit: number) => {
   return splitProducts;
 };
 
-type PageData2 = {
+type CategoryPageData = {
   slug: string;
 } & (
   | {
@@ -300,11 +157,10 @@ type PageData2 = {
 
 /**
  * for a category
- *  for each slug
- *    - generate hierarchical numbered pages with products ({long-slug}/page/x)
- *    - generate rewrite hierarchical slug to first page ({long-slug} -> {long-slug/page/1})
- *    - generate rewrites numbered pages to hierarchical numbered pages ({slug}/page/x -> {long-slug}/page/x)
- *    - generate rewrites main slug to hierarchical first page ({slug} -> {long-slug}/page/1)
+ *   - generate hierarchical numbered pages with products ({long-slug}/page/x)
+ *   - generate rewrite hierarchical slug to first page ({long-slug} -> {long-slug/page/1})
+ *   - generate rewrites numbered pages to hierarchical numbered pages ({slug}/page/x -> {long-slug}/page/x)
+ *   - generate rewrites main slug to hierarchical first page ({slug} -> {long-slug}/page/1)
  */
 export const getCategoryPaths = (
   category: FlatCategoryWithProducts,
@@ -326,13 +182,13 @@ export const getCategoryPaths = (
   if (category.products.length <= limit) {
     if (!currentCategorySlugs.slugs.hierarchical) {
       // generate numbered page with products ({slug}/page/1)
-      const firstProductPage: PageData2 = {
+      const firstProductPage: CategoryPageData = {
         slug: firstProductMainPageSlug,
         products: category.products,
         ...subCategories,
       };
       // generate rewrite main slug to first page ({slug} -> {slug/page/1})
-      const mainProductPage: PageData2 = {
+      const mainProductPage: CategoryPageData = {
         slug: currentCategorySlugs.slugs.main,
         rewrite: firstProductMainPageSlug,
       };
@@ -344,24 +200,24 @@ export const getCategoryPaths = (
     const firstProductPageSlug = `${hierarchicalSlug}/page/1`;
 
     // generate hierarchical first page with products ({long-slug}/page/1)
-    const hierarchicalFirstProductPage: PageData2 = {
+    const hierarchicalFirstProductPage: CategoryPageData = {
       slug: firstProductPageSlug,
       products: category.products,
       ...subCategories,
     };
     // generate rewrite main hierarchical slug to first page ({long-slug} -> {slug}/page/1)
-    const hierarchicalMainPage: PageData2 = {
+    const hierarchicalMainPage: CategoryPageData = {
       slug: currentCategorySlugs.slugs.hierarchical,
       rewrite: firstProductPageSlug,
     };
 
     // generate rewrite first page to hierarchical numbered pages ({slug}/page/1 -> {long-slug}/page/1)
-    const firstProductPage: PageData2 = {
+    const firstProductPage: CategoryPageData = {
       slug: firstProductMainPageSlug,
       rewrite: firstProductPageSlug,
     };
     // generate rewrite main slug to first page ({slug} -> {slug/page/1})
-    const mainProductPage: PageData2 = {
+    const mainProductPage: CategoryPageData = {
       slug: mainSlug,
       rewrite: firstProductPageSlug,
     };
@@ -377,7 +233,7 @@ export const getCategoryPaths = (
   const splitProducts = splitProductsIntoPages(category.products, limit);
 
   if (!currentCategorySlugs.slugs.hierarchical) {
-    const numberedPages: PageData2[] = [];
+    const numberedPages: CategoryPageData[] = [];
 
     // generate numbered pages with products ({slug}/page/x)
     for (const [index, pageProducts] of splitProducts.entries()) {
@@ -390,7 +246,7 @@ export const getCategoryPaths = (
     }
 
     // generate rewrite main slug to first page ({slug} -> {slug/page/1})
-    const mainProductPage: PageData2 = {
+    const mainProductPage: CategoryPageData = {
       slug: mainSlug,
       rewrite: firstProductMainPageSlug,
     };
@@ -401,7 +257,7 @@ export const getCategoryPaths = (
   const hierarchicalSlug = currentCategorySlugs.slugs.hierarchical;
   const firstProductPageSlug = `${hierarchicalSlug}/page/1`;
 
-  const numberedPages: PageData2[] = [];
+  const numberedPages: CategoryPageData[] = [];
 
   // generate hierarchical numbered pages with products ({long-slug}/page/x)
   for (const [index, pageProducts] of splitProducts.entries()) {
@@ -414,13 +270,13 @@ export const getCategoryPaths = (
   }
 
   // generate rewrite main hierarchical slug to first page ({long-slug} -> {slug}/page/1)
-  const hierarchicalMainPage: PageData2 = {
+  const hierarchicalMainPage: CategoryPageData = {
     slug: currentCategorySlugs.slugs.hierarchical,
     rewrite: firstProductPageSlug,
   };
 
   // generate rewrites numbered pages to hierarchical numbered pages ({slug}/page/x -> {long-slug}/page/x)
-  const mainNumberedProductPages: PageData2[] = numberedPages.map(
+  const mainNumberedProductPages: CategoryPageData[] = numberedPages.map(
     (numberedPage) => ({
       // small trick here to make the numbers correspond
       slug: `${mainSlug}/page/${numberedPage.slug.at(-1)}`,
@@ -429,7 +285,7 @@ export const getCategoryPaths = (
   );
 
   // generate rewrite main slug to hierarchical first page ({slug} -> {long-slug}/page/1)
-  const mainPage: PageData2 = {
+  const mainPage: CategoryPageData = {
     slug: mainSlug,
     rewrite: firstProductPageSlug,
   };
@@ -440,4 +296,81 @@ export const getCategoryPaths = (
     ...mainNumberedProductPages,
     mainPage,
   ];
+};
+
+type ProductPageData = {
+  slug: string;
+} & (
+  | {
+      product: Record<string, unknown>;
+    }
+  | {
+      rewrite: string;
+    }
+);
+
+/**
+ * for a category
+ *  for each product
+ *    - generate product page with deepest ({long-slug}/{product-slug})
+ *    - generate rewrite product slug to deepest ({product-slug} -> {long-slug}/{product-slug})
+ *    - generate rewrite main slug to deepest ({slug}/{product-slug} -> {long-slug}/{product-slug})
+ */
+export const getProductsPaths = (
+  category: FlatCategoryWithProducts,
+  categorySlugs: CategoriesSlugsCollection,
+) => {
+  const currentCategorySlugs = categorySlugs[category.id];
+  if (!currentCategorySlugs) {
+    throw new Error('Slugs not collected');
+  }
+
+  const mainSlug = currentCategorySlugs.slugs.main;
+
+  const productPages: ProductPageData[][] = [];
+
+  for (const product of category.products) {
+    const productSlug = product.slug;
+
+    if (!currentCategorySlugs.slugs.hierarchical) {
+      const mainSlugWithProduct = `${mainSlug}/${productSlug}`;
+
+      // generate product page with main slug ({slug}/{product-slug})
+      const mainProductPage = {
+        slug: mainSlugWithProduct,
+        product,
+      };
+      // generate rewrite product slug to deepest ({product-slug} -> {slug}/{product-slug})
+      const productPage = {
+        slug: productSlug,
+        rewrite: mainSlugWithProduct,
+      };
+
+      productPages.push([mainProductPage, productPage]);
+    } else {
+      const deepestSlugWithProduct = `${currentCategorySlugs.slugs.hierarchical}/${productSlug}`;
+
+      // generate product page with deepest ({long-slug}/{product-slug})
+      const deepestProductPage = {
+        slug: deepestSlugWithProduct,
+        product,
+      };
+
+      // generate rewrite product slug to deepest ({product-slug} -> {slug}/{product-slug})
+      const productPage = {
+        slug: productSlug,
+        rewrite: deepestSlugWithProduct,
+      };
+
+      // generate rewrite main slug to deepest ({slug}/{product-slug} -> {long-slug}/{product-slug})
+      const mainProductPage = {
+        slug: `${mainSlug}/${productSlug}`,
+        rewrite: deepestSlugWithProduct,
+      };
+
+      productPages.push([deepestProductPage, productPage, mainProductPage]);
+    }
+  }
+
+  return productPages.flat();
 };

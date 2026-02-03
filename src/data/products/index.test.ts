@@ -7,6 +7,7 @@ import {
   createSlugsCollection,
   type CategoryCollectionWithProduct,
   type FlatCategory,
+  getProductsPaths,
 } from '.';
 
 const mockCategories = [
@@ -289,13 +290,11 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
 
 /**
  * for a category
- *  for each slug
- *    - generate numbered pages with products ({slug}/page/x)
- *    - generate rewrite main slug to first page ({slug} -> {slug/page/1})
- *    - generate rewrites hierarchical numbered pages to numbered pages ({long-slug}/page/x -> {slug}/page/x)
- *    - generate rewrites main hierarchical slug to first page ({long-slug} -> {slug}/page/1)
+ *   - generate hierarchical numbered pages with products ({long-slug}/page/x)
+ *   - generate rewrite hierarchical slug to first page ({long-slug} -> {long-slug/page/1})
+ *   - generate rewrites numbered pages to hierarchical numbered pages ({slug}/page/x -> {long-slug}/page/x)
+ *   - generate rewrites main slug to hierarchical first page ({slug} -> {long-slug}/page/1)
  */
-
 describe.each<[undefined | FlatCategory[], string]>([
   [undefined, 'without subcategories'],
   [
@@ -445,4 +444,56 @@ describe.each<[undefined | FlatCategory[], string]>([
   });
 });
 
-describe.skip('generates product pages');
+/**
+ * for a category
+ *  for each product
+ *    - generate product page with deepest ({long-slug}/{product-slug})
+ *    - generate rewrite product slug to deepest ({product-slug} -> {long-slug}/{product-slug})
+ *    - generate rewrite main slug to deepest ({slug}/{product-slug} -> {long-slug}/{product-slug})
+ */
+describe('generates product pages', () => {
+  test('generates category product page and product rewrite', () => {
+    const generatedProductPages = getProductsPaths(preparedDbWithProducts[35], {
+      35: {
+        slugs: { main: 'caldaie-a-pellet' },
+      },
+    });
+
+    expect(generatedProductPages).toStrictEqual([
+      {
+        slug: 'caldaie-a-pellet/test-product',
+        product: dummyProduct,
+      },
+      {
+        slug: 'test-product',
+        rewrite: 'caldaie-a-pellet/test-product',
+      },
+    ]);
+  });
+
+  test('generates hierarchical category product page, product and main rewrites', () => {
+    const generatedProductPages = getProductsPaths(preparedDbWithProducts[35], {
+      35: {
+        slugs: {
+          hierarchical: 'riscaldamento/caldaie-a-pellet',
+          main: 'caldaie-a-pellet',
+        },
+      },
+    });
+
+    expect(generatedProductPages).toStrictEqual([
+      {
+        slug: 'riscaldamento/caldaie-a-pellet/test-product',
+        product: dummyProduct,
+      },
+      {
+        slug: 'test-product',
+        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+      },
+      {
+        slug: 'caldaie-a-pellet/test-product',
+        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+      },
+    ]);
+  });
+});
