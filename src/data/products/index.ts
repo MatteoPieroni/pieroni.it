@@ -147,6 +147,7 @@ type CategoryPageData = {
   slug: string;
 } & (
   | {
+      title: string;
       products: any[];
       subCategories?: FlatCategory[];
     }
@@ -172,6 +173,7 @@ export const getCategoryPaths = (
     throw new Error('Slugs not collected');
   }
 
+  const title = category.name;
   const mainSlug = currentCategorySlugs.slugs.main;
   const firstProductMainPageSlug = `${mainSlug}/page/1`;
 
@@ -183,6 +185,7 @@ export const getCategoryPaths = (
     if (!currentCategorySlugs.slugs.hierarchical) {
       // generate numbered page with products ({slug}/page/1)
       const firstProductPage: CategoryPageData = {
+        title,
         slug: firstProductMainPageSlug,
         products: category.products,
         ...subCategories,
@@ -201,6 +204,7 @@ export const getCategoryPaths = (
 
     // generate hierarchical first page with products ({long-slug}/page/1)
     const hierarchicalFirstProductPage: CategoryPageData = {
+      title,
       slug: firstProductPageSlug,
       products: category.products,
       ...subCategories,
@@ -238,6 +242,7 @@ export const getCategoryPaths = (
     // generate numbered pages with products ({slug}/page/x)
     for (const [index, pageProducts] of splitProducts.entries()) {
       numberedPages.push({
+        title,
         slug: `${category.slug}/page/${index + 1}`,
         products: pageProducts,
         // add subcategories only on first page
@@ -262,6 +267,7 @@ export const getCategoryPaths = (
   // generate hierarchical numbered pages with products ({long-slug}/page/x)
   for (const [index, pageProducts] of splitProducts.entries()) {
     numberedPages.push({
+      title,
       slug: `${hierarchicalSlug}/page/${index + 1}`,
       products: pageProducts,
       // add subcategories only on first page
@@ -376,7 +382,7 @@ export const getProductsPaths = (
 };
 
 export const getAllCategories = async (
-  categories: typeof categoriesData,
+  categories = categoriesData,
   fetchProducts = getProductsInCategory,
 ) => {
   const flatCategories = getFlatCategories(categories);

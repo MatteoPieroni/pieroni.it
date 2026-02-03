@@ -324,6 +324,7 @@ describe.each<[undefined | FlatCategory[], string]>([
 
       expect(generatedCategoryPages).toStrictEqual([
         {
+          title: 'Riscaldamento',
           slug: 'riscaldamento/page/1',
           products: [dummyProduct, dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
@@ -351,6 +352,7 @@ describe.each<[undefined | FlatCategory[], string]>([
 
       expect(generatedCategoryPages).toStrictEqual([
         {
+          title: 'Caldaie',
           slug: 'riscaldamento/caldaie-a-pellet/page/1',
           products: [dummyProduct],
           ...(subCategories ? { subCategories } : {}),
@@ -385,11 +387,13 @@ describe.each<[undefined | FlatCategory[], string]>([
 
       expect(generatedCategoryPages).toStrictEqual([
         {
+          title: 'Riscaldamento',
           slug: 'riscaldamento/page/1',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
         },
         {
+          title: 'Riscaldamento',
           slug: 'riscaldamento/page/2',
           products: [dummyProduct],
         },
@@ -416,11 +420,13 @@ describe.each<[undefined | FlatCategory[], string]>([
 
       expect(generatedCategoryPages).toStrictEqual([
         {
+          title: 'Camini',
           slug: 'riscaldamento/camini-inserti/page/1',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
         },
         {
+          title: 'Camini',
           slug: 'riscaldamento/camini-inserti/page/2',
           products: [dummyProduct, dummyProduct],
         },
@@ -541,6 +547,7 @@ test('generates the full payload', async () => {
   expect(result).toStrictEqual({
     categories: [
       {
+        title: 'Riscaldamento',
         products: [
           {
             id: 1,
@@ -568,6 +575,7 @@ test('generates the full payload', async () => {
         slug: 'riscaldamento',
       },
       {
+        title: 'Caldaie',
         products: [
           {
             id: 2,
@@ -598,6 +606,7 @@ test('generates the full payload', async () => {
         slug: 'caldaie-a-pellet',
       },
       {
+        title: 'Caldaie a pellet',
         products: [
           {
             id: 2,
