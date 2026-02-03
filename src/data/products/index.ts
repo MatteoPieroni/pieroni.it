@@ -145,23 +145,18 @@ const splitProductsIntoPages = (array: unknown[], limit: number) => {
 
 type CategoryPageData = {
   slug: string;
-} & (
-  | {
-      title: string;
-      products: any[];
-      subCategories?: FlatCategory[];
-    }
-  | {
-      rewrite: string;
-    }
-);
+} & {
+  title: string;
+  products: any[];
+  subCategories?: FlatCategory[];
+};
 
 /**
  * for a category
- *   - generate hierarchical numbered pages with products ({long-slug}/page/x)
- *   - generate rewrite hierarchical slug to first page ({long-slug} -> {long-slug/page/1})
- *   - generate rewrites numbered pages to hierarchical numbered pages ({slug}/page/x -> {long-slug}/page/x)
- *   - generate rewrites main slug to hierarchical first page ({slug} -> {long-slug}/page/1)
+ *   - generate hierarchical numbered pages ({long-slug}/page/x)
+ *   - generate hierarchical page ({long-slug}
+ *   - generate main numbered pages ({slug}/page/x)
+ *   - generate main slug page ({slug})
  */
 export const getCategoryPaths = (
   category: FlatCategoryWithProducts,
@@ -182,18 +177,22 @@ export const getCategoryPaths = (
     : {};
 
   if (category.products.length <= limit) {
+    const basePage = {
+      title,
+      products: category.products,
+      ...subCategories,
+    };
+
     if (!currentCategorySlugs.slugs.hierarchical) {
-      // generate numbered page with products ({slug}/page/1)
+      // generate main numbered page ({slug}/page/1)
       const firstProductPage: CategoryPageData = {
-        title,
+        ...basePage,
         slug: firstProductMainPageSlug,
-        products: category.products,
-        ...subCategories,
       };
-      // generate rewrite main slug to first page ({slug} -> {slug/page/1})
+      // generate main slug page ({slug})
       const mainProductPage: CategoryPageData = {
+        ...basePage,
         slug: currentCategorySlugs.slugs.main,
-        rewrite: firstProductMainPageSlug,
       };
 
       return [firstProductPage, mainProductPage];
@@ -204,26 +203,24 @@ export const getCategoryPaths = (
 
     // generate hierarchical first page with products ({long-slug}/page/1)
     const hierarchicalFirstProductPage: CategoryPageData = {
-      title,
+      ...basePage,
       slug: firstProductPageSlug,
-      products: category.products,
-      ...subCategories,
     };
-    // generate rewrite main hierarchical slug to first page ({long-slug} -> {slug}/page/1)
+    // generate hierarchical slug page ({long-slug})
     const hierarchicalMainPage: CategoryPageData = {
+      ...basePage,
       slug: currentCategorySlugs.slugs.hierarchical,
-      rewrite: firstProductPageSlug,
     };
 
-    // generate rewrite first page to hierarchical numbered pages ({slug}/page/1 -> {long-slug}/page/1)
+    // generate main first page ({slug}/page/1)
     const firstProductPage: CategoryPageData = {
+      ...basePage,
       slug: firstProductMainPageSlug,
-      rewrite: firstProductPageSlug,
     };
-    // generate rewrite main slug to first page ({slug} -> {slug/page/1})
+    // generate main slug page ({slug})
     const mainProductPage: CategoryPageData = {
+      ...basePage,
       slug: mainSlug,
-      rewrite: firstProductPageSlug,
     };
 
     return [
@@ -236,13 +233,17 @@ export const getCategoryPaths = (
 
   const splitProducts = splitProductsIntoPages(category.products, limit);
 
+  const basePage = {
+    title,
+  };
+
   if (!currentCategorySlugs.slugs.hierarchical) {
     const numberedPages: CategoryPageData[] = [];
 
     // generate numbered pages with products ({slug}/page/x)
     for (const [index, pageProducts] of splitProducts.entries()) {
       numberedPages.push({
-        title,
+        ...basePage,
         slug: `${category.slug}/page/${index + 1}`,
         products: pageProducts,
         // add subcategories only on first page
@@ -250,24 +251,25 @@ export const getCategoryPaths = (
       });
     }
 
-    // generate rewrite main slug to first page ({slug} -> {slug/page/1})
+    // generate main slug ({slug/page/1})
     const mainProductPage: CategoryPageData = {
+      ...basePage,
+      products: splitProducts[0],
       slug: mainSlug,
-      rewrite: firstProductMainPageSlug,
+      ...subCategories,
     };
 
     return [...numberedPages, mainProductPage];
   }
 
   const hierarchicalSlug = currentCategorySlugs.slugs.hierarchical;
-  const firstProductPageSlug = `${hierarchicalSlug}/page/1`;
 
   const numberedPages: CategoryPageData[] = [];
 
   // generate hierarchical numbered pages with products ({long-slug}/page/x)
   for (const [index, pageProducts] of splitProducts.entries()) {
     numberedPages.push({
-      title,
+      ...basePage,
       slug: `${hierarchicalSlug}/page/${index + 1}`,
       products: pageProducts,
       // add subcategories only on first page
@@ -275,25 +277,33 @@ export const getCategoryPaths = (
     });
   }
 
-  // generate rewrite main hierarchical slug to first page ({long-slug} -> {slug}/page/1)
+  // generate main hierarchical page ({long-slug})
   const hierarchicalMainPage: CategoryPageData = {
+    ...basePage,
+    products: splitProducts[0],
     slug: currentCategorySlugs.slugs.hierarchical,
-    rewrite: firstProductPageSlug,
+    ...subCategories,
   };
 
-  // generate rewrites numbered pages to hierarchical numbered pages ({slug}/page/x -> {long-slug}/page/x)
+  // generate main numbered pages ({slug}/page/x)
   const mainNumberedProductPages: CategoryPageData[] = numberedPages.map(
     (numberedPage) => ({
-      // small trick here to make the numbers correspond
+      ...basePage,
+      // FIX: 2 digit numbers
       slug: `${mainSlug}/page/${numberedPage.slug.at(-1)}`,
-      rewrite: numberedPage.slug,
+      products: numberedPage.products,
+      ...(numberedPage.subCategories
+        ? { subCategories: numberedPage.subCategories }
+        : {}),
     }),
   );
 
-  // generate rewrite main slug to hierarchical first page ({slug} -> {long-slug}/page/1)
+  // generate main slug page ({slug})
   const mainPage: CategoryPageData = {
+    ...basePage,
     slug: mainSlug,
-    rewrite: firstProductPageSlug,
+    products: splitProducts[0],
+    ...subCategories,
   };
 
   return [
@@ -306,14 +316,8 @@ export const getCategoryPaths = (
 
 type ProductPageData = {
   slug: string;
-} & (
-  | {
-      product: Record<string, unknown>;
-    }
-  | {
-      rewrite: string;
-    }
-);
+  product: Record<string, unknown>;
+};
 
 /**
  * for a category
@@ -349,7 +353,7 @@ export const getProductsPaths = (
       // generate rewrite product slug to deepest ({product-slug} -> {slug}/{product-slug})
       const productPage = {
         slug: productSlug,
-        rewrite: mainSlugWithProduct,
+        product,
       };
 
       productPages.push([mainProductPage, productPage]);
@@ -365,13 +369,13 @@ export const getProductsPaths = (
       // generate rewrite product slug to deepest ({product-slug} -> {slug}/{product-slug})
       const productPage = {
         slug: productSlug,
-        rewrite: deepestSlugWithProduct,
+        product,
       };
 
       // generate rewrite main slug to deepest ({slug}/{product-slug} -> {long-slug}/{product-slug})
       const mainProductPage = {
         slug: `${mainSlug}/${productSlug}`,
-        rewrite: deepestSlugWithProduct,
+        product,
       };
 
       productPages.push([deepestProductPage, productPage, mainProductPage]);

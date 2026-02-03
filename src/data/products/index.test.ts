@@ -291,10 +291,10 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
 
 /**
  * for a category
- *   - generate hierarchical numbered pages with products ({long-slug}/page/x)
- *   - generate rewrite hierarchical slug to first page ({long-slug} -> {long-slug/page/1})
- *   - generate rewrites numbered pages to hierarchical numbered pages ({slug}/page/x -> {long-slug}/page/x)
- *   - generate rewrites main slug to hierarchical first page ({slug} -> {long-slug}/page/1)
+ *   - generate hierarchical numbered pages ({long-slug}/page/x)
+ *   - generate hierarchical page ({long-slug}
+ *   - generate main numbered pages ({slug}/page/x)
+ *   - generate main slug page ({slug})
  */
 describe.each<[undefined | FlatCategory[], string]>([
   [undefined, 'without subcategories'],
@@ -311,7 +311,7 @@ describe.each<[undefined | FlatCategory[], string]>([
   ],
 ])('generates category page %s', (subCategories) => {
   describe('with products in limit', () => {
-    test('generates number page and main rewrite', () => {
+    test('generates number page and main page', () => {
       const generatedCategoryPages = getCategoryPaths(
         { ...preparedDbWithProducts[24], subCategories },
         {
@@ -322,21 +322,25 @@ describe.each<[undefined | FlatCategory[], string]>([
         5,
       );
 
+      const basePage = {
+        title: 'Riscaldamento',
+        products: [dummyProduct, dummyProduct, dummyProduct, dummyProduct],
+        ...(subCategories ? { subCategories } : {}),
+      };
+
       expect(generatedCategoryPages).toStrictEqual([
         {
-          title: 'Riscaldamento',
           slug: 'riscaldamento/page/1',
-          products: [dummyProduct, dummyProduct, dummyProduct, dummyProduct],
-          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
         {
           slug: 'riscaldamento',
-          rewrite: 'riscaldamento/page/1',
+          ...basePage,
         },
       ]);
     });
 
-    test('generates hierarchical numbered and main rewrites', () => {
+    test('generates hierarchical numbered, hierarchical page, main numbered page and main page', () => {
       const generatedCategoryPages = getCategoryPaths(
         { ...preparedDbWithProducts[35], subCategories },
         {
@@ -350,31 +354,35 @@ describe.each<[undefined | FlatCategory[], string]>([
         3,
       );
 
+      const basePage = {
+        title: 'Caldaie',
+        products: [dummyProduct],
+        ...(subCategories ? { subCategories } : {}),
+      };
+
       expect(generatedCategoryPages).toStrictEqual([
         {
-          title: 'Caldaie',
           slug: 'riscaldamento/caldaie-a-pellet/page/1',
-          products: [dummyProduct],
-          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
         {
           slug: 'riscaldamento/caldaie-a-pellet',
-          rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+          ...basePage,
         },
         {
           slug: 'caldaie-a-pellet/page/1',
-          rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+          ...basePage,
         },
         {
           slug: 'caldaie-a-pellet',
-          rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+          ...basePage,
         },
       ]);
     });
   });
 
   describe('with more products than limit', () => {
-    test('generates numbered pages and main rewrite', () => {
+    test('generates numbered pages and main page', () => {
       const generatedCategoryPages = getCategoryPaths(
         { ...preparedDbWithProducts[24], subCategories },
         {
@@ -385,26 +393,32 @@ describe.each<[undefined | FlatCategory[], string]>([
         3,
       );
 
+      const basePage = {
+        title: 'Riscaldamento',
+      };
+
       expect(generatedCategoryPages).toStrictEqual([
         {
-          title: 'Riscaldamento',
           slug: 'riscaldamento/page/1',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
         {
-          title: 'Riscaldamento',
           slug: 'riscaldamento/page/2',
           products: [dummyProduct],
+          ...basePage,
         },
         {
           slug: 'riscaldamento',
-          rewrite: 'riscaldamento/page/1',
+          products: [dummyProduct, dummyProduct, dummyProduct],
+          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
       ]);
     });
 
-    test('generates hierarchical numbered and main rewrites', () => {
+    test('generates hierarchical numbered pages, heirarchical page, main numbered pages and main page', () => {
       const generatedCategoryPages = getCategoryPaths(
         { ...preparedDbWithProducts[34], subCategories },
         {
@@ -418,33 +432,44 @@ describe.each<[undefined | FlatCategory[], string]>([
         3,
       );
 
+      const basePage = {
+        title: 'Camini',
+      };
+
       expect(generatedCategoryPages).toStrictEqual([
         {
-          title: 'Camini',
           slug: 'riscaldamento/camini-inserti/page/1',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
         {
-          title: 'Camini',
           slug: 'riscaldamento/camini-inserti/page/2',
           products: [dummyProduct, dummyProduct],
+          ...basePage,
         },
         {
           slug: 'riscaldamento/camini-inserti',
-          rewrite: 'riscaldamento/camini-inserti/page/1',
+          products: [dummyProduct, dummyProduct, dummyProduct],
+          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
         {
           slug: 'camini-inserti/page/1',
-          rewrite: 'riscaldamento/camini-inserti/page/1',
+          products: [dummyProduct, dummyProduct, dummyProduct],
+          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
         {
           slug: 'camini-inserti/page/2',
-          rewrite: 'riscaldamento/camini-inserti/page/2',
+          products: [dummyProduct, dummyProduct],
+          ...basePage,
         },
         {
           slug: 'camini-inserti',
-          rewrite: 'riscaldamento/camini-inserti/page/1',
+          products: [dummyProduct, dummyProduct, dummyProduct],
+          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
         },
       ]);
     });
@@ -473,7 +498,7 @@ describe('generates product pages', () => {
       },
       {
         slug: 'test-product',
-        rewrite: 'caldaie-a-pellet/test-product',
+        product: dummyProduct,
       },
     ]);
   });
@@ -495,11 +520,11 @@ describe('generates product pages', () => {
       },
       {
         slug: 'test-product',
-        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+        product: dummyProduct,
       },
       {
         slug: 'caldaie-a-pellet/test-product',
-        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+        product: dummyProduct,
       },
     ]);
   });
@@ -571,7 +596,28 @@ test('generates the full payload', async () => {
         ],
       },
       {
-        rewrite: 'riscaldamento/page/1',
+        title: 'Riscaldamento',
+        products: [
+          {
+            id: 1,
+            name: 'test product',
+            slug: 'test-product',
+          },
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
+
+        subCategories: [
+          {
+            count: 9,
+            id: 35,
+            name: 'Caldaie',
+            slug: 'caldaie-a-pellet',
+          },
+        ],
         slug: 'riscaldamento',
       },
       {
@@ -594,15 +640,63 @@ test('generates the full payload', async () => {
         ],
       },
       {
-        rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+        title: 'Caldaie',
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
+
+        subCategories: [
+          {
+            count: 3,
+            id: 406,
+            name: 'Caldaie a pellet',
+            slug: 'caldaie-a-pellet-caldaie-a-pellet',
+          },
+        ],
         slug: 'riscaldamento/caldaie-a-pellet',
       },
       {
-        rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+        title: 'Caldaie',
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
+
+        subCategories: [
+          {
+            count: 3,
+            id: 406,
+            name: 'Caldaie a pellet',
+            slug: 'caldaie-a-pellet-caldaie-a-pellet',
+          },
+        ],
         slug: 'caldaie-a-pellet/page/1',
       },
       {
-        rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+        title: 'Caldaie',
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
+
+        subCategories: [
+          {
+            count: 3,
+            id: 406,
+            name: 'Caldaie a pellet',
+            slug: 'caldaie-a-pellet-caldaie-a-pellet',
+          },
+        ],
         slug: 'caldaie-a-pellet',
       },
       {
@@ -617,18 +711,36 @@ test('generates the full payload', async () => {
         slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
       },
       {
-        rewrite:
-          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        title: 'Caldaie a pellet',
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
         slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet',
       },
       {
-        rewrite:
-          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        title: 'Caldaie a pellet',
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
         slug: 'caldaie-a-pellet-caldaie-a-pellet/page/1',
       },
       {
-        rewrite:
-          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        title: 'Caldaie a pellet',
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
         slug: 'caldaie-a-pellet-caldaie-a-pellet',
       },
     ],
@@ -642,7 +754,11 @@ test('generates the full payload', async () => {
         slug: 'riscaldamento/test-product',
       },
       {
-        rewrite: 'riscaldamento/test-product',
+        product: {
+          id: 1,
+          name: 'test product',
+          slug: 'test-product',
+        },
         slug: 'test-product',
       },
       {
@@ -654,7 +770,11 @@ test('generates the full payload', async () => {
         slug: 'riscaldamento/test-product',
       },
       {
-        rewrite: 'riscaldamento/test-product',
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
         slug: 'test-product',
       },
       {
@@ -666,11 +786,19 @@ test('generates the full payload', async () => {
         slug: 'riscaldamento/caldaie-a-pellet/test-product',
       },
       {
-        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
         slug: 'test-product',
       },
       {
-        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
         slug: 'caldaie-a-pellet/test-product',
       },
       {
@@ -682,13 +810,19 @@ test('generates the full payload', async () => {
         slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product',
       },
       {
-        rewrite:
-          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product',
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
         slug: 'test-product',
       },
       {
-        rewrite:
-          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product',
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
         slug: 'caldaie-a-pellet-caldaie-a-pellet/test-product',
       },
     ],
