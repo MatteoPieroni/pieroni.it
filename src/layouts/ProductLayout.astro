@@ -54,97 +54,107 @@ const {
     <h1>{title}</h1>
 
     <div class="product-content">
-      {images && (
-        <div class="product-gallery">
-          {images.featured && (
-            <div class="featured-image">
-              <img
-                src={images.featured.src}
-                alt={images.featured.alt || title}
-                loading="lazy"
-              />
-            </div>
-          )}
-          {images.gallery && images.gallery.length > 0 && (
-            <div class="gallery-images">
-              {images.gallery.map((image) => (
+      {
+        images && (
+          <div class="product-gallery">
+            {images.featured && (
+              <div class="featured-image">
                 <img
-                  src={image.src}
-                  alt={image.alt || title}
+                  src={images.featured.src}
+                  alt={images.featured.alt || title}
                   loading="lazy"
                 />
-              ))}
-            </div>
-          )}
-        </div>
-      )}
+              </div>
+            )}
+            {images.gallery && images.gallery.length > 0 && (
+              <div class="gallery-images">
+                {images.gallery.map((image) => (
+                  <img
+                    src={image.src}
+                    alt={image.alt || title}
+                    loading="lazy"
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )
+      }
 
       <div class="product-info">
-        {description && (
-          <div class="product-description" set:html={description} />
-        )}
+        {
+          description && (
+            <div class="product-description" set:html={description} />
+          )
+        }
 
-        {fullDescription && (
-          <div class="product-full-description">
-            <h2>Descrizione</h2>
-            <div set:html={fullDescription} />
-          </div>
-        )}
+        {
+          fullDescription && (
+            <div class="product-full-description">
+              <h2>Descrizione</h2>
+              <div set:html={fullDescription} />
+            </div>
+          )
+        }
 
-        {attributes && attributes.length > 0 && (
-          <div class="product-attributes">
-            <h2>Informazioni aggiuntive</h2>
-            <table>
-              <tbody>
-                {attributes
-                  .filter((attr) => attr.visible !== false)
-                  .map((attr) => (
-                    <tr>
-                      <td>{attr.name}</td>
-                      <td>
-                        {attr.options.map((option: string, index: number) => {
-                          const slug =
-                            attr.slug ||
-                            attr.name.toLowerCase().replace(/\s+/g, '-');
-                          const optionSlug = option
-                            .toLowerCase()
-                            .replace(/\s+/g, '-');
-                          return (
-                            <>
-                              {index > 0 && ', '}
-                              <a href={`/${slug}/${optionSlug}/`}>{option}</a>
-                            </>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+        {
+          attributes && attributes.length > 0 && (
+            <div class="product-attributes">
+              <h2>Informazioni aggiuntive</h2>
+              <table>
+                <tbody>
+                  {attributes
+                    .filter((attr) => attr.visible !== false)
+                    .map((attr) => (
+                      <tr>
+                        <td>{attr.name}</td>
+                        <td>
+                          {attr.options.map((option: string, index: number) => {
+                            const slug =
+                              attr.slug ||
+                              attr.name.toLowerCase().replace(/\s+/g, '-');
+                            const optionSlug = option
+                              .toLowerCase()
+                              .replace(/\s+/g, '-');
+                            return (
+                              <>
+                                {index > 0 && ', '}
+                                <a href={`/${slug}/${optionSlug}/`}>{option}</a>
+                              </>
+                            );
+                          })}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+          )
+        }
 
-        {categories && categories.length > 0 && (
-          <div class="product-categories">
-            <p>
-              <strong>Categorie:</strong>{' '}
-              {categories.map((cat, index) => (
-                <>
-                  {index > 0 && ', '}
-                  <a href={cat.slug ? `/c/${cat.slug}/` : '#'}>{cat.name}</a>
-                </>
-              ))}
-            </p>
-          </div>
-        )}
+        {
+          categories && categories.length > 0 && (
+            <div class="product-categories">
+              <p>
+                <strong>Categorie:</strong>{' '}
+                {categories.map((cat, index) => (
+                  <>
+                    {index > 0 && ', '}
+                    <a href={cat.slug ? `/negozio/${cat.slug}/` : '#'}>
+                      {cat.name}
+                    </a>
+                  </>
+                ))}
+              </p>
+            </div>
+          )
+        }
 
         <div class="product-cta">
           <p>
             <strong>{ctaText}</strong>
           </p>
-          <a href={ctaLink} class="button">
-            Prendi un appuntamento
-          </a>
+          <a href={ctaLink} class="button"> Prendi un appuntamento </a>
         </div>
       </div>
     </div>

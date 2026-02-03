@@ -412,3 +412,27 @@ export const getAllCategories = async (
     productsPages: productsPages,
   };
 };
+
+export const getCategoriesFromSlug = (
+  slug: string[],
+  categories = categoriesData,
+) => {
+  const flatCategories = getFlatCategories(categories);
+  const categoriesFromSlug = [];
+
+  console.log({ slug });
+
+  for (const segment of slug) {
+    const category = Object.values(flatCategories).find(
+      (category) => category.slug === segment,
+    );
+
+    if (!category) {
+      continue;
+    }
+
+    categoriesFromSlug.push(category);
+  }
+
+  return categoriesFromSlug;
+};

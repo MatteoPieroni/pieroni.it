@@ -1,9 +1,9 @@
 ---
-import { getAllCategories } from '../../data/products';
+import { getAllCategories, getCategoriesFromSlug } from '../../data/products';
+import ProductLayout from '../../layouts/ProductLayout.astro';
+import ShopCategoryLayout from '../../layouts/ShopCategoryLayout.astro';
 
 export async function getStaticPaths() {
-  console.log('test');
-
   const { categories, productsPages } = await getAllCategories();
 
   const categoryPages = categories.map((category) => ({
@@ -18,7 +18,6 @@ export async function getStaticPaths() {
             title: category.title,
           }
         : {}),
-      ...('rewrite' in category ? { rewrite: category.rewrite } : {}),
     },
   }));
 
@@ -35,97 +34,137 @@ export async function getStaticPaths() {
   return [...categoryPages, ...usableProductPages];
 }
 
-// interface Props {
-//   product: any;
-// }
+interface Props {
+  product?: any;
+  products?: any[];
+  subCategories?: any[];
+  title?: string;
+}
 
-const { product, title: catTitle } = Astro.props;
-// const { category, slug } = Astro.params;
+const { product, products, subCategories, title: catTitle } = Astro.props;
+const { slug } = Astro.params;
 
-const title = product?.title || catTitle;
+// Determine if this is a category page or product page
+const isCategoryPage = products && catTitle;
+const isProductPage = product;
 
-// // Extract sub-categories from slug (all except the last element which is the product slug)
-// const subCategories = slug ? slug.slice(0, -1) : [];
-// const productSlug = slug ? slug[slug.length - 1] : product.slug;
+// Initialize variables for both page types
+let breadcrumbs: Array<{ label: string; href: string }> = [];
+let formattedProducts: any[] = [];
+let formattedSubcategories: any[] = [];
+let title = '';
+let images: any = undefined;
+let description = '';
+let fullDescription = '';
+let attributes: any[] = [];
+let categories: any[] = [];
 
-// // Build breadcrumbs dynamically
-const breadcrumbs = [{ label: 'Negozio', href: '/negozio/' }];
+// remove the numbered pages
+const cleanSlug = slug.replace(/\/page\/.*/, '');
+const categoriesForBreadcrumbs = getCategoriesFromSlug(cleanSlug.split('/'));
+console.log({ categoriesForBreadcrumbs });
 
-// // Add category breadcrumb
-// const categoryLabel = category
-//   ? category.charAt(0).toUpperCase() + category.slice(1)
-//   : 'Categoria';
-// breadcrumbs.push({
-//   label: categoryLabel,
-//   href: `/negozio/${category}/`,
-// });
+breadcrumbs = [
+  { label: 'Negozio', href: '/negozio/' },
+  ...categoriesForBreadcrumbs.reduce<{ label: string; href: string }[]>(
+    (acc, currentCategory) => [
+      ...acc,
+      {
+        label: currentCategory.name,
+        href: acc.at(-1)
+          ? `${acc.at(-1).href}/${currentCategory.slug}`
+          : `/negozio/${currentCategory.slug}`,
+      },
+    ],
+    [],
+  ),
+];
 
-// // Add sub-category breadcrumbs
-// let subCategoryPath = `/negozio/${category}/`;
-// for (let i = 0; i < subCategories.length; i++) {
-//   const subCat = subCategories[i];
-//   subCategoryPath += `${subCat}/`;
-//   const subCatLabel =
-//     subCat.charAt(0).toUpperCase() + subCat.slice(1).replace(/-/g, ' ');
-//   breadcrumbs.push({
-//     label: subCatLabel,
-//     href: subCategoryPath,
-//   });
-// }
+if (isCategoryPage) {
+  // Format products for the layout - only image and name
+  formattedProducts = (products || []).map((p: any) => ({
+    id: p.id,
+    name: p.name,
+    slug: p.slug,
+    // yikes
+    permalink: p.permalink.replace('https://www.pieroni.it', ''),
+    images: (p.images || []).map((img: any) => ({
+      src: img.src,
+      alt: img.alt || p.name,
+    })),
+  }));
 
-// Add product breadcrumb
-// const title = product.name;
-// breadcrumbs.push({
-//   label: title,
-//   href: `/negozio/${category}/${slug?.join('/') || productSlug}/`,
-// });
+  // Format subcategories
+  formattedSubcategories = (subCategories || []).map((subcat: any) => ({
+    name: subcat.name,
+    slug: `${cleanSlug}/${subcat.slug}`,
+    count: subcat.count || 0,
+  }));
+} else if (isProductPage) {
+  // This is a product page
+  title = product.name || product.title;
 
-// Prepare images
-const galleryImages = product.images || [];
-const images = {
-  featured: galleryImages[0]
-    ? {
-        src: galleryImages[0].src,
-        alt: galleryImages[0].alt || title,
-      }
-    : undefined,
-  gallery: galleryImages.slice(1).map((img: any) => ({
-    src: img.src,
-    alt: img.alt || title,
-  })),
-};
+  breadcrumbs.push({
+    label: title,
+    href: product.slug,
+  });
 
-// Prepare description
-const description = product.description || product.fullDescription;
-const fullDescription = product.fullDescription;
+  // Prepare images
+  const galleryImages = product.images || [];
+  images = {
+    featured: galleryImages[0]
+      ? {
+          src: galleryImages[0].src,
+          alt: galleryImages[0].alt || title,
+        }
+      : undefined,
+    gallery: galleryImages.slice(1).map((img: any) => ({
+      src: img.src,
+      alt: img.alt || title,
+    })),
+  };
 
-// Prepare attributes
-const attributes =
-  product.attributes?.map((attr: any) => ({
-    name: attr.name,
-    slug: attr.slug,
-    options: attr.options || [],
-    visible: attr.visible,
-  })) || [];
+  // Prepare description
+  description = product.short_description || product.description;
+  fullDescription = product.description || product.fullDescription;
 
-// // Prepare categories
-const categories =
-  product.categories?.map((cat: any) => ({
-    name: cat.name,
-    slug: cat.slug,
-  })) || [];
+  // Prepare attributes
+  attributes =
+    product.attributes?.map((attr: any) => ({
+      name: attr.name,
+      slug: attr.slug,
+      options: attr.options || [],
+      visible: attr.visible,
+    })) || [];
 
-import ProductLayout from '../../layouts/ProductLayout.astro';
+  // Prepare categories
+  categories =
+    product.categories?.map((cat: any) => ({
+      name: cat.name,
+      slug: cat.slug,
+    })) || [];
+}
 ---
 
-<ProductLayout
-  title={title}
-  breadcrumbs={breadcrumbs}
-  images={images}
-  description={description}
-  fullDescription={fullDescription}
-  attributes={attributes}
-  categories={categories}
-  ctaText="Sei interessato? Prendi un appuntamento!"
-  ctaLink="/appuntamento-sala-mostra/"
-/>
+{
+  isCategoryPage ? (
+    <ShopCategoryLayout
+      title={catTitle || 'Categoria'}
+      breadcrumbs={breadcrumbs}
+      products={formattedProducts}
+      subcategories={formattedSubcategories}
+    />
+  ) : isProductPage ? (
+    <ProductLayout
+      title={title}
+      breadcrumbs={breadcrumbs}
+      images={images}
+      description={description}
+      fullDescription={fullDescription}
+      attributes={attributes}
+      categories={categories}
+      ctaText="Sei interessato? Prendi un appuntamento!"
+      ctaLink="/appuntamento-sala-mostra/"
+    />
+  ) : null
+}

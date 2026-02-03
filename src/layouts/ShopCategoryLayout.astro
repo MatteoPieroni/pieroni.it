@@ -1,0 +1,191 @@
+---
+import MenuLayout from './MenuLayout.astro';
+
+interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  permalink: string;
+  images: Array<{
+    src: string;
+    alt: string;
+  }>;
+}
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{
+    label: string;
+    href: string;
+  }>;
+  products: Product[];
+  subcategories?: Array<{
+    name: string;
+    slug: string;
+    count: number;
+  }>;
+}
+
+const { title, breadcrumbs, products, subcategories } = Astro.props;
+---
+
+<MenuLayout breadcrumbs={breadcrumbs}>
+  <div class="margin-container shop-category-page">
+    <h1>{title}</h1>
+
+    {
+      subcategories && subcategories.length > 0 && (
+        <div class="subcategories">
+          <h2>Sottocategorie</h2>
+          <ul class="subcategories-list">
+            {subcategories.map((subcat) => (
+              <li>
+                <a href={`/negozio/${subcat.slug}/`}>
+                  {subcat.name} ({subcat.count})
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    {
+      products && products.length > 0 && (
+        <div class="products-grid">
+          {products.map((product) => (
+            <div class="product-card">
+              <a href={product.permalink} class="product-link">
+                {product.images && product.images.length > 0 && (
+                  <div class="product-image">
+                    <img
+                      src={product.images[0].src}
+                      alt={product.images[0].alt || product.name}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div class="product-info">
+                  <h3 class="product-title">{product.name}</h3>
+                </div>
+              </a>
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    {
+      (!products || products.length === 0) && (
+        <p>Nessun prodotto trovato in questa categoria.</p>
+      )
+    }
+  </div>
+</MenuLayout>
+
+<style>
+  .shop-category-page {
+    padding-block: 2rem;
+  }
+
+  .shop-category-page h1 {
+    margin-block-end: 2rem;
+  }
+
+  .subcategories {
+    margin-block-end: 3rem;
+  }
+
+  .subcategories h2 {
+    margin-block-end: 1rem;
+  }
+
+  .subcategories-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .subcategories-list li {
+    margin: 0;
+  }
+
+  .subcategories-list a {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: var(--bg-darker);
+    border-radius: var(--radius);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .subcategories-list a:hover {
+    background: var(--color-blue);
+    color: var(--text-contrast);
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-block-start: 2rem;
+  }
+
+  .product-card {
+    border: 1px solid var(--bg-darker);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .product-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-link {
+    display: block;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .product-image {
+    width: 100%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--bg-darker);
+  }
+
+  .product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-info {
+    padding: 1.5rem;
+  }
+
+  .product-title {
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .products-grid {
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+  }
+</style>
