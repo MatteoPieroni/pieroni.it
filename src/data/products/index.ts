@@ -42,7 +42,7 @@ export type CategoryCollectionWithProduct = Record<
 
 export const enrichCategoriesWithProducts = async (
   categories: CategoryCollection,
-  fetchProducts = getProductsInCategory,
+  fetchProducts: typeof getProductsInCategory,
 ) => {
   const categoriesWithProducts: CategoryCollectionWithProduct = {};
 
@@ -373,4 +373,32 @@ export const getProductsPaths = (
   }
 
   return productPages.flat();
+};
+
+export const getAllCategories = async (
+  categories: typeof categoriesData,
+  fetchProducts = getProductsInCategory,
+) => {
+  const flatCategories = getFlatCategories(categories);
+  const categoriesWithProducts = await enrichCategoriesWithProducts(
+    flatCategories,
+    fetchProducts,
+  );
+  const categorySlugs = createSlugsCollection(categories);
+
+  const categoriesPages: CategoryPageData[] = [];
+  const productsPages: ProductPageData[] = [];
+
+  for (const category of Object.values(categoriesWithProducts)) {
+    const categoryPaths = getCategoryPaths(category, categorySlugs, 12);
+    const productPaths = getProductsPaths(category, categorySlugs);
+
+    categoriesPages.push(...categoryPaths);
+    productsPages.push(...productPaths);
+  }
+
+  return {
+    categories: categoriesPages,
+    productsPages: productsPages,
+  };
 };

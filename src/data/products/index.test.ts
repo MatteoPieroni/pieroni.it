@@ -8,6 +8,7 @@ import {
   type CategoryCollectionWithProduct,
   type FlatCategory,
   getProductsPaths,
+  getAllCategories,
 } from '.';
 
 const mockCategories = [
@@ -495,5 +496,192 @@ describe('generates product pages', () => {
         rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
       },
     ]);
+  });
+});
+
+test('generates the full payload', async () => {
+  const result = await getAllCategories(
+    [
+      {
+        id: 24,
+        name: 'Riscaldamento',
+        slug: 'riscaldamento',
+        count: 73,
+        children: [
+          {
+            id: 35,
+            name: 'Caldaie',
+            slug: 'caldaie-a-pellet',
+            count: 9,
+            children: [
+              {
+                id: 406,
+                name: 'Caldaie a pellet',
+                slug: 'caldaie-a-pellet-caldaie-a-pellet',
+                count: 3,
+                children: [],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    async (category) => {
+      if (category.id === 24) {
+        return [
+          { ...dummyProduct, id: 1 },
+          { ...dummyProduct, id: 2 },
+        ];
+      }
+
+      return [{ ...dummyProduct, id: 2 }];
+    },
+  );
+
+  expect(result).toStrictEqual({
+    categories: [
+      {
+        products: [
+          {
+            id: 1,
+            name: 'test product',
+            slug: 'test-product',
+          },
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
+        slug: 'riscaldamento/page/1',
+        subCategories: [
+          {
+            count: 9,
+            id: 35,
+            name: 'Caldaie',
+            slug: 'caldaie-a-pellet',
+          },
+        ],
+      },
+      {
+        rewrite: 'riscaldamento/page/1',
+        slug: 'riscaldamento',
+      },
+      {
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
+        slug: 'riscaldamento/caldaie-a-pellet/page/1',
+        subCategories: [
+          {
+            count: 3,
+            id: 406,
+            name: 'Caldaie a pellet',
+            slug: 'caldaie-a-pellet-caldaie-a-pellet',
+          },
+        ],
+      },
+      {
+        rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+        slug: 'riscaldamento/caldaie-a-pellet',
+      },
+      {
+        rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+        slug: 'caldaie-a-pellet/page/1',
+      },
+      {
+        rewrite: 'riscaldamento/caldaie-a-pellet/page/1',
+        slug: 'caldaie-a-pellet',
+      },
+      {
+        products: [
+          {
+            id: 2,
+            name: 'test product',
+            slug: 'test-product',
+          },
+        ],
+        slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+      },
+      {
+        rewrite:
+          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet',
+      },
+      {
+        rewrite:
+          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        slug: 'caldaie-a-pellet-caldaie-a-pellet/page/1',
+      },
+      {
+        rewrite:
+          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        slug: 'caldaie-a-pellet-caldaie-a-pellet',
+      },
+    ],
+    productsPages: [
+      {
+        product: {
+          id: 1,
+          name: 'test product',
+          slug: 'test-product',
+        },
+        slug: 'riscaldamento/test-product',
+      },
+      {
+        rewrite: 'riscaldamento/test-product',
+        slug: 'test-product',
+      },
+      {
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
+        slug: 'riscaldamento/test-product',
+      },
+      {
+        rewrite: 'riscaldamento/test-product',
+        slug: 'test-product',
+      },
+      {
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
+        slug: 'riscaldamento/caldaie-a-pellet/test-product',
+      },
+      {
+        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+        slug: 'test-product',
+      },
+      {
+        rewrite: 'riscaldamento/caldaie-a-pellet/test-product',
+        slug: 'caldaie-a-pellet/test-product',
+      },
+      {
+        product: {
+          id: 2,
+          name: 'test product',
+          slug: 'test-product',
+        },
+        slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product',
+      },
+      {
+        rewrite:
+          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product',
+        slug: 'test-product',
+      },
+      {
+        rewrite:
+          'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product',
+        slug: 'caldaie-a-pellet-caldaie-a-pellet/test-product',
+      },
+    ],
   });
 });
