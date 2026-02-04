@@ -30,17 +30,17 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
 ---
 
 <MenuLayout breadcrumbs={breadcrumbs}>
-  <div class="margin-container shop-category-page">
+  <div class="margin-container">
     <h1>{title}</h1>
 
     {
       subcategories && subcategories.length > 0 && (
-        <div class="subcategories">
+        <div class="row">
           <h2>Sottocategorie</h2>
           <ul class="subcategories-list">
             {subcategories.map((subcat) => (
               <li>
-                <a href={`/negozio/${subcat.slug}/`}>
+                <a href={`/negozio/${subcat.slug}/`} class="button">
                   {subcat.name} ({subcat.count})
                 </a>
               </li>
@@ -55,7 +55,7 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
         <div class="products-grid">
           {products.map((product) => (
             <div class="product-card">
-              <a href={product.permalink} class="product-link">
+              <a href={product.permalink}>
                 {product.images && product.images.length > 0 && (
                   <div class="product-image">
                     <img
@@ -66,7 +66,7 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
                   </div>
                 )}
                 <div class="product-info">
-                  <h3 class="product-title">{product.name}</h3>
+                  <h2>{product.name}</h2>
                 </div>
               </a>
             </div>
@@ -84,19 +84,14 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
 </MenuLayout>
 
 <style>
-  .shop-category-page {
-    padding-block: 2rem;
+  h1 {
+    font-size: 2.5rem;
+    text-align: center;
   }
 
-  .shop-category-page h1 {
-    margin-block-end: 2rem;
-  }
-
-  .subcategories {
-    margin-block-end: 3rem;
-  }
-
-  .subcategories h2 {
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 100;
     margin-block-end: 1rem;
   }
 
@@ -106,6 +101,7 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
     margin: 0;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 1rem;
   }
 
@@ -115,77 +111,72 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
 
   .subcategories-list a {
     display: inline-block;
-    padding: 0.5rem 1rem;
-    background: var(--bg-darker);
-    border-radius: var(--radius);
-    text-decoration: none;
-    transition: background 0.2s;
-  }
-
-  .subcategories-list a:hover {
-    background: var(--color-blue);
-    color: var(--text-contrast);
   }
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 2rem;
-    margin-block-start: 2rem;
+
+    @media (min-width: 960px) {
+      gap: 3rem;
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   .product-card {
-    border: 1px solid var(--bg-darker);
-    border-radius: var(--radius);
-    overflow: hidden;
-    transition: box-shadow 0.2s;
+    position: relative;
   }
 
-  .product-card:hover {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  .product-card h2 {
+    text-align: center;
+
+    &:after {
+      content: '';
+      background: #ee8900;
+      visibility: hidden;
+      width: 20%;
+      height: 0.35rem;
+      position: absolute;
+      bottom: -0.5rem;
+      display: block;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   }
 
-  .product-link {
+  .product-card:hover,
+  .product-card:focus-within {
+    & img {
+      transform: translate(-5px, -5px);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    & h2:after {
+      visibility: visible;
+      -webkit-transform: translateX(-25%);
+      -ms-transform: translateX(-25%);
+      transform: translateX(-25%);
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+
+  .product-card a {
     display: block;
     text-decoration: none;
-    color: var(--text);
   }
 
   .product-image {
     width: 100%;
+    margin-block-end: 1.5rem;
     aspect-ratio: 1;
-    overflow: hidden;
-    background: var(--bg-darker);
   }
 
   .product-image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-
-  .product-info {
-    padding: 1.5rem;
-  }
-
-  .product-title {
-    font-size: 1.25rem;
-    margin: 0;
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: normal;
-    text-align: center;
-  }
-
-  @media (min-width: 768px) {
-    .products-grid {
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    }
-  }
-
-  @media (min-width: 1024px) {
-    .products-grid {
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    }
+    border-radius: var(--radius);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 </style>
