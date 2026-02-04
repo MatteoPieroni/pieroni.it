@@ -12,20 +12,7 @@
 ### pages
 
 - Privacy
-
-## Products
-
-- Cabine e Piatti Doccia
-- Vasche da Bagno
-- Mobili Bagno e Sanitari
-- Accessori Bagno
-- Pavimenti
-- Rivestimenti
-- Esterni
-- Stufe
-- Camini
-- Caldaie
-- Offerte e Prezzi Pellet
+- negozio
 
 ## Product
 
@@ -35,7 +22,6 @@
 
 - blog
 - speciali
-- products
 - search
 
 ## Other

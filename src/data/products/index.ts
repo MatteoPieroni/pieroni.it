@@ -189,11 +189,22 @@ const getCount = (total: number, currentPageNumber: number, limit: number) => {
     };
   }
 
+  const firstElement = currentPageNumber * limit - (limit - 1);
+  const lastElement = currentPageNumber * limit;
+
+  // last page
+  if (lastElement >= total) {
+    return {
+      total,
+      start: firstElement,
+      end: total,
+    };
+  }
+
   return {
     total,
-    start: currentPageNumber * limit - (limit - 1),
-    end:
-      currentPageNumber * limit < limit + 1 ? currentPageNumber * limit : total,
+    start: firstElement,
+    end: lastElement,
   };
 };
 const getPagination = (
