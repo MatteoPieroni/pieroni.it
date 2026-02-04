@@ -1,0 +1,183 @@
+---
+type PaginationPage = {
+  number: number;
+  href: string;
+};
+
+interface Props {
+  pagination: {
+    current: PaginationPage;
+    previous?: PaginationPage;
+    next?: PaginationPage;
+    first: PaginationPage;
+    last: PaginationPage;
+  };
+  basePath?: string;
+}
+
+const { pagination, basePath = '/negozio' } = Astro.props;
+---
+
+<nav class="pagination" aria-label="Paginazione">
+  {
+    pagination.previous && (
+      <a
+        href={`${basePath}/${pagination.previous.href}`}
+        class="pagination-link pagination-prev"
+      >
+        ←<span class="screen-reader-text">Pagina precedente</span>
+      </a>
+    )
+  }
+
+  <ul class="pagination-list">
+    {
+      pagination.first.number !== pagination.current.number && (
+        <li>
+          <a
+            href={`${basePath}/${pagination.first.href}`}
+            class="pagination-link"
+          >
+            {pagination.first.number}
+          </a>
+        </li>
+      )
+    }
+
+    {
+      pagination.previous &&
+        pagination.previous.number > pagination.first.number + 1 && (
+          <li class="pagination-ellipsis">…</li>
+        )
+    }
+
+    {
+      pagination.previous &&
+        pagination.previous.number !== pagination.first.number && (
+          <li>
+            <a
+              href={`${basePath}/${pagination.previous.href}`}
+              class="pagination-link"
+            >
+              {pagination.previous.number}
+            </a>
+          </li>
+        )
+    }
+
+    <li>
+      <a
+        href={`${basePath}/${pagination.current.href}`}
+        class="pagination-current"
+        aria-current="page"
+      >
+        {pagination.current.number}
+      </a>
+    </li>
+
+    {
+      pagination.next && pagination.next.number !== pagination.last.number && (
+        <li>
+          <a
+            href={`${basePath}/${pagination.next.href}`}
+            class="pagination-link"
+          >
+            {pagination.next.number}
+          </a>
+        </li>
+      )
+    }
+
+    {
+      pagination.next &&
+        pagination.next.number < pagination.last.number - 1 && (
+          <li class="pagination-ellipsis">…</li>
+        )
+    }
+
+    {
+      pagination.last.number !== pagination.current.number && (
+        <li>
+          <a
+            href={`${basePath}/${pagination.last.href}`}
+            class="pagination-link"
+          >
+            {pagination.last.number}
+          </a>
+        </li>
+      )
+    }
+  </ul>
+
+  {
+    pagination.next && (
+      <a
+        href={`${basePath}/${pagination.next.href}`}
+        class="pagination-link pagination-next"
+      >
+        <span class="screen-reader-text">Pagina successiva</span>→
+      </a>
+    )
+  }
+</nav>
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .pagination-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .pagination-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    border: 1px solid var(--bg-darker);
+    border-radius: var(--radius);
+  }
+
+  .pagination-link:hover {
+    background: var(--bg-darker);
+    border-color: var(--color-blue);
+  }
+
+  .pagination-current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.5rem;
+    font-weight: 600;
+    color: var(--text-contrast);
+    background: var(--color-blue);
+    border-radius: var(--radius);
+  }
+
+  .pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    padding: 0 0.5rem;
+    color: var(--text);
+  }
+
+  .pagination-prev,
+  .pagination-next {
+    min-width: auto;
+    padding: 0.5rem 1rem;
+  }
+</style>

@@ -325,6 +325,11 @@ describe.each<[undefined | FlatCategory[], string]>([
       const basePage = {
         title: 'Riscaldamento',
         products: [dummyProduct, dummyProduct, dummyProduct, dummyProduct],
+        count: {
+          end: 4,
+          start: 1,
+          total: 4,
+        },
         ...(subCategories ? { subCategories } : {}),
       };
 
@@ -357,6 +362,11 @@ describe.each<[undefined | FlatCategory[], string]>([
       const basePage = {
         title: 'Caldaie',
         products: [dummyProduct],
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
         ...(subCategories ? { subCategories } : {}),
       };
 
@@ -403,17 +413,86 @@ describe.each<[undefined | FlatCategory[], string]>([
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
           ...basePage,
+          count: {
+            end: 3,
+            start: 1,
+            total: 4,
+          },
+          pagination: {
+            current: {
+              href: 'riscaldamento/page/1',
+              number: 1,
+            },
+            first: {
+              href: 'riscaldamento/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'riscaldamento/page/2',
+              number: 2,
+            },
+            next: {
+              href: 'riscaldamento/page/2',
+              number: 2,
+            },
+          },
         },
         {
           slug: 'riscaldamento/page/2',
           products: [dummyProduct],
           ...basePage,
+          count: {
+            end: 4,
+            start: 4,
+            total: 4,
+          },
+          pagination: {
+            current: {
+              href: 'riscaldamento/page/2',
+              number: 2,
+            },
+            first: {
+              href: 'riscaldamento/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'riscaldamento/page/2',
+              number: 2,
+            },
+            previous: {
+              href: 'riscaldamento/page/1',
+              number: 1,
+            },
+          },
         },
         {
           slug: 'riscaldamento',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
           ...basePage,
+          count: {
+            end: 3,
+            start: 1,
+            total: 4,
+          },
+          pagination: {
+            current: {
+              href: 'riscaldamento',
+              number: 1,
+            },
+            first: {
+              href: 'riscaldamento/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'riscaldamento/page/2',
+              number: 2,
+            },
+            next: {
+              href: 'riscaldamento/page/2',
+              number: 2,
+            },
+          },
         },
       ]);
     });
@@ -435,6 +514,16 @@ describe.each<[undefined | FlatCategory[], string]>([
       const basePage = {
         title: 'Camini',
       };
+      const firstPageCount = {
+        end: 3,
+        start: 1,
+        total: 5,
+      };
+      const secondPageCount = {
+        end: 5,
+        start: 4,
+        total: 5,
+      };
 
       expect(generatedCategoryPages).toStrictEqual([
         {
@@ -442,34 +531,148 @@ describe.each<[undefined | FlatCategory[], string]>([
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
           ...basePage,
+          count: firstPageCount,
+          pagination: {
+            current: {
+              href: 'riscaldamento/camini-inserti/page/1',
+              number: 1,
+            },
+            first: {
+              href: 'riscaldamento/camini-inserti/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'riscaldamento/camini-inserti/page/2',
+              number: 2,
+            },
+            next: {
+              href: 'riscaldamento/camini-inserti/page/2',
+              number: 2,
+            },
+          },
         },
         {
           slug: 'riscaldamento/camini-inserti/page/2',
           products: [dummyProduct, dummyProduct],
           ...basePage,
+          count: secondPageCount,
+          pagination: {
+            current: {
+              href: 'riscaldamento/camini-inserti/page/2',
+              number: 2,
+            },
+            first: {
+              href: 'riscaldamento/camini-inserti/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'riscaldamento/camini-inserti/page/2',
+              number: 2,
+            },
+            previous: {
+              href: 'riscaldamento/camini-inserti/page/1',
+              number: 1,
+            },
+          },
         },
         {
           slug: 'riscaldamento/camini-inserti',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
           ...basePage,
+          count: firstPageCount,
+          pagination: {
+            current: {
+              href: 'riscaldamento/camini-inserti',
+              number: 1,
+            },
+            first: {
+              href: 'riscaldamento/camini-inserti/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'riscaldamento/camini-inserti/page/2',
+              number: 2,
+            },
+            next: {
+              href: 'riscaldamento/camini-inserti/page/2',
+              number: 2,
+            },
+          },
         },
         {
           slug: 'camini-inserti/page/1',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
           ...basePage,
+          count: firstPageCount,
+          pagination: {
+            current: {
+              href: 'camini-inserti/page/1',
+              number: 1,
+            },
+            first: {
+              href: 'camini-inserti/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'camini-inserti/page/2',
+              number: 2,
+            },
+            next: {
+              href: 'camini-inserti/page/2',
+              number: 2,
+            },
+          },
         },
         {
           slug: 'camini-inserti/page/2',
           products: [dummyProduct, dummyProduct],
           ...basePage,
+          count: secondPageCount,
+          pagination: {
+            current: {
+              href: 'camini-inserti/page/2',
+              number: 2,
+            },
+            first: {
+              href: 'camini-inserti/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'camini-inserti/page/2',
+              number: 2,
+            },
+            previous: {
+              href: 'camini-inserti/page/1',
+              number: 1,
+            },
+          },
         },
         {
           slug: 'camini-inserti',
           products: [dummyProduct, dummyProduct, dummyProduct],
           ...(subCategories ? { subCategories } : {}),
           ...basePage,
+          count: firstPageCount,
+          pagination: {
+            current: {
+              href: 'camini-inserti',
+              number: 1,
+            },
+            first: {
+              href: 'camini-inserti/page/1',
+              number: 1,
+            },
+            last: {
+              href: 'camini-inserti/page/2',
+              number: 2,
+            },
+            next: {
+              href: 'camini-inserti/page/2',
+              number: 2,
+            },
+          },
         },
       ]);
     });
@@ -537,19 +740,19 @@ test('generates the full payload', async () => {
         id: 24,
         name: 'Riscaldamento',
         slug: 'riscaldamento',
-        count: 73,
+        count: 2,
         children: [
           {
             id: 35,
             name: 'Caldaie',
             slug: 'caldaie-a-pellet',
-            count: 9,
+            count: 1,
             children: [
               {
                 id: 406,
                 name: 'Caldaie a pellet',
                 slug: 'caldaie-a-pellet-caldaie-a-pellet',
-                count: 3,
+                count: 1,
                 children: [],
               },
             ],
@@ -586,9 +789,14 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/page/1',
+        count: {
+          end: 2,
+          start: 1,
+          total: 2,
+        },
         subCategories: [
           {
-            count: 9,
+            count: 1,
             id: 35,
             name: 'Caldaie',
             slug: 'caldaie-a-pellet',
@@ -612,13 +820,18 @@ test('generates the full payload', async () => {
 
         subCategories: [
           {
-            count: 9,
+            count: 1,
             id: 35,
             name: 'Caldaie',
             slug: 'caldaie-a-pellet',
           },
         ],
         slug: 'riscaldamento',
+        count: {
+          end: 2,
+          start: 1,
+          total: 2,
+        },
       },
       {
         title: 'Caldaie',
@@ -630,9 +843,14 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet/page/1',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
         subCategories: [
           {
-            count: 3,
+            count: 1,
             id: 406,
             name: 'Caldaie a pellet',
             slug: 'caldaie-a-pellet-caldaie-a-pellet',
@@ -651,13 +869,18 @@ test('generates the full payload', async () => {
 
         subCategories: [
           {
-            count: 3,
+            count: 1,
             id: 406,
             name: 'Caldaie a pellet',
             slug: 'caldaie-a-pellet-caldaie-a-pellet',
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
       },
       {
         title: 'Caldaie',
@@ -671,13 +894,18 @@ test('generates the full payload', async () => {
 
         subCategories: [
           {
-            count: 3,
+            count: 1,
             id: 406,
             name: 'Caldaie a pellet',
             slug: 'caldaie-a-pellet-caldaie-a-pellet',
           },
         ],
         slug: 'caldaie-a-pellet/page/1',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
       },
       {
         title: 'Caldaie',
@@ -691,13 +919,18 @@ test('generates the full payload', async () => {
 
         subCategories: [
           {
-            count: 3,
+            count: 1,
             id: 406,
             name: 'Caldaie a pellet',
             slug: 'caldaie-a-pellet-caldaie-a-pellet',
           },
         ],
         slug: 'caldaie-a-pellet',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
       },
       {
         title: 'Caldaie a pellet',
@@ -709,6 +942,11 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
       },
       {
         title: 'Caldaie a pellet',
@@ -720,6 +958,11 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
       },
       {
         title: 'Caldaie a pellet',
@@ -731,6 +974,11 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'caldaie-a-pellet-caldaie-a-pellet/page/1',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
       },
       {
         title: 'Caldaie a pellet',
@@ -742,6 +990,11 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'caldaie-a-pellet-caldaie-a-pellet',
+        count: {
+          end: 1,
+          start: 1,
+          total: 1,
+        },
       },
     ],
     productsPages: [

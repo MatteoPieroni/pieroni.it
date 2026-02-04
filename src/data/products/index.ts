@@ -145,10 +145,111 @@ const splitProductsIntoPages = (array: unknown[], limit: number) => {
 
 type CategoryPageData = {
   slug: string;
-} & {
   title: string;
   products: any[];
   subCategories?: FlatCategory[];
+
+  count: {
+    total: number;
+    start: number;
+    end: number;
+  };
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
+};
+type PaginationPage = {
+  number: number;
+  href: string;
+};
+
+const getCount = (total: number, currentPageNumber: number, limit: number) => {
+  if (total < limit) {
+    return {
+      total,
+      start: 1,
+      end: total,
+    };
+  }
+
+  return {
+    total,
+    start: currentPageNumber * limit - (limit - 1),
+    end:
+      currentPageNumber * limit < limit + 1 ? currentPageNumber * limit : total,
+  };
+};
+const getPagination = (
+  currentSlug: string,
+  currentPageNumber: number,
+  totalPages: number,
+  baseSlug: string,
+) => {
+  const basePagination = {
+    current: {
+      number: currentPageNumber,
+      href: currentSlug,
+    },
+    first: {
+      number: 1,
+      href: `${baseSlug}/1`,
+    },
+    last: {
+      number: totalPages,
+      href: `${baseSlug}/${totalPages}`,
+    },
+  };
+  const previous = {
+    number: currentPageNumber - 1,
+    href: `${baseSlug}/${currentPageNumber - 1}`,
+  };
+  const next = {
+    number: currentPageNumber + 1,
+    href: `${baseSlug}/${currentPageNumber + 1}`,
+  };
+
+  if (currentPageNumber === 1) {
+    return {
+      ...basePagination,
+      next,
+    };
+  }
+
+  if (currentPageNumber === totalPages) {
+    return {
+      ...basePagination,
+      previous,
+    };
+  }
+
+  return {
+    ...basePagination,
+    previous: {
+      number: currentPageNumber - 1,
+      href: `${baseSlug}/${currentPageNumber - 1}`,
+    },
+    next: {
+      number: currentPageNumber + 1,
+      href: `${baseSlug}/${currentPageNumber + 1}`,
+    },
+  };
 };
 
 /**
@@ -180,6 +281,7 @@ export const getCategoryPaths = (
     const basePage = {
       title,
       products: category.products,
+      count: getCount(category.count, 1, limit),
       ...subCategories,
     };
 
@@ -239,15 +341,26 @@ export const getCategoryPaths = (
 
   if (!currentCategorySlugs.slugs.hierarchical) {
     const numberedPages: CategoryPageData[] = [];
+    const pageBaseSlug = `${category.slug}/page`;
 
     // generate numbered pages with products ({slug}/page/x)
     for (const [index, pageProducts] of splitProducts.entries()) {
+      const index1Base = index + 1;
+      const slug = `${pageBaseSlug}/${index1Base}`;
+
       numberedPages.push({
         ...basePage,
-        slug: `${category.slug}/page/${index + 1}`,
+        slug: slug,
         products: pageProducts,
         // add subcategories only on first page
         ...(index === 0 ? subCategories : []),
+        count: getCount(category.count, index1Base, limit),
+        pagination: getPagination(
+          slug,
+          index1Base,
+          splitProducts.length,
+          pageBaseSlug,
+        ),
       });
     }
 
@@ -257,23 +370,41 @@ export const getCategoryPaths = (
       products: splitProducts[0],
       slug: mainSlug,
       ...subCategories,
+      count: getCount(category.count, 1, limit),
+      pagination: getPagination(
+        mainSlug,
+        1,
+        splitProducts.length,
+        pageBaseSlug,
+      ),
     };
 
     return [...numberedPages, mainProductPage];
   }
 
   const hierarchicalSlug = currentCategorySlugs.slugs.hierarchical;
+  const pageBaseSlug = `${hierarchicalSlug}/page`;
 
   const numberedPages: CategoryPageData[] = [];
 
   // generate hierarchical numbered pages with products ({long-slug}/page/x)
   for (const [index, pageProducts] of splitProducts.entries()) {
+    const index1Base = index + 1;
+    const slug = `${pageBaseSlug}/${index1Base}`;
+
     numberedPages.push({
       ...basePage,
-      slug: `${hierarchicalSlug}/page/${index + 1}`,
+      slug,
       products: pageProducts,
       // add subcategories only on first page
       ...(index === 0 ? subCategories : []),
+      count: getCount(category.count, index1Base, limit),
+      pagination: getPagination(
+        slug,
+        index1Base,
+        splitProducts.length,
+        pageBaseSlug,
+      ),
     });
   }
 
@@ -283,18 +414,26 @@ export const getCategoryPaths = (
     products: splitProducts[0],
     slug: currentCategorySlugs.slugs.hierarchical,
     ...subCategories,
+    count: getCount(category.count, 1, limit),
+    pagination: getPagination(
+      currentCategorySlugs.slugs.hierarchical,
+      1,
+      splitProducts.length,
+      pageBaseSlug,
+    ),
   };
 
   // generate main numbered pages ({slug}/page/x)
   const mainNumberedProductPages: CategoryPageData[] = numberedPages.map(
-    (numberedPage) => ({
-      ...basePage,
-      // FIX: 2 digit numbers
-      slug: `${mainSlug}/page/${numberedPage.slug.at(-1)}`,
-      products: numberedPage.products,
-      ...(numberedPage.subCategories
-        ? { subCategories: numberedPage.subCategories }
-        : {}),
+    (numberedPage, index) => ({
+      ...numberedPage,
+      slug: `${mainSlug}/page/${index + 1}`,
+      pagination: getPagination(
+        `${mainSlug}/page/${index + 1}`,
+        index + 1,
+        splitProducts.length,
+        `${mainSlug}/page`,
+      ),
     }),
   );
 
@@ -304,6 +443,13 @@ export const getCategoryPaths = (
     slug: mainSlug,
     products: splitProducts[0],
     ...subCategories,
+    count: getCount(category.count, 1, limit),
+    pagination: getPagination(
+      mainSlug,
+      1,
+      splitProducts.length,
+      `${mainSlug}/page`,
+    ),
   };
 
   return [
@@ -419,8 +565,6 @@ export const getCategoriesFromSlug = (
 ) => {
   const flatCategories = getFlatCategories(categories);
   const categoriesFromSlug = [];
-
-  console.log({ slug });
 
   for (const segment of slug) {
     const category = Object.values(flatCategories).find(
