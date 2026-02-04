@@ -1,5 +1,6 @@
 ---
 import MenuLayout from './MenuLayout.astro';
+import Pagination from '../components/Pagination.astro';
 
 interface Product {
   id: number;
@@ -24,14 +25,47 @@ interface Props {
     slug: string;
     count: number;
   }>;
+  count: {
+    total: number;
+    start: number;
+    end: number;
+  };
+  pagination?: {
+    current: PaginationPage;
+    previous: PaginationPage;
+    next: PaginationPage;
+    first: PaginationPage;
+    last: PaginationPage;
+  };
 }
 
-const { title, breadcrumbs, products, subcategories } = Astro.props;
+type PaginationPage = {
+  number: number;
+  href: string;
+};
+
+const { title, breadcrumbs, products, subcategories, count, pagination } =
+  Astro.props;
 ---
 
 <MenuLayout breadcrumbs={breadcrumbs}>
   <div class="margin-container">
-    <h1>{title}</h1>
+    <header class="row-small">
+      <h1>{title}</h1>
+
+      {
+        products && products.length > 0 && (
+          <div class="archive-toolbar">
+            <p class="result-count">
+              Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
+              risultati
+            </p>
+
+            {pagination && <Pagination pagination={pagination} />}
+          </div>
+        )
+      }
+    </header>
 
     {
       subcategories && subcategories.length > 0 && (
@@ -52,7 +86,7 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
 
     {
       products && products.length > 0 && (
-        <div class="products-grid">
+        <div class="products-grid row">
           {products.map((product) => (
             <div class="product-card">
               <a href={product.permalink}>
@@ -80,13 +114,44 @@ const { title, breadcrumbs, products, subcategories } = Astro.props;
         <p>Nessun prodotto trovato in questa categoria.</p>
       )
     }
+
+    {
+      products && products.length > 0 && (
+        <div class="row archive-toolbar">
+          <p class="result-count">
+            Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
+            risultati
+          </p>
+
+          {pagination && <Pagination pagination={pagination} />}
+        </div>
+      )
+    }
   </div>
 </MenuLayout>
 
 <style>
   h1 {
-    font-size: 2.5rem;
     text-align: center;
+    font-size: 2.5rem;
+    margin-block-end: 1rem;
+  }
+
+  .archive-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+
+    @media (min-width: 960px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .result-count {
+    margin: 0;
+    font-size: 0.9rem;
   }
 
   h2 {

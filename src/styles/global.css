@@ -129,6 +129,14 @@ img {
   }
 }
 
+.row-small {
+  margin-block-end: 1.5rem;
+
+  @media (min-width: 960px) {
+    margin-block-end: 3rem;
+  }
+}
+
 /* Header (Storefront-ish) – generic helpers only */
 
 .menu {
