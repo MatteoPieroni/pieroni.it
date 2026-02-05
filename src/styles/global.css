@@ -112,10 +112,19 @@ img {
   }
 }
 
+.larger-margin-container {
+  margin-inline: var(--page-margin);
+
+  @media (min-width: 1360px) {
+    max-width: 1360px;
+    margin: auto;
+  }
+}
+
 .margin-container {
   margin-inline: var(--page-margin);
 
-  @media (min-width: 960px) {
+  @media (min-width: 1120px) {
     max-width: 1120px;
     margin: auto;
   }
