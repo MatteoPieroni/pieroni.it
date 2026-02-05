@@ -214,7 +214,7 @@ const mobileMenu: MenuItem[] = [
         </div>
       </nav>
 
-      <div class="show-on-desktop">
+      <div class="show-on-desktop search">
         <SearchBox />
       </div>
     </div>
@@ -281,9 +281,12 @@ const mobileMenu: MenuItem[] = [
   .cont-head {
     display: flex;
     justify-content: space-between;
-    align-items: baseline;
     gap: 1.5rem;
     padding-block: 1rem;
+
+    @media (min-width: 960px) {
+      align-items: end;
+    }
   }
 
   .site-branding {
@@ -310,9 +313,12 @@ const mobileMenu: MenuItem[] = [
   .main-navigation {
     flex-grow: 1;
     text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+    @media (min-width: 960px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .primary-navigation {
@@ -410,9 +416,8 @@ const mobileMenu: MenuItem[] = [
     color: darkorange;
   }
 
-  .search-form {
-    display: flex;
-    gap: 0.25rem;
+  .search {
+    padding-block-end: 0.5rem;
   }
 
   .menu-toggle {
@@ -491,9 +496,13 @@ const mobileMenu: MenuItem[] = [
     display: block;
   }
 
-  .handheld-navigation .menu {
+  .handheld-navigation ul {
     display: grid;
     gap: 0.25rem;
+  }
+
+  .main-navigation .handheld-navigation ul.menu a {
+    display: block;
   }
 
   .handheld-navigation a {

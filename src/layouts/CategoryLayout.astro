@@ -101,8 +101,10 @@ const {
   }
 
   .subcategories-grid {
+    display: grid;
+    gap: 2.5rem;
+
     @media (min-width: 960px) {
-      display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 3rem;
     }
