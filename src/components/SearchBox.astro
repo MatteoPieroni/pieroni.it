@@ -2,10 +2,12 @@
 import { Icon } from 'astro-icon/components';
 ---
 
-<form role="search" method="get" class="search-form" action="/cerca">
+<!-- fix: change to /cerca -->
+<form role="search" method="get" class="search-form" action="/">
   <label>
     <span class="screen-reader-text">Ricerca per:</span>
-    <input type="search" class="search-field" placeholder="Cerca …" name="q" />
+    <!-- fix: change to q -->
+    <input type="search" class="search-field" placeholder="Cerca …" name="s" />
   </label>
   <button type="submit" class="search-submit contrast"
     ><span class="screen-reader-text">Cerca</span><Icon
