@@ -1,4 +1,6 @@
 ---
+import { Icon } from 'astro-icon/components';
+
 interface Props {
   items?: Array<{
     label: string;
@@ -15,11 +17,11 @@ if (items.length === 0) {
 ---
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
-  <a href="/">Home</a>
+  <a href="/"><Icon name="tabler:home" />Home</a>
   {
     items.map((item, index) => (
       <>
-        <span class="breadcrumb-separator"> / </span>
+        <Icon name="tabler:chevron-right" class="breadcrumb-separator" />
         {index === items.length - 1 ? (
           <span class="breadcrumb-current">{item.label}</span>
         ) : (
@@ -32,13 +34,20 @@ if (items.length === 0) {
 
 <style>
   .breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25em;
     font-size: 0.875em;
     padding: 1rem 0;
   }
 
+  .breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15em;
+  }
+
   .breadcrumb-separator {
     display: inline-block;
-    padding: 0 0.5em;
-    opacity: 0.6;
   }
 </style>
