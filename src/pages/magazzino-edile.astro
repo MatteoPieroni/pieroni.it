@@ -36,8 +36,11 @@ const gridItems = [
 <CategoryLayout
   title={title}
   heroImage={heroImage}
-  description={description}
+  seoTitle="Dove Siamo"
+  description="Indicazioni per Raggiungere il Magazzino Edile Pieroni Srl nelle due Sedi di Diecimo e Lucca"
   gridItems={gridItems}
   breadcrumbs={breadcrumbs}
   withoutLocations={true}
-/>
+>
+  <Fragment slot="description" set:html={description} />
+</CategoryLayout>

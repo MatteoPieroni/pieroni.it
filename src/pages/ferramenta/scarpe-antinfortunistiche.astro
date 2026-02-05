@@ -60,7 +60,13 @@ const description = `
 `;
 ---
 
-<CategoryLayout title={title} heroImage={heroImage} breadcrumbs={breadcrumbs}>
+<CategoryLayout
+  title={title}
+  heroImage={heroImage}
+  breadcrumbs={breadcrumbs}
+  seoTitle="Scarpe antinfortunistiche"
+  description="Scarpe antinfortunistiche di qualità: ampia selezione di modelli sicuri e confortevoli per lavoro in cantiere e industria, disponibili presso Pieroni srl"
+>
   <div slot="description">
     <div class="row">
       <Fragment set:html={description} />

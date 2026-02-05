@@ -16,6 +16,8 @@ interface Props {
     day: string;
     times: string;
   }>;
+  seoTitle: string;
+  description: string;
   breadcrumbs: Array<{
     label: string;
     href: string;
@@ -31,10 +33,16 @@ const {
   email,
   hours,
   breadcrumbs,
+  seoTitle,
+  description,
 } = Astro.props;
 ---
 
-<MenuLayout breadcrumbs={breadcrumbs}>
+<MenuLayout
+  breadcrumbs={breadcrumbs}
+  title={seoTitle}
+  description={description}
+>
   <Hero title={title} heroImage={heroImage} />
 
   <div class="margin-container">

@@ -5,6 +5,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import '@fontsource/source-sans-pro/latin-300.css';
 import '@fontsource/source-sans-pro/latin-400.css';
 import '@fontsource/source-sans-pro/latin-600.css';
+import sourceSansWoff2 from '@fontsource/source-sans-pro/files/source-sans-pro-latin-300-normal.woff';
 import '../styles/global.css';
 import Head from '../components/Head/Head.astro';
 
@@ -21,7 +22,12 @@ const { breadcrumbs, title, description } = Astro.props;
 ---
 
 <html lang="it">
-  <Head title={title} breadcrumbs={breadcrumbs} description={description} />
+  <Head
+    title={title}
+    breadcrumbs={breadcrumbs}
+    description={description}
+    fontToPreload={sourceSansWoff2}
+  />
 
   <body>
     <Menu />
