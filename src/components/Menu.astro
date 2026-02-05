@@ -1,4 +1,6 @@
 ---
+import SearchBox from './SearchBox.astro';
+
 // Pieroni.it-style header with desktop + mobile navigation
 
 type MenuItem = {
@@ -154,7 +156,7 @@ const mobileMenu: MenuItem[] = [
           <img
             width="400"
             height="192"
-            src="/logo-pieroni-srl-edilizia-sala-mostra.png"
+            src="/images/logo-pieroni-srl-edilizia-sala-mostra.png"
             class="custom-logo"
             alt="Pieroni srl Logo"
           />
@@ -204,36 +206,12 @@ const mobileMenu: MenuItem[] = [
             }
           </ul>
 
-          <form role="search" method="get" class="search-form" action="/">
-            <label>
-              <span class="screen-reader-text">Ricerca per:</span>
-              <input
-                type="search"
-                class="search-field"
-                placeholder="Cerca …"
-                value=""
-                name="s"
-              />
-            </label>
-            <input type="submit" class="search-submit" value="Cerca" />
-          </form>
+          <SearchBox />
         </div>
       </nav>
 
       <div class="show-on-desktop">
-        <form role="search" method="get" class="search-form" action="/">
-          <label>
-            <span class="screen-reader-text">Ricerca per:</span>
-            <input
-              type="search"
-              class="search-field"
-              placeholder="Cerca …"
-              value=""
-              name="s"
-            />
-          </label>
-          <input type="submit" class="search-submit" value="Cerca" />
-        </form>
+        <SearchBox />
       </div>
     </div>
   </div>
