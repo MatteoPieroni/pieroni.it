@@ -1,0 +1,336 @@
+---
+import BlogCategoryLayout from '../../layouts/BlogCategoryLayout.astro';
+import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
+
+export async function getStaticPaths() {
+  const WORDPRESS_URL = 'https://www.pieroni.it/wp-json/wp/v2';
+
+  const paths: Array<{
+    params: { slug: string };
+    props: { post?: any; category?: any; isCategory: boolean };
+  }> = [];
+
+  // Fetch all categories
+  let allCategories: any[] = [];
+  let page = 1;
+  const perPage = 100;
+
+  while (true) {
+    const response = await fetch(
+      `${WORDPRESS_URL}/categories?per_page=${perPage}&page=${page}&_fields=id,name,slug,count,parent`,
+    );
+
+    if (!response.ok) {
+      break;
+    }
+
+    const categories = await response.json();
+    if (categories.length === 0) {
+      break;
+    }
+
+    allCategories = allCategories.concat(categories);
+
+    if (categories.length < perPage) {
+      break;
+    }
+
+    page++;
+  }
+
+  // Helper function to get posts in a category
+  async function getPostsInCategory(categoryId: number): Promise<any[]> {
+    const posts: any[] = [];
+    let page = 1;
+    const perPageLimit = 100;
+
+    while (true) {
+      const response = await fetch(
+        `${WORDPRESS_URL}/posts?categories=${categoryId}&per_page=${perPageLimit}&page=${page}&status=publish&_fields=id,title,slug,excerpt,date,featured_media,categories,author,content`,
+      );
+
+      if (!response.ok) {
+        break;
+      }
+
+      const pagePosts = await response.json();
+      if (pagePosts.length === 0) {
+        break;
+      }
+
+      posts.push(...pagePosts);
+
+      if (pagePosts.length < perPageLimit) {
+        break;
+      }
+
+      page++;
+    }
+
+    return posts;
+  }
+
+  // Generate category pages
+  for (const category of allCategories) {
+    const posts = await getPostsInCategory(category.id);
+
+    // Generate category page
+    paths.push({
+      params: {
+        slug: category.slug,
+      },
+      props: {
+        category: {
+          id: category.id,
+          name: category.name,
+          slug: category.slug,
+          count: category.count || 0,
+          parent: category.parent || 0,
+        },
+        posts,
+        isCategory: true,
+      },
+    });
+
+    // Generate individual post pages
+    for (const post of posts) {
+      paths.push({
+        params: {
+          slug: `${category.slug}/${post.slug}`,
+        },
+        props: {
+          post,
+          isCategory: false,
+        },
+      });
+    }
+  }
+
+  // Also fetch posts without categories (uncategorized)
+  let allPosts: any[] = [];
+  page = 1;
+
+  while (true) {
+    const response = await fetch(
+      `${WORDPRESS_URL}/posts?per_page=${perPage}&page=${page}&status=publish&_fields=id,title,slug,excerpt,date,featured_media,categories,author`,
+    );
+
+    if (!response.ok) {
+      break;
+    }
+
+    const pagePosts = await response.json();
+    if (pagePosts.length === 0) {
+      break;
+    }
+
+    allPosts = allPosts.concat(pagePosts);
+
+    if (pagePosts.length < perPage) {
+      break;
+    }
+
+    page++;
+  }
+
+  // Generate post pages that might not be in categories
+  for (const post of allPosts) {
+    // Check if we already added this post
+    const existingPost = paths.find(
+      (p) => p.props.post?.id === post.id && !p.props.isCategory,
+    );
+    if (!existingPost) {
+      paths.push({
+        params: {
+          slug: post.slug,
+        },
+        props: {
+          post,
+          isCategory: false,
+        },
+      });
+    }
+  }
+
+  return paths;
+}
+
+interface Props {
+  post?: any;
+  category?: any;
+  posts?: any[];
+  isCategory: boolean;
+}
+
+const WORDPRESS_URL = 'https://www.pieroni.it/wp-json/wp/v2';
+
+const { post, category, posts, isCategory } = Astro.props;
+const { slug } = Astro.params;
+
+// Fetch all categories for subcategories
+let allCategories: any[] = [];
+try {
+  let page = 1;
+  const perPage = 100;
+  while (true) {
+    const response = await fetch(
+      `${WORDPRESS_URL}/categories?per_page=${perPage}&page=${page}&_fields=id,name,slug,count,parent`,
+    );
+    if (!response.ok) break;
+    const categories = await response.json();
+    if (categories.length === 0) break;
+    allCategories = allCategories.concat(categories);
+    if (categories.length < perPage) break;
+    page++;
+  }
+} catch (err) {
+  // Ignore errors
+}
+
+// Initialize variables
+let breadcrumbs: Array<{ label: string; href: string }> = [
+  { label: 'Blog', href: '/blog/' },
+];
+let formattedPosts: any[] = [];
+let subcategories: any[] = [];
+let count = { total: 0, start: 0, end: 0 };
+let postTitle = '';
+let postContent = '';
+let postExcerpt = '';
+let postDate = '';
+let featuredImage: any = undefined;
+let postCategories: any[] = [];
+let author: any = undefined;
+
+if (isCategory && category) {
+  // This is a category page
+  breadcrumbs.push({
+    label: category.name,
+    href: `/blog/${category.slug}/`,
+  });
+
+  // Format posts for the layout
+  formattedPosts = (posts || []).map((p: any) => ({
+    id: p.id,
+    title: p.title?.rendered || p.title,
+    slug: p.slug,
+    permalink: `/blog/${category.slug}/${p.slug}/`,
+    excerpt: p.excerpt?.rendered || p.excerpt || '',
+    date: p.date,
+    featuredImage: undefined, // Will be fetched if needed
+  }));
+
+  // Get subcategories (categories with this category as parent)
+  subcategories = allCategories
+    .filter((cat: any) => cat.parent === category.id)
+    .map((cat: any) => ({
+      name: cat.name,
+      slug: cat.slug,
+      count: cat.count || 0,
+    }));
+
+  // Simple pagination (12 posts per page)
+  const postsPerPage = 12;
+  const currentPage = 1; // You'd get this from params in a real implementation
+  const total = formattedPosts.length;
+  const start = total > 0 ? (currentPage - 1) * postsPerPage + 1 : 0;
+  const end = Math.min(currentPage * postsPerPage, total);
+
+  formattedPosts = formattedPosts.slice(start - 1, end);
+  count = { total, start, end };
+} else if (post) {
+  // This is a post page
+  postTitle = post.title?.rendered || post.title;
+  const slugParts = slug.split('/');
+  const categorySlug = slugParts.length > 1 ? slugParts[0] : null;
+
+  if (categorySlug) {
+    breadcrumbs.push({
+      label: categorySlug,
+      href: `/blog/${categorySlug}/`,
+    });
+  }
+
+  breadcrumbs.push({
+    label: postTitle,
+    href: `/blog/${slug}/`,
+  });
+
+  // Fetch featured image
+  if (post.featured_media) {
+    try {
+      const mediaResponse = await fetch(
+        `${WORDPRESS_URL}/media/${post.featured_media}?_fields=source_url,alt_text`,
+      );
+      if (mediaResponse.ok) {
+        const media = await mediaResponse.json();
+        featuredImage = {
+          src: media.source_url,
+          alt: media.alt_text || postTitle,
+        };
+      }
+    } catch (err) {
+      // Ignore errors
+    }
+  }
+
+  // Fetch categories
+  if (post.categories && post.categories.length > 0) {
+    const categoryPromises = post.categories.map((catId: number) =>
+      fetch(`${WORDPRESS_URL}/categories/${catId}?_fields=name,slug`).then(
+        (r) => r.json(),
+      ),
+    );
+    const categoryData = await Promise.all(categoryPromises);
+    postCategories = categoryData.map((cat: any) => ({
+      name: cat.name,
+      slug: cat.slug,
+    }));
+  }
+
+  // Fetch author
+  if (post.author) {
+    try {
+      const authorResponse = await fetch(
+        `${WORDPRESS_URL}/users/${post.author}?_fields=name,slug`,
+      );
+      if (authorResponse.ok) {
+        const authorData = await authorResponse.json();
+        author = {
+          name: authorData.name,
+          slug: authorData.slug,
+        };
+      }
+    } catch (err) {
+      // Ignore errors
+    }
+  }
+
+  postContent = post.content?.rendered || post.content;
+  postExcerpt = post.excerpt?.rendered || post.excerpt;
+  postDate = post.date;
+}
+---
+
+{
+  isCategory && category ? (
+    <BlogCategoryLayout
+      title={category.name}
+      breadcrumbs={breadcrumbs}
+      posts={formattedPosts}
+      subcategories={subcategories}
+      count={count}
+    />
+  ) : post ? (
+    <BlogPostLayout
+      title={postTitle}
+      breadcrumbs={breadcrumbs}
+      content={postContent}
+      excerpt={postExcerpt}
+      date={postDate}
+      featuredImage={featuredImage}
+      categories={postCategories}
+      author={author}
+    />
+  ) : null
+}

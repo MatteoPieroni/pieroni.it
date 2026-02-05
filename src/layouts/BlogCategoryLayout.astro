@@ -1,0 +1,230 @@
+---
+import MenuLayout from './MenuLayout.astro';
+import Pagination from '../components/Pagination.astro';
+
+interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  permalink: string;
+  excerpt: string;
+  date: string;
+  featuredImage?: {
+    src: string;
+    alt: string;
+  };
+}
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{
+    label: string;
+    href: string;
+  }>;
+  posts: BlogPost[];
+  subcategories?: Array<{
+    name: string;
+    slug: string;
+    count: number;
+  }>;
+  count: {
+    total: number;
+    start: number;
+    end: number;
+  };
+  pagination?: {
+    current: PaginationPage;
+    previous: PaginationPage;
+    next: PaginationPage;
+    first: PaginationPage;
+    last: PaginationPage;
+  };
+}
+
+type PaginationPage = {
+  number: number;
+  href: string;
+};
+
+const { title, breadcrumbs, posts, subcategories, count, pagination } =
+  Astro.props;
+---
+
+<MenuLayout breadcrumbs={breadcrumbs}>
+  <div class="margin-container">
+    <header class="row-small">
+      <h1>{title}</h1>
+
+      {posts && posts.length > 0 && (
+        <div class="archive-toolbar">
+          <p class="result-count">
+            Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
+            risultati
+          </p>
+
+          {pagination && <Pagination pagination={pagination} basePath="/blog" />}
+        </div>
+      )}
+    </header>
+
+    {subcategories && subcategories.length > 0 && (
+      <div class="row">
+        <h2>Categorie</h2>
+        <ul class="subcategories-list">
+          {subcategories.map((subcat) => (
+            <li>
+              <a href={`/blog/${subcat.slug}/`} class="button">
+                {subcat.name} ({subcat.count})
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    {posts && posts.length > 0 && (
+      <div class="blog-posts-grid row">
+        {posts.map((post) => (
+          <article class="blog-post-card">
+            <a href={post.permalink}>
+              {post.featuredImage && (
+                <div class="blog-post-image">
+                  <img
+                    src={post.featuredImage.src}
+                    alt={post.featuredImage.alt || post.title}
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div class="blog-post-info">
+                <h2>{post.title}</h2>
+                {post.excerpt && (
+                  <div class="blog-post-excerpt" set:html={post.excerpt} />
+                )}
+                <time class="blog-post-date" datetime={post.date}>
+                  {new Date(post.date).toLocaleDateString('it-IT', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </time>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+    )}
+
+    {(!posts || posts.length === 0) && (
+      <p>Nessun articolo trovato in questa categoria.</p>
+    )}
+
+    {posts && posts.length > 0 && pagination && (
+      <div class="row archive-toolbar">
+        <Pagination pagination={pagination} basePath="/blog" />
+      </div>
+    )}
+  </div>
+</MenuLayout>
+
+<style>
+  .archive-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+
+    @media (min-width: 960px) {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+
+  .result-count {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+
+  .subcategories-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .subcategories-list li {
+    margin: 0;
+  }
+
+  .blog-posts-grid {
+    display: grid;
+    gap: 2rem;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (min-width: 960px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+  }
+
+  .blog-post-card {
+    position: relative;
+  }
+
+  .blog-post-card a {
+    display: block;
+    text-decoration: none;
+    color: var(--text);
+  }
+
+  .blog-post-image {
+    width: 100%;
+    margin-block-end: 1.5rem;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--bg-darker);
+  }
+
+  .blog-post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .blog-post-card:hover .blog-post-image img {
+    transform: scale(1.05);
+  }
+
+  .blog-post-info h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-block-end: 0.75rem;
+    text-transform: none;
+    letter-spacing: normal;
+    line-height: 1.3;
+  }
+
+  .blog-post-excerpt {
+    margin-block-end: 1rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #666;
+  }
+
+  .blog-post-excerpt p {
+    margin: 0;
+  }
+
+  .blog-post-date {
+    font-size: 0.875rem;
+    color: #999;
+  }
+</style>

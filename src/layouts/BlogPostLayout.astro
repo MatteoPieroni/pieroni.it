@@ -1,0 +1,183 @@
+---
+import MenuLayout from './MenuLayout.astro';
+
+interface Props {
+  title: string;
+  breadcrumbs: Array<{
+    label: string;
+    href: string;
+  }>;
+  content: string;
+  excerpt?: string;
+  date: string;
+  featuredImage?: {
+    src: string;
+    alt: string;
+  };
+  categories?: Array<{
+    name: string;
+    slug: string;
+  }>;
+  author?: {
+    name: string;
+    slug?: string;
+  };
+}
+
+const {
+  title,
+  breadcrumbs,
+  content,
+  excerpt,
+  date,
+  featuredImage,
+  categories,
+  author,
+} = Astro.props;
+---
+
+<MenuLayout breadcrumbs={breadcrumbs}>
+  <article class="margin-container blog-post">
+    <header class="blog-post-header">
+      <h1>{title}</h1>
+
+      <div class="blog-post-meta">
+        <time datetime={date}>
+          {new Date(date).toLocaleDateString('it-IT', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </time>
+        {author && <span class="blog-post-author">di {author.name}</span>}
+        {categories && categories.length > 0 && (
+          <div class="blog-post-categories">
+            {categories.map((cat, index) => (
+              <>
+                {index > 0 && ', '}
+                <a href={`/blog/${cat.slug}/`}>{cat.name}</a>
+              </>
+            ))}
+          </div>
+        )}
+      </div>
+    </header>
+
+    {featuredImage && (
+      <div class="blog-post-featured-image">
+        <img
+          src={featuredImage.src}
+          alt={featuredImage.alt || title}
+          loading="eager"
+        />
+      </div>
+    )}
+
+    {excerpt && (
+      <div class="blog-post-excerpt" set:html={excerpt} />
+    )}
+
+    <div class="blog-post-content" set:html={content} />
+  </article>
+</MenuLayout>
+
+<style>
+  .blog-post {
+    padding-block: 2rem;
+    max-width: 800px;
+  }
+
+  .blog-post-header {
+    margin-block-end: 2rem;
+  }
+
+  .blog-post-header h1 {
+    font-size: 2.5rem;
+    margin-block-end: 1rem;
+    text-align: center;
+  }
+
+  .blog-post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-block-end: 2rem;
+  }
+
+  .blog-post-author {
+    font-weight: 600;
+  }
+
+  .blog-post-categories a {
+    color: var(--color-blue);
+    text-decoration: none;
+  }
+
+  .blog-post-categories a:hover {
+    text-decoration: underline;
+  }
+
+  .blog-post-featured-image {
+    width: 100%;
+    margin-block-end: 2rem;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .blog-post-featured-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .blog-post-excerpt {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    color: #555;
+    margin-block-end: 2rem;
+    font-style: italic;
+    padding-inline-start: 1rem;
+    border-inline-start: 3px solid var(--button-bg);
+  }
+
+  .blog-post-content {
+    line-height: 1.8;
+  }
+
+  .blog-post-content p {
+    margin-block-end: 1.5rem;
+  }
+
+  .blog-post-content h2,
+  .blog-post-content h3,
+  .blog-post-content h4 {
+    margin-block-start: 2rem;
+    margin-block-end: 1rem;
+  }
+
+  .blog-post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    margin-block: 1.5rem;
+  }
+
+  .blog-post-content a {
+    color: var(--color-blue);
+    text-decoration: underline;
+  }
+
+  .blog-post-content ul,
+  .blog-post-content ol {
+    margin-block: 1.5rem;
+    padding-inline-start: 2rem;
+  }
+
+  .blog-post-content li {
+    margin-block-end: 0.5rem;
+  }
+</style>
