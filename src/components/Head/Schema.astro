@@ -1,0 +1,183 @@
+---
+interface Props {
+  description: string;
+  breadcrumbs?: Array<{
+    label: string;
+    href: string;
+  }>;
+}
+
+const baseUrl = 'https://www.pieroni.it';
+
+const { breadcrumbs: passedBreadcrumbs, description } = Astro.props;
+
+const breadcrumbs = passedBreadcrumbs
+  ? [
+      {
+        label: 'Home',
+        href: '/',
+      },
+      ...passedBreadcrumbs,
+    ]
+  : undefined;
+
+const basicStructuredData = {
+  '@context': {
+    '@vocab': 'http://schema.org/',
+  },
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': `${baseUrl}/#website`,
+      url: `${baseUrl}/`,
+      name: 'Pieroni srl',
+      publisher: { '@id': `${baseUrl}/#organization` },
+    },
+    {
+      '@type': 'Organization',
+      '@id': `${baseUrl}/#organization`,
+      name: 'Pieroni srl',
+      url: `${baseUrl}/`,
+      logo: {
+        '@type': 'ImageObject',
+        '@id': `${baseUrl}/#organizationLogo`,
+        url: `${baseUrl}/images/logo-pieroni-srl-edilizia-sala-mostra.png`,
+        width: 400,
+        height: 192,
+      },
+      image: { '@id': `${baseUrl}/#organizationLogo` },
+      sameAs: [
+        'https://www.facebook.com/pieronisrlofficial/',
+        'https://www.instagram.com/pieronisrl/',
+        'https://plus.google.com/+PieroniIt',
+        'https://www.youtube.com/channel/UCnFYUqXtkYxOCVgTkNY4VLg',
+      ],
+    },
+    {
+      '@type': 'LocalBusiness',
+      parentOrganization: {
+        name: 'Pieroni srl',
+      },
+      name: 'Pieroni srl - Diecimo',
+      image: `${baseUrl}/images/logo-pieroni-srl-edilizia-sala-mostra.png`,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Loc. Pastino, 13',
+        addressLocality: 'Diecimo',
+        postalCode: '55023',
+        addressCountry: 'IT',
+        telephone: '+390583838375',
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '07:30',
+          closes: '12:00',
+        },
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '13:30',
+          closes: '18:00',
+        },
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: 'Saturday',
+          opens: '07:30',
+          closes: '12:00',
+        },
+      ],
+      hasmap:
+        'https://www.google.it/maps/place/Pieroni+srl/@43.955955,10.5001473,17z/data=!3m1!4b1!4m5!3m4!1s0x12d579192c1bc881:0x96d84a9def3d44bc!8m2!3d43.955955!4d10.502336',
+    },
+    {
+      '@type': 'LocalBusiness',
+      parentOrganization: {
+        name: 'Pieroni srl',
+      },
+      name: 'Pieroni srl - Lucca',
+      image: `${baseUrl}/images/logo-pieroni-srl-edilizia-sala-mostra.png`,
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Via della Canovetta 341',
+        addressLocality: 'Lucca',
+        postalCode: '55051',
+        addressCountry: 'IT',
+        telephone: '+390583838375',
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '07:30',
+          closes: '12:00',
+        },
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+          opens: '13:30',
+          closes: '18:00',
+        },
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: 'Saturday',
+          opens: '07:30',
+          closes: '12:00',
+        },
+      ],
+      hasmap:
+        'https://www.google.it/maps/place/Pieroni+srl/@43.9091942,10.4418215,12z/data=!4m8!1m2!2m1!1spieroni+srl+lucca!3m4!1s0x0:0x256b4ca99db2ae25!8m2!3d43.8625669!4d10.5213833',
+    },
+  ],
+};
+
+const breadcrumbsStructuredData = breadcrumbs?.map((breadcrumb, index) => ({
+  '@type': 'ListItem',
+  '@id': `${baseUrl}${breadcrumb.href}#listItem`,
+  position: index + 1,
+  item: {
+    '@type': 'WebPage',
+    '@id': `${baseUrl}${breadcrumb.href}#item`,
+    name: breadcrumb.label,
+    ...(index === breadcrumbs.length - 1
+      ? {
+          description,
+        }
+      : {}),
+    url: `${baseUrl}${breadcrumb.href}`,
+  },
+  ...(index !== 0
+    ? {
+        previousItem: `${baseUrl}${breadcrumbs[index - 1].href}#listItem`,
+      }
+    : {}),
+  ...(index !== breadcrumbs.length - 1
+    ? {
+        nextItem: `${baseUrl}${breadcrumbs[index + 1].href}#listItem`,
+      }
+    : {}),
+}));
+
+const structuredData = {
+  ...basicStructuredData,
+  '@graph': [
+    ...basicStructuredData['@graph'],
+    ...(breadcrumbsStructuredData
+      ? [
+          {
+            '@type': 'BreadcrumbList',
+            '@id': `${baseUrl}${breadcrumbs?.[breadcrumbs.length - 1]?.href}#breadcrumblist`,
+            itemListElement: breadcrumbsStructuredData,
+          },
+        ]
+      : []),
+  ],
+};
+---
+
+<script
+  is:inline
+  type="application/ld+json"
+  set:html={JSON.stringify(structuredData)}
+/>

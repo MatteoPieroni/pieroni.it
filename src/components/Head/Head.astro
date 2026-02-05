@@ -1,0 +1,31 @@
+---
+import { SEO } from 'astro-seo';
+import Favicons from './Favicons.astro';
+import Schema from './Schema.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  breadcrumbs?: Array<{
+    label: string;
+    href: string;
+  }>;
+}
+
+const { description, title, breadcrumbs } = Astro.props;
+---
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width" />
+  <meta name="generator" content={Astro.generator} />
+  <link rel="profile" href="https://gmpg.org/xfn/11" />
+  <SEO
+    title={title}
+    titleTemplate={`%s | Pieroni srl`}
+    description={description}
+  />
+  <Schema breadcrumbs={breadcrumbs} description={description} />
+  <Favicons />
+</head>

@@ -6,26 +6,23 @@ import '@fontsource/source-sans-pro/latin-300.css';
 import '@fontsource/source-sans-pro/latin-400.css';
 import '@fontsource/source-sans-pro/latin-600.css';
 import '../styles/global.css';
+import Head from '../components/Head/Head.astro';
 
 interface Props {
+  title: string;
+  description: string;
   breadcrumbs?: Array<{
     label: string;
     href: string;
   }>;
 }
 
-const { breadcrumbs } = Astro.props;
+const { breadcrumbs, title, description } = Astro.props;
 ---
 
 <html lang="it">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="profile" href="https://gmpg.org/xfn/11" />
-    <title>Pieroni srl - Edilizia, Sala Mostra, Riscaldamento</title>
-  </head>
+  <Head title={title} breadcrumbs={breadcrumbs} description={description} />
+
   <body>
     <Menu />
 
