@@ -1,0 +1,36 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<form role="search" method="get" class="search-form" action="/cerca">
+  <label>
+    <span class="screen-reader-text">Ricerca per:</span>
+    <input type="search" class="search-field" placeholder="Cerca …" name="q" />
+  </label>
+  <button type="submit" class="search-submit contrast"
+    ><span class="screen-reader-text">Cerca</span><Icon
+      name="tabler:search"
+    /></button
+  >
+</form>
+
+<div id="search"></div>
+
+<style>
+  .search-form {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .search-field {
+    height: 100%;
+  }
+
+  .search-submit {
+    padding-block: 0;
+    padding-inline: 0.5rem;
+    svg {
+      vertical-align: top;
+    }
+  }
+</style>

@@ -6,9 +6,6 @@
 
 ## styles adjustments
 
-- menu arrows
-- breadcrumbs
-
 ### pages
 
 - Privacy
@@ -32,6 +29,8 @@
   - opengraph spec
   - favicons
 - cookie banner
+- google analytics
+- facebook analytics
 
 # Astro Starter Kit: Minimal
 

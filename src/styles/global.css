@@ -12,6 +12,13 @@
   --link-text-contrast: #ffffff;
   --button-bg: #ff8900;
   --button-text: #111827;
+  --button-border: transparent;
+  --button-border-hover: var(--color-blue);
+  --button-bg-contrast: #ffffff;
+  --button-border-contrast: var(--color-blue);
+  --button-bg-hover-contrast: #ff8900;
+  --button-border-hover-contrast: var(--color-blue);
+  --input-border: var(--color-blue);
   --bg: #ffffff;
   --bg-darker: #f0f0f0;
   --radius: 0.25rem;
@@ -85,8 +92,9 @@ a:hover {
 }
 
 button,
-a.button {
-  border: 1px solid transparent;
+a.button,
+input[type='submit'] {
+  border: 1px solid var(--button-border);
   border-radius: var(--radius);
   background: var(--button-bg);
   color: var(--button-text);
@@ -95,8 +103,23 @@ a.button {
   font-weight: 600;
 
   &:hover {
-    border-color: var(--color-blue);
+    border-color: var(--button-border-hover);
   }
+
+  &.contrast {
+    background: var(--button-bg-contrast);
+    border-color: var(--button-border-contrast);
+
+    &:hover,
+    &:focus {
+      background: var(--button-bg-hover-contrast);
+      border-color: var(--button-border-hover-contrast);
+    }
+  }
+}
+
+input {
+  border: 1px solid var(--input-border);
 }
 
 img {
@@ -145,8 +168,6 @@ img {
     margin-block-end: 3rem;
   }
 }
-
-/* Header (Storefront-ish) – generic helpers only */
 
 .menu {
   list-style: none;
