@@ -548,33 +548,33 @@ const mobileMenu: MenuItem[] = [
 </style>
 
 <script>
-  if (typeof window !== 'undefined') {
-    window.addEventListener('DOMContentLoaded', () => {
-      const header = document.getElementById('masthead');
-      if (!header) return;
+  const hookMenu = () => {
+    const header = document.getElementById('masthead');
+    if (!header) return;
+    
+    const toggle = header.querySelector('.menu-toggle');
+    const handheldNav = header.querySelector('.handheld-navigation');
+    if (!toggle || !handheldNav) return;
+    
+    const openClass = 'is-open';
+    
+    const setOpen = (open: boolean) => {
+      handheldNav.classList.toggle(openClass, open);
+      toggle.classList.toggle(openClass, open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    
+    toggle.addEventListener('click', () => {
+      const isOpen = handheldNav.classList.contains(openClass);
+      setOpen(!isOpen);
+    });
 
-      const toggle = header.querySelector('.menu-toggle');
-      const handheldNav = header.querySelector('.handheld-navigation');
-      if (!toggle || !handheldNav) return;
-
-      const openClass = 'is-open';
-
-      const setOpen = (open: boolean) => {
-        handheldNav.classList.toggle(openClass, open);
-        toggle.classList.toggle(openClass, open);
-        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      };
-
-      toggle.addEventListener('click', () => {
-        const isOpen = handheldNav.classList.contains(openClass);
-        setOpen(!isOpen);
-      });
-
-      window.addEventListener('resize', () => {
-        if (window.innerWidth >= 960) {
-          setOpen(false);
-        }
-      });
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 960) {
+        setOpen(false);
+      }
     });
   }
+
+  hookMenu();
 </script>
