@@ -1,17 +1,19 @@
 ---
 import CategoryLayout from '../layouts/CategoryLayout.astro';
+import heroImageAsset from '../assets/images/pieroni-srl-map-magazzini.jpg';
+import diecimoImage from '../assets/images/pieroni-magazzino-sala-mostra-diecimo-borgo-mozzano-lucca.jpg';
+import luccaImage from '../assets/images/pieroni-magazzino-lucca-edile.jpg';
 
 const title = 'Dove Siamo';
 const breadcrumbs = [{ label: 'Dove Siamo', href: '/magazzino-edile/' }];
-const heroImage = '/images/pieroni-srl-map-magazzini.jpg';
+const heroImage = heroImageAsset;
 const description = `
   <p>Avere 2 magazzini ci permette di raggiungerti nel posto più vicino possibile.</p>
 `;
 
 const gridItems = [
   {
-    image:
-      '/images/pieroni-magazzino-sala-mostra-diecimo-borgo-mozzano-lucca.jpg',
+    image: diecimoImage,
     imageAlt: 'Pieroni Magazzino Diecimo',
     title: 'Magazzino di Diecimo',
     description: `
@@ -21,7 +23,7 @@ const gridItems = [
     linkText: 'Scopri il magazzino di Diecimo',
   },
   {
-    image: '/images/pieroni-magazzino-lucca-edile.jpg',
+    image: luccaImage,
     imageAlt: 'Pieroni Magazzino Lucca',
     title: 'Magazzino di Lucca',
     description: `

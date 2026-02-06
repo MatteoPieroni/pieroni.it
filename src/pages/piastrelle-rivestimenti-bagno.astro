@@ -1,18 +1,20 @@
 ---
 import CategoryLayout from '../layouts/CategoryLayout.astro';
+import heroImageAsset from '../assets/images/pieroni-sala-mostra-mattonelle-rivestimenti-esterni-pavimenti.jpg';
+import pavimentiImage from '../assets/images/sala-mostra-pavimenti-rivestimenti-panaria-assi-alpe-stube-sezioni.jpg';
+import rivestimentiImage from '../assets/images/sala-mostra-pavimenti-rivestimenti-esterni-lafabbrica-monteleone-sezioni.jpg';
+import esterniImage from '../assets/images/sala-mostra-pavimenti-rivestimenti-caesar-esterni-roxstones-silver-gray-piscina-sezioni.jpg';
 
 const title = 'Mattonelle, Pavimenti e Rivestimenti';
 const breadcrumbs = [{ label: title, href: '/piastrelle-rivestimenti-bagno/' }];
-const heroImage =
-  '/images/pieroni-sala-mostra-mattonelle-rivestimenti-esterni-pavimenti.jpg';
+const heroImage = heroImageAsset;
 const description = `
   <p>Quando decidiamo di costruire la nostra casa o di ristrutturarla, fra le scelte più difficili ci sono i pavimenti, perché fanno parte della nostra vita, sono il terreno sul quale camminiamo ogni giorno.<br /> Diventa importante allora avere qualcuno che ci offra le giuste alternative e sappia consigliarci al meglio. Siamo qui per voi!<br /> Sapremo indicarvi le scelte migliori secondo i vostri gusti e le vostre necessità: <strong>cotto, parquet, finto legno, marmo, gres, ceramica</strong>, i materiali della vostra casa.</p>
 `;
 
 const gridItems = [
   {
-    image:
-      '/images/sala-mostra-pavimenti-rivestimenti-panaria-assi-alpe-stube-sezioni.jpg',
+    image: pavimentiImage,
     imageAlt: 'Pavimenti',
     title: 'Pavimenti',
     description: `
@@ -22,8 +24,7 @@ const gridItems = [
     linkText: 'Scopri i nostri Pavimenti',
   },
   {
-    image:
-      '/images/sala-mostra-pavimenti-rivestimenti-esterni-lafabbrica-monteleone-sezioni.jpg',
+    image: rivestimentiImage,
     imageAlt: 'Rivestimenti',
     title: 'Rivestimenti',
     description: `
@@ -33,8 +34,7 @@ const gridItems = [
     linkText: 'Scopri i nostri Rivestimenti',
   },
   {
-    image:
-      '/images/sala-mostra-pavimenti-rivestimenti-caesar-esterni-roxstones-silver-gray-piscina-sezioni.jpg',
+    image: esterniImage,
     imageAlt: 'Pavimenti e Rivestimenti per Esterni',
     title: 'Pavimenti e Rivestimenti per Esterni',
     description: `

@@ -1,12 +1,17 @@
 ---
 import CategoryLayout from '../layouts/CategoryLayout.astro';
+import heroImageAsset from '../assets/images/pieroni-edilizia-ferramenta-imprese-professionisti.jpg';
+import attrezzaturaElettricaImage from '../assets/images/pieroni-edilizia-ferramenta-imprese-professionisti-attrezzatura-elettrica.jpg';
+import utensiliImage from '../assets/images/pieroni-edilizia-ferramenta-imprese-professionisti-utensili.jpg';
+import abbigliamentoImage from '../assets/images/pieroni-edilizia-ferramenta-imprese-professionisti-abbigliamento-lavoro.jpg';
+import scarpeSezioneImage from '../assets/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza-sezione-2.jpg';
+import attrezziSpecialisticiImage from '../assets/images/pieroni-edilizia-ferramenta-imprese-professionisti-attrezzi-specialistici-tinte-imbiancatura.jpg';
 
 const title = 'Ferramenta, Utensileria e Abbigliamento';
 const breadcrumbs = [
   { label: 'Ferramenta, Utensileria e Abbigliamento', href: '/ferramenta/' },
 ];
-const heroImage =
-  '/images/pieroni-edilizia-ferramenta-imprese-professionisti.jpg';
+const heroImage = heroImageAsset;
 const description = `
   <p>Nei nostri magazzini potete trovare tutto il materiale di cui avete bisogno, sia che siate un'impresa di edilizia e abbiate bisogno di un <strong>ingrosso di ferramenta</strong>, sia che siate un privato in cerca dei giusti <strong>attrezzi</strong>.</p>
   <p>La vasta gamma di scelta che forniamo spazia dagli utensili generici a quelli per specialisti, dall'<strong>attrezzatura elettrica</strong> all'abbigliamento per lavoro.</p>
@@ -14,8 +19,7 @@ const description = `
 
 const gridItems = [
   {
-    image:
-      '/images/pieroni-edilizia-ferramenta-imprese-professionisti-attrezzatura-elettrica.jpg',
+    image: attrezzaturaElettricaImage,
     imageAlt: 'Pieroni Ferramenta Attrezzatura Elettrica',
     title: 'Attrezzatura Elettrica',
     description: `
@@ -24,8 +28,7 @@ const gridItems = [
     `,
   },
   {
-    image:
-      '/images/pieroni-edilizia-ferramenta-imprese-professionisti-utensili.jpg',
+    image: utensiliImage,
     imageAlt: 'Pieroni Ferramenta Utensili Utensileria',
     title: 'Utensileria',
     description: `
@@ -34,8 +37,7 @@ const gridItems = [
     `,
   },
   {
-    image:
-      '/images/pieroni-edilizia-ferramenta-imprese-professionisti-abbigliamento-lavoro.jpg',
+    image: abbigliamentoImage,
     imageAlt: 'Pieroni Ferramenta Abbigliamento Specialistico Professionale',
     title: 'Abbigliamento',
     description: `
@@ -44,8 +46,7 @@ const gridItems = [
     `,
   },
   {
-    image:
-      '/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza-sezione-2.jpg',
+    image: scarpeSezioneImage,
     imageAlt: 'Calzature da lavoro',
     title: 'Calzature da lavoro',
     description: `
@@ -56,8 +57,7 @@ const gridItems = [
     linkText: 'Vedi le nostre calzature da lavoro',
   },
   {
-    image:
-      '/images/pieroni-edilizia-ferramenta-imprese-professionisti-attrezzi-specialistici-tinte-imbiancatura.jpg',
+    image: attrezziSpecialisticiImage,
     imageAlt: 'Attrezzatura Specialistica',
     title: 'Attrezzatura Specialistica',
     description: `

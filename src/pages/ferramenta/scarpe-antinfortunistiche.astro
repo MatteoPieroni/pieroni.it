@@ -1,5 +1,8 @@
 ---
 import CategoryLayout from '../../layouts/CategoryLayout.astro';
+import { Image } from '@unpic/astro';
+import heroBannerImage from '../../assets/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza-banner.jpg';
+import upowerImage from '../../assets/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza.jpg';
 
 const title = 'Scarpe antinfortunistiche';
 const breadcrumbs = [
@@ -9,8 +12,7 @@ const breadcrumbs = [
     href: '/ferramenta/scarpe-antinfortunistiche/',
   },
 ];
-const heroImage =
-  '/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza-banner.jpg';
+const heroImage = heroBannerImage;
 const description = `
   <p>
     Le scarpe antinfortunistiche non sono tutte uguali. Scegliere quella più
@@ -74,9 +76,10 @@ const description = `
 
     <div class="row">
       <h2>Scarpe U-Power</h2>
-      <img
-        src="/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza.jpg"
+      <Image
+        src={upowerImage}
         alt="Scarpa da lavoro in stile sportivo con accenti di colore verde, marca U-Power"
+        layout="constrained"
       />
       <p>
         Se cerchi il meglio per le tue calzature da lavoro, devi assolutamente

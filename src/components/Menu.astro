@@ -1,6 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components';
 import SearchBox from './SearchBox.astro';
+import { Image } from '@unpic/astro';
+import logoImage from '../assets/images/logo-pieroni-srl-edilizia-sala-mostra.png'
 
 // Pieroni.it-style header with desktop + mobile navigation
 
@@ -154,12 +156,13 @@ const mobileMenu: MenuItem[] = [
     <div class="cont-head">
       <div class="site-branding">
         <a href="/" class="custom-logo-link" rel="home" aria-current="page">
-          <img
-            width="400"
-            height="192"
-            src="/images/logo-pieroni-srl-edilizia-sala-mostra.png"
+          <Image
+            width={400}
+            height={192}
+            src={logoImage}
             class="custom-logo"
             alt="Pieroni srl Logo"
+            layout="constrained"
           />
         </a>
       </div>

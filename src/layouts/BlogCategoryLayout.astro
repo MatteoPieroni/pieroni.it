@@ -1,6 +1,7 @@
 ---
 import MenuLayout from './MenuLayout.astro';
 import Pagination from '../components/Pagination.astro';
+import { Image } from '@unpic/astro';
 
 interface BlogPost {
   id: number;
@@ -55,75 +56,89 @@ const { title, breadcrumbs, posts, subcategories, count, pagination } =
     <header class="row-small">
       <h1>{title}</h1>
 
-      {posts && posts.length > 0 && (
-        <div class="archive-toolbar">
-          <p class="result-count">
-            Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
-            risultati
-          </p>
+      {
+        posts && posts.length > 0 && (
+          <div class="archive-toolbar">
+            <p class="result-count">
+              Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
+              risultati
+            </p>
 
-          {pagination && <Pagination pagination={pagination} basePath="/blog" />}
-        </div>
-      )}
+            {pagination && (
+              <Pagination pagination={pagination} basePath="/blog" />
+            )}
+          </div>
+        )
+      }
     </header>
 
-    {subcategories && subcategories.length > 0 && (
-      <div class="row">
-        <h2>Categorie</h2>
-        <ul class="subcategories-list">
-          {subcategories.map((subcat) => (
-            <li>
-              <a href={`/blog/${subcat.slug}/`} class="button">
-                {subcat.name} ({subcat.count})
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-    )}
+    {
+      subcategories && subcategories.length > 0 && (
+        <div class="row">
+          <h2>Categorie</h2>
+          <ul class="subcategories-list">
+            {subcategories.map((subcat) => (
+              <li>
+                <a href={`/blog/${subcat.slug}/`} class="button">
+                  {subcat.name} ({subcat.count})
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
 
-    {posts && posts.length > 0 && (
-      <div class="blog-posts-grid row">
-        {posts.map((post) => (
-          <article class="blog-post-card">
-            <a href={post.permalink}>
-              {post.featuredImage && (
-                <div class="blog-post-image">
-                  <img
-                    src={post.featuredImage.src}
-                    alt={post.featuredImage.alt || post.title}
-                    loading="lazy"
-                  />
-                </div>
-              )}
-              <div class="blog-post-info">
-                <h2>{post.title}</h2>
-                {post.excerpt && (
-                  <div class="blog-post-excerpt" set:html={post.excerpt} />
+    {
+      posts && posts.length > 0 && (
+        <div class="blog-posts-grid row">
+          {posts.map((post) => (
+            <article class="blog-post-card">
+              <a href={post.permalink}>
+                {post.featuredImage && (
+                  <div class="blog-post-image">
+                    <Image
+                      src={post.featuredImage.src}
+                      alt={post.featuredImage.alt || post.title}
+                      loading="lazy"
+                      aspectRatio={16 / 9}
+                      layout="constrained"
+                    />
+                  </div>
                 )}
-                <time class="blog-post-date" datetime={post.date}>
-                  {new Date(post.date).toLocaleDateString('it-IT', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                  })}
-                </time>
-              </div>
-            </a>
-          </article>
-        ))}
-      </div>
-    )}
+                <div class="blog-post-info">
+                  <h2>{post.title}</h2>
+                  {post.excerpt && (
+                    <div class="blog-post-excerpt" set:html={post.excerpt} />
+                  )}
+                  <time class="blog-post-date" datetime={post.date}>
+                    {new Date(post.date).toLocaleDateString('it-IT', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
+                    })}
+                  </time>
+                </div>
+              </a>
+            </article>
+          ))}
+        </div>
+      )
+    }
 
-    {(!posts || posts.length === 0) && (
-      <p>Nessun articolo trovato in questa categoria.</p>
-    )}
+    {
+      (!posts || posts.length === 0) && (
+        <p>Nessun articolo trovato in questa categoria.</p>
+      )
+    }
 
-    {posts && posts.length > 0 && pagination && (
-      <div class="row archive-toolbar">
-        <Pagination pagination={pagination} basePath="/blog" />
-      </div>
-    )}
+    {
+      posts && posts.length > 0 && pagination && (
+        <div class="row archive-toolbar">
+          <Pagination pagination={pagination} basePath="/blog" />
+        </div>
+      )
+    }
   </div>
 </MenuLayout>
 

@@ -1,17 +1,20 @@
 ---
+import { Image } from '@unpic/astro';
+import locationDiecimoImage from '../assets/images/location-diecimo.jpg';
+import locationLuccaImage from '../assets/images/location-lucca.jpg';
 // Locations component showing Diecimo and Lucca
 
 const locations = [
   {
     name: 'Diecimo',
     href: '/magazzino-edile/diecimo-borgo-a-mozzano/',
-    image: '/images/location-diecimo.jpg',
+    image: locationDiecimoImage,
     title: 'Visitaci a Diecimo!',
   },
   {
     name: 'Lucca',
     href: '/magazzino-edile/lucca-capannori/',
-    image: '/images/location-lucca.jpg',
+    image: locationLuccaImage,
     title: 'Visitaci a Lucca!',
   },
 ];
@@ -26,7 +29,12 @@ const locations = [
         <div class="location-card">
           <a href={location.href} title={location.title}>
             <div class="location-image">
-              <img src={location.image} alt={`Immagine ${location.name}`} />
+              <Image
+                src={location.image}
+                alt={`Immagine ${location.name}`}
+                aspectRatio={3 / 2}
+                layout="constrained"
+              />
               <h3>{location.name}</h3>
             </div>
           </a>

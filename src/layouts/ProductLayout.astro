@@ -1,5 +1,6 @@
 ---
 import MenuLayout from './MenuLayout.astro';
+import { Image } from '@unpic/astro';
 
 interface ProductImage {
   src: string;
@@ -59,20 +60,23 @@ const {
           <div class="product-gallery">
             {images.featured && (
               <div class="featured-image">
-                <img
+                <Image
                   src={images.featured.src}
                   alt={images.featured.alt || title}
                   loading="lazy"
+                  layout="constrained"
                 />
               </div>
             )}
             {images.gallery && images.gallery.length > 0 && (
               <div class="gallery-images">
                 {images.gallery.map((image) => (
-                  <img
+                  <Image
                     src={image.src}
                     alt={image.alt || title}
                     loading="lazy"
+                    aspectRatio={1}
+                    layout="constrained"
                   />
                 ))}
               </div>

@@ -1,4 +1,6 @@
 ---
+import { Image } from '@unpic/astro';
+import professionalsImage from '../assets/images/professionals.jpg';
 // Professionals component - "Sei un professionista?" block
 
 const professionalData = {
@@ -8,7 +10,7 @@ const professionalData = {
   highlight: 'Scoprile subito!',
   buttonText: 'Scopri cosa ti abbiamo riservato',
   href: '/professionisti-edilizia/',
-  image: '/images/professionals.jpg',
+  image: professionalsImage,
   imageAlt:
     'Uomo con barba brizzolata e camicia disegna un progetto ad un tavolo di legno',
 };
@@ -19,7 +21,11 @@ const professionalData = {
     <div class="professionals-card">
       <div class="professionals-image">
         <a href={professionalData.href} title={professionalData.buttonText}>
-          <img src={professionalData.image} alt={professionalData.imageAlt} />
+          <Image
+            src={professionalData.image}
+            alt={professionalData.imageAlt}
+            layout="constrained"
+          />
         </a>
       </div>
       <div class="professionals-content">

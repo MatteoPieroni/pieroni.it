@@ -1,14 +1,19 @@
----
 import MenuLayout from '../layouts/MenuLayout.astro';
 import Locations from '../components/Locations.astro';
 import Professionals from '../components/Professionals.astro';
+import { Image } from '@unpic/astro';
+import salaMostraImage from '../assets/images/salamostra.jpg';
+import heroFuocoImage from '../assets/images/hero-fuoco.jpg';
 ---
 
 <MenuLayout
   title="Pieroni srl"
   description="Pieroni srl è il punto di riferimento per materiali edili, showroom e soluzioni per costruzioni e ristrutturazioni. Qualità, esperienza e consulenza professionale"
 >
-  <header class="home__header">
+  <header
+    class="home__header"
+    style={`background-image:url('${heroFuocoImage.src}')`}
+  >
     <h1 class="page-title">
       <span>Nuovi caminetti, stufe o generatori di calore a costo zero?</span>
     </h1>
@@ -72,7 +77,11 @@ import Professionals from '../components/Professionals.astro';
       <a class="button" href="/chi-siamo/"> SCOPRI LA NOSTRA STORIA </a>
     </div>
     <div class="about__img">
-      <img src="/images/salamostra.jpg" alt="Sala mostra Pieroni" />
+      <Image
+        src={salaMostraImage}
+        alt="Sala mostra Pieroni"
+        layout="constrained"
+      />
     </div>
   </section>
 
@@ -132,7 +141,6 @@ import Professionals from '../components/Professionals.astro';
 <style>
   .home__header {
     min-height: 70vh;
-    background-image: url('/images/hero-fuoco.jpg');
     background-position: center;
     background-size: cover;
     padding: 0;

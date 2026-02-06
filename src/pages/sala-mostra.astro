@@ -1,10 +1,17 @@
 ---
 import CategoryLayout from '../layouts/CategoryLayout.astro';
+import { Image } from '@unpic/astro';
+import heroImageAsset from '../assets/images/pieroni-sala-mostra-pavimenti-rivestimenti-esterni-mattonelle-piastrelle-bagno-docce-vasche-accessori-mobili-riscaldamento-stufe-camini-caldaie.jpg';
+import bagnoImage from '../assets/images/sala-mostra-bagno-sanitari-vache-docce-wc-rubinetti-accessori.jpg';
+import mattonelleImage from '../assets/images/sala-mostra-pavimenti-rivestimenti-esterni.jpg';
+import riscaldamentoImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino.jpg';
+import step1Image from '../assets/images/pieroni-sala-mostra-professionisti-scelta.jpg';
+import step2Image from '../assets/images/pieroni-sala-mostra-3d-progetto-disegno.jpg';
+import step3Image from '../assets/images/pieroni-sala-mostra-consegna-casa-trasporto.jpg';
 
 const title = 'Sala Mostra';
 const breadcrumbs = [{ label: 'Sala Mostra', href: '/sala-mostra/' }];
-const heroImage =
-  '/images/pieroni-sala-mostra-pavimenti-rivestimenti-esterni-mattonelle-piastrelle-bagno-docce-vasche-accessori-mobili-riscaldamento-stufe-camini-caldaie.jpg';
+const heroImage = heroImageAsset;
 const description = `
   <p>La sala mostra di Pieroni è il fiore all'occhiello della scelta per i bisogni di <strong>privati</strong> e <strong>professionisti</strong>, che si tratti della costruzione di una <strong>casa nuova</strong> o della <strong>ristrutturazione</strong> della tua abitazione attuale.</p>
   <p><strong>I materiali sono esaminati e scelti</strong> con l'attenzione garantita da <strong>anni di lavoro nel settore</strong>.</p>
@@ -13,8 +20,7 @@ const description = `
 
 const gridItems = [
   {
-    image:
-      '/images/sala-mostra-bagno-sanitari-vache-docce-wc-rubinetti-accessori.jpg',
+    image: bagnoImage,
     imageAlt: 'Sala Mostra Bagno Sanitari Vasche Docce Wc Rubinetti Accessori',
     title: 'Bagno',
     description: `
@@ -24,7 +30,7 @@ const gridItems = [
     linkText: 'Vai alla sezione bagno',
   },
   {
-    image: '/images/sala-mostra-pavimenti-rivestimenti-esterni.jpg',
+    image: mattonelleImage,
     imageAlt: 'Sala Mostra Pavimenti Rivestimenti Esterni',
     title: 'Mattonelle',
     description: `
@@ -34,8 +40,7 @@ const gridItems = [
     linkText: 'Vai alla sezione mattonelle',
   },
   {
-    image:
-      '/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino.jpg',
+    image: riscaldamentoImage,
     imageAlt: 'Sala Mostra Riscaldamento Stufe Caldaie Camini Pellet Legna',
     title: 'Riscaldamento',
     description: `
@@ -63,9 +68,10 @@ const gridItems = [
       <h2>Come si passa dalla sala mostra alla tua casa?</h2>
       <div class="steps-grid">
         <div class="step-item">
-          <img
-            src="/images/pieroni-sala-mostra-professionisti-scelta.jpg"
+          <Image
+            src={step1Image}
             alt="Vieni a trovarci, puoi esplorare la sala mostra e parlare con i nostri esperti per fare le migliori scelte per la tua casa."
+            layout="constrained"
           />
           <p>
             Vieni a trovarci, puoi esplorare la sala mostra e parlare con i
@@ -73,9 +79,10 @@ const gridItems = [
           </p>
         </div>
         <div class="step-item">
-          <img
-            src="/images/pieroni-sala-mostra-3d-progetto-disegno.jpg"
+          <Image
+            src={step2Image}
             alt="Scopri i materiali, i formati e i colori dei prodotti pensati per te. I nostri professionisti possono creare il progetto e mostrartelo in 3D."
+            layout="constrained"
           />
           <p>
             Scopri i materiali, i formati e i colori dei prodotti pensati per
@@ -84,9 +91,10 @@ const gridItems = [
           </p>
         </div>
         <div class="step-item">
-          <img
-            src="/images/pieroni-sala-mostra-consegna-casa-trasporto.jpg"
+          <Image
+            src={step3Image}
             alt="Ordina i materiali che hai scelto, ricevili a casa tua o vieni a ritirarli e falli montare da chi hai ingaggiato o chiedici di suggerirtene alcuni."
+            layout="constrained"
           />
           <p>
             Ordina i materiali che hai scelto, ricevili a casa tua o vieni a

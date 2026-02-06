@@ -1,18 +1,21 @@
 ---
 import CategoryLayout from '../layouts/CategoryLayout.astro';
+import heroImageAsset from '../assets/images/pieroni-sala-mostra-riscaldamento-stufe-caldaie-camini-pellet-legna.jpg';
+import stufeImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-logo-sezioni.jpg';
+import caminiImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-edilkamin-sezioni.jpg';
+import caldaieImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-energy-plus-sezione.jpg';
+import pelletImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-combustibili-sezioni.jpg';
 
 const title = 'Riscaldamento, Stufe, Camini e Caldaie';
-const breadcrumbs = [{ label: title, href: '/images/stufe-caldaie-pellet/' }];
-const heroImage =
-  '/images/pieroni-sala-mostra-riscaldamento-stufe-caldaie-camini-pellet-legna.jpg';
+const breadcrumbs = [{ label: title, href: '/stufe-caldaie-pellet/' }];
+const heroImage = heroImageAsset;
 const description = `
   <p>Una <strong>stufa a pellet o a legna</strong> può cambiare la maniera di riscaldare le vostre stanze, e anche l'ambiente stesso.<br /> Vi offriamo una varietà di scelta che vi garantisce la migliore soluzione di funzionalità ed estetica, senza dimenticare il risparmio di queste fonti di calore rinnovabili.</p>
 `;
 
 const gridItems = [
   {
-    image:
-      '/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-logo-sezioni.jpg',
+    image: stufeImage,
     imageAlt: 'Stufe',
     title: 'Stufe',
     description: `
@@ -22,8 +25,7 @@ const gridItems = [
     linkText: 'Scopri le nostre Stufe',
   },
   {
-    image:
-      '/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-edilkamin-sezioni.jpg',
+    image: caminiImage,
     imageAlt: 'Camini',
     title: 'Camini',
     description: `
@@ -33,8 +35,7 @@ const gridItems = [
     linkText: 'Scopri i nostri Camini',
   },
   {
-    image:
-      '/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-energy-plus-sezione.jpg',
+    image: caldaieImage,
     imageAlt: 'Caldaie',
     title: 'Caldaie',
     description: `
@@ -44,8 +45,7 @@ const gridItems = [
     linkText: 'Scopri le nostre Caldaie',
   },
   {
-    image:
-      '/images/sala-mostra-riscaldamento-pellet-legna-combustibili-sezioni.jpg',
+    image: pelletImage,
     imageAlt: 'Pellet',
     title: 'Pellet',
     description: `

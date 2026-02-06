@@ -1,17 +1,21 @@
 ---
 import CategoryLayout from '../layouts/CategoryLayout.astro';
+import heroImageAsset from '../assets/images/pieroni-sala-mostra-bagno-doccie-sanitari-vasche-rubinetti-accessori-mobili.jpg';
+import cabineImage from '../assets/images/pieroni-bagno-cabine-doccia-docce-piatti-sezioni.jpg';
+import vascheImage from '../assets/images/pieroni-bagno-vasca-idromassaggio-sezioni.jpg';
+import sanitariImage from '../assets/images/pieroni-bagno-sanitari-mobili-bidet-wc-water-sezioni.jpg';
+import accessoriImage from '../assets/images/pieroni-bagno-accessori-porta-asciugamani-sapone-sezioni.jpg';
 
 const title = 'Sala Mostra Mobili Bagno, Sanitari, Vasche e Docce';
 const breadcrumbs = [{ label: title, href: '/arredo-bagno/' }];
-const heroImage =
-  '/images/pieroni-sala-mostra-bagno-doccie-sanitari-vasche-rubinetti-accessori-mobili.jpg';
+const heroImage = heroImageAsset;
 const description = `
   <p>La nostra sala mostra offre una vasta gamma di docce, cabine doccia, box, piatti, pareti, in tutti i materiali e di tutte le forme e dimensioni.<br /> Grazie alle marche più famose e a quelle meno famose, possiamo soddisfare il desiderio di tutti e di tutte le tasche, dalla doccia per la ristrutturazione alla sauna o hammam, passando per idromassaggio e cromoterapia.</p>
 `;
 
 const gridItems = [
   {
-    image: '/images/pieroni-bagno-cabine-doccia-docce-piatti-sezioni.jpg',
+    image: cabineImage,
     imageAlt: 'Cabine e Piatti Doccia',
     title: 'Cabine e Piatti Doccia',
     description: `
@@ -21,7 +25,7 @@ const gridItems = [
     linkText: 'Scopri le nostre docce!',
   },
   {
-    image: '/images/pieroni-bagno-vasca-idromassaggio-sezioni.jpg',
+    image: vascheImage,
     imageAlt: 'Vasche da Bagno e Idromassaggi',
     title: 'Vasche da Bagno e Idromassaggi',
     description: `
@@ -31,7 +35,7 @@ const gridItems = [
     linkText: 'Scopri le nostre vasche!',
   },
   {
-    image: '/images/pieroni-bagno-sanitari-mobili-bidet-wc-water-sezioni.jpg',
+    image: sanitariImage,
     imageAlt: 'Sanitari e Mobili da Bagno',
     title: 'Sanitari e Mobili da Bagno',
     description: `
@@ -41,8 +45,7 @@ const gridItems = [
     linkText: 'Scopri i nostri sanitari!',
   },
   {
-    image:
-      '/images/pieroni-bagno-accessori-porta-asciugamani-sapone-sezioni.jpg',
+    image: accessoriImage,
     imageAlt: 'Accessori Bagno',
     title: 'Accessori Bagno',
     description: `

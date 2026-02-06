@@ -1,6 +1,7 @@
 ---
 import MenuLayout from './MenuLayout.astro';
 import Pagination from '../components/Pagination.astro';
+import { Image } from '@unpic/astro';
 
 interface Product {
   id: number;
@@ -92,10 +93,12 @@ const { title, breadcrumbs, products, subcategories, count, pagination } =
               <a href={product.permalink}>
                 {product.images && product.images.length > 0 && (
                   <div class="product-image">
-                    <img
+                    <Image
                       src={product.images[0].src}
                       alt={product.images[0].alt || product.name}
                       loading="lazy"
+                      aspectRatio={1}
+                      layout="constrained"
                     />
                   </div>
                 )}

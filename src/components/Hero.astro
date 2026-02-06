@@ -1,15 +1,16 @@
 ---
 interface Props {
   title: string;
-  heroImage?: string;
+  heroImage?: ImageMetadata;
 }
 
 const { title, heroImage } = Astro.props;
+
 ---
 
 <header
   class="article-header hero"
-  {...heroImage && { style: `background-image:url('${heroImage}')` }}
+  {...heroImage && { style: `background-image:url('${heroImage.src}')` }}
 >
   <h1 class="page-title">{title}</h1>
 </header>

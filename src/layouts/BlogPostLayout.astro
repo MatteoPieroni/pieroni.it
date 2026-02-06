@@ -1,5 +1,6 @@
 ---
 import MenuLayout from './MenuLayout.astro';
+import { Image } from '@unpic/astro';
 
 interface Props {
   title: string;
@@ -43,39 +44,44 @@ const {
 
       <div class="blog-post-meta">
         <time datetime={date}>
-          {new Date(date).toLocaleDateString('it-IT', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-          })}
+          {
+            new Date(date).toLocaleDateString('it-IT', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })
+          }
         </time>
         {author && <span class="blog-post-author">di {author.name}</span>}
-        {categories && categories.length > 0 && (
-          <div class="blog-post-categories">
-            {categories.map((cat, index) => (
-              <>
-                {index > 0 && ', '}
-                <a href={`/blog/${cat.slug}/`}>{cat.name}</a>
-              </>
-            ))}
-          </div>
-        )}
+        {
+          categories && categories.length > 0 && (
+            <div class="blog-post-categories">
+              {categories.map((cat, index) => (
+                <>
+                  {index > 0 && ', '}
+                  <a href={`/blog/${cat.slug}/`}>{cat.name}</a>
+                </>
+              ))}
+            </div>
+          )
+        }
       </div>
     </header>
 
-    {featuredImage && (
-      <div class="blog-post-featured-image">
-        <img
-          src={featuredImage.src}
-          alt={featuredImage.alt || title}
-          loading="eager"
-        />
-      </div>
-    )}
+    {
+      featuredImage && (
+        <div class="blog-post-featured-image">
+          <Image
+            src={featuredImage.src}
+            alt={featuredImage.alt || title}
+            loading="eager"
+            layout="constrained"
+          />
+        </div>
+      )
+    }
 
-    {excerpt && (
-      <div class="blog-post-excerpt" set:html={excerpt} />
-    )}
+    {excerpt && <div class="blog-post-excerpt" set:html={excerpt} />}
 
     <div class="blog-post-content" set:html={content} />
   </article>
