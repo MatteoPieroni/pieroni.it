@@ -1,13 +1,17 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, passthroughImageService } from 'astro/config';
 import icon from "astro-icon";
 import pagefind from "astro-pagefind";
-import { imageService } from "@unpic/astro/service";
+
+import cloudflare from "@astrojs/cloudflare";
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [icon(), pagefind()],
-  image: {
-    service: imageService(),
-  },
+  // image: {
+  //   service: passthroughImageService(),
+  // },
+  adapter: cloudflare({
+    imageService: 'cloudflare'
+  }),
 });
