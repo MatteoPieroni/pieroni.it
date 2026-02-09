@@ -1,5 +1,5 @@
 ---
-import { Image as UnpicImage } from '@unpic/astro';
+import { Image as AstroImage } from 'astro:assets';
 
 interface Props {
   src: ImageMetadata;
@@ -21,4 +21,4 @@ const {
 } = Astro.props;
 ---
 
-<UnpicImage layout={layout} placeholder={placeholder} {...rest} />
+<AstroImage {...rest} />
