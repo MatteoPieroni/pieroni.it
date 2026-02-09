@@ -1,24 +1,33 @@
 ---
 import { Image as AstroImage } from 'astro:assets';
 
-interface Props {
-  src: ImageMetadata;
+type Props = {
   alt: string;
-  layout?: 'constrained' | 'fixed' | 'fullWidth';
-  placeholder?: 'blurhash' | 'dominantColor' | 'empty';
   loading?: 'lazy' | 'eager';
-  width?: number;
-  height?: number;
   aspectRatio?: number;
   class?: string;
-  unstyled?: boolean;
-}
+  priority?: boolean;
+} & (
+  | {
+      src: ImageMetadata;
+      remote?: never;
+    }
+  | {
+      src: string;
+      remote: true;
+    }
+);
 
-const {
-  layout = 'constrained',
-  placeholder = 'blurhash',
-  ...rest
-} = Astro.props;
+const { loading = 'lazy', src, remote, ...rest } = Astro.props;
+
+const remoteProps = remote
+  ? {
+      src,
+      inferSize: true as const,
+    }
+  : {
+      src,
+    };
 ---
 
-<AstroImage {...rest} />
+<AstroImage {...remoteProps} loading={loading} {...rest} />
