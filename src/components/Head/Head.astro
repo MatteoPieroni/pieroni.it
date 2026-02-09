@@ -10,14 +10,21 @@ interface Props {
     label: string;
     href: string;
   }>;
+  fontToPreload: string;
 }
 
-const { description, title, breadcrumbs } = Astro.props;
+const { description, title, breadcrumbs, fontToPreload } = Astro.props;
 ---
 
 <head>
   <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link
+    rel="preload"
+    as="font"
+    type="font/woff2"
+    href={fontToPreload}
+    crossorigin="anonymous"
+  />
   <meta name="viewport" content="width=device-width" />
   <meta name="generator" content={Astro.generator} />
   <link rel="profile" href="https://gmpg.org/xfn/11" />
