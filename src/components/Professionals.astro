@@ -1,5 +1,5 @@
 ---
-import { Image } from '@unpic/astro';
+import Image from './Image.astro';
 import professionalsImage from '../assets/images/professionals.jpg';
 // Professionals component - "Sei un professionista?" block
 
@@ -21,11 +21,7 @@ const professionalData = {
     <div class="professionals-card">
       <div class="professionals-image">
         <a href={professionalData.href} title={professionalData.buttonText}>
-          <Image
-            src={professionalData.image}
-            alt={professionalData.imageAlt}
-            layout="constrained"
-          />
+          <Image src={professionalData.image} alt={professionalData.imageAlt} />
         </a>
       </div>
       <div class="professionals-content">

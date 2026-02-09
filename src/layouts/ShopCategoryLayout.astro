@@ -1,7 +1,7 @@
 ---
 import MenuLayout from './MenuLayout.astro';
 import Pagination from '../components/Pagination.astro';
-import { Image } from '@unpic/astro';
+import Image from '../components/Image.astro';
 
 interface Product {
   id: number;
@@ -98,7 +98,6 @@ const { title, breadcrumbs, products, subcategories, count, pagination } =
                       alt={product.images[0].alt || product.name}
                       loading="lazy"
                       aspectRatio={1}
-                      layout="constrained"
                     />
                   </div>
                 )}

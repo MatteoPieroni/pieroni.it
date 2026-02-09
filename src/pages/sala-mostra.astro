@@ -1,6 +1,6 @@
 ---
 import CategoryLayout from '../layouts/CategoryLayout.astro';
-import { Image } from '@unpic/astro';
+import Image from '../components/Image.astro';
 import heroImageAsset from '../assets/images/pieroni-sala-mostra-pavimenti-rivestimenti-esterni-mattonelle-piastrelle-bagno-docce-vasche-accessori-mobili-riscaldamento-stufe-camini-caldaie.jpg';
 import bagnoImage from '../assets/images/sala-mostra-bagno-sanitari-vache-docce-wc-rubinetti-accessori.jpg';
 import mattonelleImage from '../assets/images/sala-mostra-pavimenti-rivestimenti-esterni.jpg';
@@ -71,7 +71,6 @@ const gridItems = [
           <Image
             src={step1Image}
             alt="Vieni a trovarci, puoi esplorare la sala mostra e parlare con i nostri esperti per fare le migliori scelte per la tua casa."
-            layout="constrained"
           />
           <p>
             Vieni a trovarci, puoi esplorare la sala mostra e parlare con i
@@ -82,7 +81,6 @@ const gridItems = [
           <Image
             src={step2Image}
             alt="Scopri i materiali, i formati e i colori dei prodotti pensati per te. I nostri professionisti possono creare il progetto e mostrartelo in 3D."
-            layout="constrained"
           />
           <p>
             Scopri i materiali, i formati e i colori dei prodotti pensati per
@@ -94,7 +92,6 @@ const gridItems = [
           <Image
             src={step3Image}
             alt="Ordina i materiali che hai scelto, ricevili a casa tua o vieni a ritirarli e falli montare da chi hai ingaggiato o chiedici di suggerirtene alcuni."
-            layout="constrained"
           />
           <p>
             Ordina i materiali che hai scelto, ricevili a casa tua o vieni a

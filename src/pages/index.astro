@@ -1,7 +1,8 @@
+---
 import MenuLayout from '../layouts/MenuLayout.astro';
 import Locations from '../components/Locations.astro';
 import Professionals from '../components/Professionals.astro';
-import { Image } from '@unpic/astro';
+import Image from '../components/Image.astro';
 import salaMostraImage from '../assets/images/salamostra.jpg';
 import heroFuocoImage from '../assets/images/hero-fuoco.jpg';
 ---
@@ -77,11 +78,7 @@ import heroFuocoImage from '../assets/images/hero-fuoco.jpg';
       <a class="button" href="/chi-siamo/"> SCOPRI LA NOSTRA STORIA </a>
     </div>
     <div class="about__img">
-      <Image
-        src={salaMostraImage}
-        alt="Sala mostra Pieroni"
-        layout="constrained"
-      />
+      <Image src={salaMostraImage} alt="Sala mostra Pieroni" />
     </div>
   </section>
 

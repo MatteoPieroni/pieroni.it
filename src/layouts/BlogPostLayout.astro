@@ -1,6 +1,6 @@
 ---
 import MenuLayout from './MenuLayout.astro';
-import { Image } from '@unpic/astro';
+import Image from '../components/Image.astro';
 
 interface Props {
   title: string;
@@ -75,7 +75,6 @@ const {
             src={featuredImage.src}
             alt={featuredImage.alt || title}
             loading="eager"
-            layout="constrained"
           />
         </div>
       )

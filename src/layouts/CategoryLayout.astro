@@ -3,7 +3,7 @@ import MenuLayout from './MenuLayout.astro';
 import Hero from '../components/Hero.astro';
 import Locations from '../components/Locations.astro';
 import Professionals from '../components/Professionals.astro';
-import { Image } from '@unpic/astro';
+import Image from '../components/Image.astro';
 
 interface Props {
   title: string;
@@ -56,18 +56,10 @@ const {
           <div class="card">
             {item.linkHref ? (
               <a href={item.linkHref} title={item.linkText || item.title}>
-                <Image
-                  src={item.image}
-                  alt={item.imageAlt}
-                  layout="constrained"
-                />
+                <Image src={item.image} alt={item.imageAlt} />
               </a>
             ) : (
-              <Image
-                src={item.image}
-                alt={item.imageAlt}
-                layout="constrained"
-              />
+              <Image src={item.image} alt={item.imageAlt} />
             )}
             <div class="card-body">
               {item.linkHref ? (

@@ -1,5 +1,5 @@
 ---
-import { Image } from '@unpic/astro';
+import Image from './Image.astro';
 import locationDiecimoImage from '../assets/images/location-diecimo.jpg';
 import locationLuccaImage from '../assets/images/location-lucca.jpg';
 // Locations component showing Diecimo and Lucca
@@ -33,7 +33,6 @@ const locations = [
                 src={location.image}
                 alt={`Immagine ${location.name}`}
                 aspectRatio={3 / 2}
-                layout="constrained"
               />
               <h3>{location.name}</h3>
             </div>

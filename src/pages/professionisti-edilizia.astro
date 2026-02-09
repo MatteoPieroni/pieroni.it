@@ -2,7 +2,7 @@
 import MenuLayout from '../layouts/MenuLayout.astro';
 import Hero from '../components/Hero.astro';
 import Locations from '../components/Locations.astro';
-import { Image } from '@unpic/astro';
+import Image from '../components/Image.astro';
 import giletImage from '../assets/images/gilet-pieroni-srl-diecimo-lucca-fornaci-barga-edilizia.png';
 ---
 
@@ -20,11 +20,7 @@ import giletImage from '../assets/images/gilet-pieroni-srl-diecimo-lucca-fornaci
   <div class="margin-container row">
     <div class="intro">
       <div>
-        <Image
-          src={giletImage}
-          alt="Gilet Pieroni srl"
-          layout="constrained"
-        />
+        <Image src={giletImage} alt="Gilet Pieroni srl" priority />
       </div>
 
       <div>

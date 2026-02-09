@@ -1,0 +1,24 @@
+---
+import { Image as UnpicImage } from '@unpic/astro';
+
+interface Props {
+  src: any;
+  alt: string;
+  layout?: 'constrained' | 'fixed' | 'fullWidth';
+  placeholder?: 'blurhash' | 'dominantColor' | 'empty';
+  loading?: 'lazy' | 'eager';
+  width?: number;
+  height?: number;
+  aspectRatio?: number;
+  [key: string]: any;
+}
+
+const {
+  layout = 'constrained',
+  placeholder = 'blurhash',
+  ...rest
+} = Astro.props as Props;
+---
+
+<UnpicImage layout={layout} placeholder={placeholder} {...rest} />
+
