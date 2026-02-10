@@ -1,0 +1,36 @@
+import type { Category } from '../types';
+
+export async function getPostsInCategory(
+  category: Pick<Category, 'id'>,
+  pageLimit = 100,
+  page = 1,
+): Promise<any[]> {
+  const WORDPRESS_URL = 'https://www.pieroni.it/wp-json/wp/v2';
+
+  const posts: any[] = [];
+
+  while (true) {
+    const response = await fetch(
+      `${WORDPRESS_URL}/posts?categories=${category.id}&per_page=${pageLimit}&page=${page}&status=publish`,
+    );
+
+    if (!response.ok) {
+      break;
+    }
+
+    const pagePosts = await response.json();
+    if (pagePosts.length === 0) {
+      break;
+    }
+
+    posts.push(...pagePosts);
+
+    if (pagePosts.length < pageLimit) {
+      break;
+    }
+
+    page++;
+  }
+
+  return posts;
+}

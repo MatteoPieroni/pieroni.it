@@ -1,4 +1,4 @@
-import type { Category } from './types';
+import type { Category } from '../types';
 
 export const getProductsInCategory = async (
   category: Pick<Category, 'id'>,

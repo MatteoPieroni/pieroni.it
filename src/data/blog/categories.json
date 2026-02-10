@@ -1,0 +1,95 @@
+[
+  {
+    "id": 42,
+    "name": "Blog",
+    "slug": "blog",
+    "count": 16,
+    "children": [
+      {
+        "id": 41,
+        "name": "Eventi",
+        "slug": "eventi",
+        "count": 5,
+        "children": []
+      },
+      {
+        "id": 117,
+        "name": "Internet delle cose",
+        "slug": "internet-delle-cose",
+        "count": 2,
+        "children": []
+      },
+      {
+        "id": 103,
+        "name": "Pieroni srl",
+        "slug": "pieroni-srl",
+        "count": 8,
+        "children": []
+      },
+      {
+        "id": 40,
+        "name": "Professionisti",
+        "slug": "professionisti",
+        "count": 1,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 309,
+    "name": "Bonus",
+    "slug": "bonus",
+    "count": 1,
+    "children": []
+  },
+  {
+    "id": 44,
+    "name": "Gli Speciali",
+    "slug": "gli-speciali",
+    "count": 14,
+    "children": [
+      {
+        "id": 111,
+        "name": "Bagno",
+        "slug": "bagno",
+        "count": 1,
+        "children": []
+      },
+      {
+        "id": 105,
+        "name": "Forni e Barbecue",
+        "slug": "forni-e-barbecue",
+        "count": 2,
+        "children": []
+      },
+      {
+        "id": 99,
+        "name": "Pavimenti",
+        "slug": "pavimenti",
+        "count": 3,
+        "children": []
+      },
+      {
+        "id": 100,
+        "name": "Riscaldamento",
+        "slug": "riscaldamento",
+        "count": 2,
+        "children": []
+      },
+      {
+        "id": 112,
+        "name": "Tecnologie e Materiali",
+        "slug": "tecnologie-e-materiali",
+        "count": 2,
+        "children": []
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "name": "Senza categoria",
+    "slug": "senza-categoria",
+    "count": 0,
+    "children": []
+  }
+]

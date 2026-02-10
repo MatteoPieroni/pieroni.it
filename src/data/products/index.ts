@@ -1,5 +1,5 @@
 import { getProductsInCategory } from './adapter';
-import type { Category } from './types';
+import type { Category } from '../types';
 import categoriesData from './categories.json';
 
 export type FlatCategory = Omit<(typeof categoriesData)[number], 'children'> & {
