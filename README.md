@@ -1,10 +1,8 @@
 # pieroni.it
 
-## general
-
-- search
-
 ## styles adjustments
+
+- home links scroll
 
 ### pages
 
@@ -26,11 +24,20 @@
 - SEO
   - Page titles
   - page description
-  - opengraph spec
-  - favicons
 - cookie banner
 - google analytics
 - facebook analytics
+
+## Redirects
+
+- /marca
+- /formato
+
+## Perf
+
+- extract css to file
+- caching of html
+- caching of assets
 
 # Astro Starter Kit: Minimal
 

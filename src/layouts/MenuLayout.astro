@@ -31,7 +31,7 @@ const isHome = 'isHome' in props ? props.isHome : undefined;
 
     {
       breadcrumbs && breadcrumbs.length > 0 && (
-        <div class="margin-container">
+        <div class="margin-container breadcrumbs-container">
           <Breadcrumbs items={breadcrumbs} />
         </div>
       )
@@ -44,3 +44,9 @@ const isHome = 'isHome' in props ? props.isHome : undefined;
     <Footer />
   </body>
 </html>
+
+<style>
+  .breadcrumbs-container {
+    margin-block-end: 0.75rem;
+  }
+</style>
