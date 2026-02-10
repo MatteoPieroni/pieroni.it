@@ -1,6 +1,7 @@
 ---
 import MenuLayout from './MenuLayout.astro';
 import Image from '../components/Image.astro';
+import { getMetaDescriptionFromHtmlDescription } from '../utils/seo';
 
 interface ProductImage {
   src: string;
@@ -31,6 +32,7 @@ interface Props {
   };
   description?: string;
   fullDescription?: string;
+  shortDescription?: string;
   attributes?: ProductAttribute[];
   categories?: ProductCategory[];
   ctaText?: string;
@@ -48,9 +50,15 @@ const {
   ctaText = 'Sei interessato? Prendi un appuntamento!',
   ctaLink = '/appuntamento-sala-mostra/',
 } = Astro.props;
+
+const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 ---
 
-<MenuLayout breadcrumbs={breadcrumbs}>
+<MenuLayout
+  breadcrumbs={breadcrumbs}
+  title={title}
+  description={parsedDescription}
+>
   <div class="margin-container product-page">
     <h1>{title}</h1>
 

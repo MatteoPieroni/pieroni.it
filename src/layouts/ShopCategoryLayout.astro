@@ -49,7 +49,11 @@ const { title, breadcrumbs, products, subcategories, count, pagination } =
   Astro.props;
 ---
 
-<MenuLayout breadcrumbs={breadcrumbs}>
+<MenuLayout
+  breadcrumbs={breadcrumbs}
+  title={title}
+  description={`Vedi tutti i prodotti nella categoria ${title} di Pieroni srl`}
+>
   <div class="margin-container">
     <header class="row-small">
       <h1>{title}</h1>
