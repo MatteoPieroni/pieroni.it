@@ -51,7 +51,11 @@ const { title, breadcrumbs, posts, subcategories, count, pagination } =
   Astro.props;
 ---
 
-<MenuLayout breadcrumbs={breadcrumbs}>
+<MenuLayout
+  breadcrumbs={breadcrumbs}
+  title={title}
+  description={`Vedi tutti i post nella categoria ${title} del blog di Pieroni srl`}
+>
   <div class="margin-container">
     <header class="row-small">
       <h1>{title}</h1>
