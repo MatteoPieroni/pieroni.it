@@ -8,6 +8,7 @@ import BlogCategoryLayout from '../../layouts/BlogCategoryLayout.astro';
 import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 import { remoteToLocalUrl, swapImageUrlDomain } from '../../utils/remoteLinks';
 import blogCategoriesData from '../../data/blog/categories.json';
+import { getFlatCategories } from '../../data/products';
 
 const WORDPRESS_URL = 'https://www.pieroni.it/wp-json/wp/v2';
 
@@ -31,8 +32,6 @@ export async function getStaticPaths() {
       post: page.product,
     },
   }));
-
-  console.log({ p: usableProductPages[0].props.post });
 
   return [...categoryPages, ...usableProductPages];
 }
@@ -84,6 +83,7 @@ let content = '';
 let excerpt = '';
 let categories: any[] = [];
 let featuredImage = undefined;
+let allCategories: { href: string; title: string }[] = [];
 
 // remove the numbered pages
 const cleanSlug = slug.replace(/\/page\/.*/, '');
@@ -132,6 +132,13 @@ if (isCategoryPage) {
     slug: `${cleanSlug}/${subcat.slug}`,
     count: subcat.count || 0,
   }));
+
+  allCategories = Object.values(getFlatCategories(blogCategoriesData))
+    .filter((cat) => cat.count > 0)
+    .map((cat) => ({
+      href: `/blog/${cat.slug}`,
+      title: cat.name,
+    }));
 } else if (isPostPage) {
   title = post.title.rendered;
 
@@ -146,7 +153,7 @@ if (isCategoryPage) {
       if (mediaResponse.ok) {
         const media = await mediaResponse.json();
         featuredImage = {
-          src: media.source_url,
+          src: swapImageUrlDomain(media.source_url),
           alt: media.alt_text || title,
         };
       }
@@ -178,6 +185,7 @@ if (isCategoryPage) {
       pagination={pagination}
       count={count}
       posts={formattedPosts}
+      allCategories={allCategories}
     />
   ) : isPostPage ? (
     <BlogPostLayout

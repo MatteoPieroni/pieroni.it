@@ -6,7 +6,6 @@ import Image from '../components/Image.astro';
 interface BlogPost {
   id: number;
   title: string;
-  slug: string;
   permalink: string;
   excerpt: string;
   date: string;
@@ -40,6 +39,10 @@ interface Props {
     first: PaginationPage;
     last: PaginationPage;
   };
+  allCategories: {
+    href: string;
+    title: string;
+  }[];
 }
 
 type PaginationPage = {
@@ -47,8 +50,15 @@ type PaginationPage = {
   href: string;
 };
 
-const { title, breadcrumbs, posts, subcategories, count, pagination } =
-  Astro.props;
+const {
+  title,
+  breadcrumbs,
+  posts,
+  subcategories,
+  count,
+  pagination,
+  allCategories,
+} = Astro.props;
 ---
 
 <MenuLayout
@@ -58,7 +68,7 @@ const { title, breadcrumbs, posts, subcategories, count, pagination } =
 >
   <div class="margin-container">
     <header class="row-small">
-      <h1>{title}</h1>
+      <h1>Categoria: {title}</h1>
 
       {
         posts && posts.length > 0 && (
@@ -79,7 +89,7 @@ const { title, breadcrumbs, posts, subcategories, count, pagination } =
     {
       subcategories && subcategories.length > 0 && (
         <div class="row">
-          <h2>Categorie</h2>
+          <h2>Sottocategorie</h2>
           <ul class="subcategories-list">
             {subcategories.map((subcat) => (
               <li>
@@ -98,7 +108,7 @@ const { title, breadcrumbs, posts, subcategories, count, pagination } =
         <div class="blog-posts-grid row">
           {posts.map((post) => (
             <article class="blog-post-card">
-              <a href={post.permalink}>
+              <a href={`/blog${post.permalink}`}>
                 {post.featuredImage && (
                   <div class="blog-post-image">
                     <Image
@@ -134,6 +144,19 @@ const { title, breadcrumbs, posts, subcategories, count, pagination } =
         <p>Nessun articolo trovato in questa categoria.</p>
       )
     }
+
+    <div>
+      <h2>Tutte le categorie</h2>
+      <ul>
+        {
+          allCategories.map((cat) => (
+            <li>
+              <a href={cat.href}>{cat.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
 
     {
       posts && posts.length > 0 && pagination && (
