@@ -22,10 +22,7 @@ interface ProductCategory {
 }
 
 type Props = PageProps & {
-  images?: {
-    featured?: ProductImage;
-    gallery?: ProductImage[];
-  };
+  images?: ProductImage[];
   description?: string;
   fullDescription?: string;
   attributes?: ProductAttribute[];
@@ -56,31 +53,30 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 >
   <div class="margin-container product-page">
     {
-      images && (
+      images && images.length > 0 && (
         <div class="product-gallery">
-          {images.featured && (
-            <div class="featured-image">
+          <div class="featured-image">
+            <a href={images[0].src} data-fslightbox data-type="image">
               <Image
-                src={images.featured.src}
-                alt={images.featured.alt || title}
+                src={images[0].src}
+                alt={images[0].alt || title}
                 loading="lazy"
                 remote
               />
-            </div>
-          )}
-          {images.gallery && images.gallery.length > 0 && (
-            <div class="gallery-images">
-              {images.gallery.map((image) => (
+            </a>
+          </div>
+          <div class="gallery-images">
+            {images.slice(1).map((image) => (
+              <a href={image.src} data-fslightbox data-type="image">
                 <Image
                   src={image.src}
                   alt={image.alt || title}
                   loading="lazy"
-                  aspectRatio={1}
                   remote
                 />
-              ))}
-            </div>
-          )}
+              </a>
+            ))}
+          </div>
         </div>
       )
     }
@@ -93,7 +89,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
           <div class="product-description" set:html={description} />
         )
       }
-      <div class="product-cta">
+      <div class="product-cta row">
         <p>
           <strong>{ctaText}</strong>
         </p>
@@ -102,19 +98,19 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 
       {
         categories && categories.length > 0 && (
-          <div class="product-categories">
-            <p>
-              <strong>Categorie:</strong>{' '}
-              {categories.map((cat, index) => (
-                <>
-                  {index > 0 && ', '}
-                  <a href={cat.slug ? `/negozio/${cat.slug}/` : '#'}>
-                    {cat.name}
-                  </a>
-                </>
-              ))}
-            </p>
-          </div>
+          <p>
+            <strong>Categorie:</strong>{' '}
+            {categories.map((cat, index) => (
+              <>
+                {index > 0 && ', '}
+                {cat.slug ? (
+                  <a href={`/negozio/${cat.slug}/`}>{cat.name}</a>
+                ) : (
+                  <p>{cat.name}</p>
+                )}
+              </>
+            ))}
+          </p>
         )
       }
     </div>
@@ -165,6 +161,10 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
   .product-page {
     display: grid;
     grid-template-columns: 1fr;
+    grid-template-areas:
+      'image'
+      'info'
+      'description';
     gap: 2rem;
 
     @media (min-width: 960px) {
@@ -191,7 +191,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 
   .gallery-images {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 0.5rem;
   }
 
@@ -199,8 +199,8 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
     width: 100%;
     height: auto;
     border-radius: var(--radius);
-    cursor: pointer;
     transition: opacity 0.2s;
+    aspect-ratio: 1;
   }
 
   .gallery-images img:hover {
@@ -211,11 +211,11 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
     grid-area: info;
   }
 
-  .product-full-description {
-    grid-area: description;
+  .product-info h1 {
+    font-size: 2.75em;
   }
 
-  .product-attributes {
+  .product-full-description {
     grid-area: description;
   }
 
@@ -236,10 +236,6 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
     width: 40%;
   }
 
-  .product-categories {
-    margin-block-start: 1rem;
-  }
-
   .product-cta {
     padding: 1.5rem;
     background: var(--bg-darker);
@@ -255,3 +251,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
     display: inline-block;
   }
 </style>
+
+<script>
+  import 'fslightbox';
+</script>

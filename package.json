@@ -19,6 +19,7 @@
     "astro-icon": "^1.1.5",
     "astro-pagefind": "^1.8.5",
     "astro-seo": "^1.1.0",
+    "fslightbox": "3.7.4",
     "pagefind": "^1.4.0"
   },
   "devDependencies": {

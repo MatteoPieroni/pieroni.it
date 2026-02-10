@@ -132,18 +132,10 @@ if (isCategoryPage) {
 
   // Prepare images
   const galleryImages = product.images || [];
-  images = {
-    featured: galleryImages[0]
-      ? {
-          src: swapImageUrlDomain(galleryImages[0].src),
-          alt: galleryImages[0].alt || title,
-        }
-      : undefined,
-    gallery: galleryImages.slice(1).map((img: any) => ({
-      src: swapImageUrlDomain(img.src),
-      alt: img.alt || title,
-    })),
-  };
+  images = galleryImages.map((img: any) => ({
+    src: swapImageUrlDomain(img.src),
+    alt: img.alt || title,
+  }));
 
   // Prepare description
   description = product.short_description || product.description;

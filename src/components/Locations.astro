@@ -29,11 +29,7 @@ const locations = [
         <div class="location-card">
           <a href={location.href} title={location.title}>
             <div class="location-image">
-              <Image
-                src={location.image}
-                alt={`Immagine ${location.name}`}
-                aspectRatio={3 / 2}
-              />
+              <Image src={location.image} alt={`Immagine ${location.name}`} />
               <h3>{location.name}</h3>
             </div>
           </a>
