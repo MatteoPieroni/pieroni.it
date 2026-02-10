@@ -2,6 +2,7 @@
 import MenuLayout from './MenuLayout.astro';
 import Image from '../components/Image.astro';
 import { getMetaDescriptionFromHtmlDescription } from '../utils/seo';
+import type { PageProps, PropsWithSEO } from './types';
 
 interface ProductImage {
   src: string;
@@ -20,24 +21,18 @@ interface ProductCategory {
   slug?: string;
 }
 
-interface Props {
-  title: string;
-  breadcrumbs: Array<{
-    label: string;
-    href: string;
-  }>;
+type Props = PageProps & {
   images?: {
     featured?: ProductImage;
     gallery?: ProductImage[];
   };
   description?: string;
   fullDescription?: string;
-  shortDescription?: string;
   attributes?: ProductAttribute[];
   categories?: ProductCategory[];
   ctaText?: string;
   ctaLink?: string;
-}
+};
 
 const {
   title,

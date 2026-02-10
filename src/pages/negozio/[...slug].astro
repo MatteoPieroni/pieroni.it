@@ -1,5 +1,6 @@
 ---
 import { getAllCategories, getCategoriesFromSlug } from '../../data/products';
+import { swapImageUrlDomain, remoteToLocalUrl } from '../../utils/remoteLinks';
 import ProductLayout from '../../layouts/ProductLayout.astro';
 import ShopCategoryLayout from '../../layouts/ShopCategoryLayout.astro';
 
@@ -107,9 +108,9 @@ if (isCategoryPage) {
     name: p.name,
     slug: p.slug,
     // yikes
-    permalink: p.permalink.replace('https://www.pieroni.it', ''),
+    permalink: remoteToLocalUrl(p.permalink),
     images: (p.images || []).map((img: any) => ({
-      src: img.src,
+      src: swapImageUrlDomain(img.src),
       alt: img.alt || p.name,
     })),
   }));
@@ -134,12 +135,12 @@ if (isCategoryPage) {
   images = {
     featured: galleryImages[0]
       ? {
-          src: galleryImages[0].src,
+          src: swapImageUrlDomain(galleryImages[0].src),
           alt: galleryImages[0].alt || title,
         }
       : undefined,
     gallery: galleryImages.slice(1).map((img: any) => ({
-      src: img.src,
+      src: swapImageUrlDomain(img.src),
       alt: img.alt || title,
     })),
   };

@@ -1,9 +1,9 @@
 ---
 import Hero from '../components/Hero.astro';
 import MenuLayout from './MenuLayout.astro';
+import type { PageProps } from './types';
 
-interface Props {
-  title: string;
+type Props = PageProps & {
   heroImage: ImageMetadata;
   locationName: string;
   address: {
@@ -17,12 +17,7 @@ interface Props {
     times: string;
   }>;
   seoTitle: string;
-  description: string;
-  breadcrumbs: Array<{
-    label: string;
-    href: string;
-  }>;
-}
+};
 
 const {
   title,

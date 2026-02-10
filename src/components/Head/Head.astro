@@ -2,18 +2,18 @@
 import { SEO } from 'astro-seo';
 import Favicons from './Favicons.astro';
 import Schema from './Schema.astro';
+import type { PropsWithSEO } from '../../layouts/types';
 
-interface Props {
-  title: string;
-  description: string;
+type Props = PropsWithSEO & {
   breadcrumbs?: Array<{
     label: string;
     href: string;
   }>;
+  isHome?: true;
   fontToPreload: string;
-}
+};
 
-const { description, title, breadcrumbs, fontToPreload } = Astro.props;
+const { description, title, breadcrumbs, fontToPreload, isHome } = Astro.props;
 ---
 
 <head>
@@ -30,7 +30,7 @@ const { description, title, breadcrumbs, fontToPreload } = Astro.props;
   <link rel="profile" href="https://gmpg.org/xfn/11" />
   <SEO
     title={title}
-    titleTemplate={`%s | Pieroni srl`}
+    titleTemplate={isHome ? undefined : `%s | Pieroni srl`}
     description={description}
   />
   <Schema breadcrumbs={breadcrumbs} description={description} />

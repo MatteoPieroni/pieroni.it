@@ -8,17 +8,13 @@ import '@fontsource/source-sans-pro/latin-600.css';
 import sourceSansWoff2 from '@fontsource/source-sans-pro/files/source-sans-pro-latin-300-normal.woff';
 import '../styles/global.css';
 import Head from '../components/Head/Head.astro';
+import type { PageProps } from './types';
 
-interface Props {
-  title: string;
-  description: string;
-  breadcrumbs?: Array<{
-    label: string;
-    href: string;
-  }>;
-}
+type Props = ({ isHome: true } & Omit<PageProps, 'breadcrumbs'>) | PageProps;
 
-const { breadcrumbs, title, description } = Astro.props;
+const { title, description, ...props } = Astro.props;
+const breadcrumbs = 'breadcrumbs' in props ? props.breadcrumbs : undefined;
+const isHome = 'isHome' in props ? props.isHome : undefined;
 ---
 
 <html lang="it">
@@ -27,6 +23,7 @@ const { breadcrumbs, title, description } = Astro.props;
     breadcrumbs={breadcrumbs}
     description={description}
     fontToPreload={sourceSansWoff2}
+    isHome={isHome}
   />
 
   <body>

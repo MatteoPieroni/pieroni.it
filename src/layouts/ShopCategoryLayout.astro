@@ -2,6 +2,7 @@
 import MenuLayout from './MenuLayout.astro';
 import Pagination from '../components/Pagination.astro';
 import Image from '../components/Image.astro';
+import type { PageProps, PropsWithSEO } from './types';
 
 interface Product {
   id: number;
@@ -14,12 +15,7 @@ interface Product {
   }>;
 }
 
-interface Props {
-  title: string;
-  breadcrumbs: Array<{
-    label: string;
-    href: string;
-  }>;
+type Props = Omit<PageProps, 'description'> & {
   products: Product[];
   subcategories?: Array<{
     name: string;
@@ -38,7 +34,7 @@ interface Props {
     first: PaginationPage;
     last: PaginationPage;
   };
-}
+};
 
 type PaginationPage = {
   number: number;

@@ -4,8 +4,9 @@ import Hero from '../components/Hero.astro';
 import Locations from '../components/Locations.astro';
 import Professionals from '../components/Professionals.astro';
 import Image from '../components/Image.astro';
+import type { PageProps } from './types';
 
-interface Props {
+type Props = PageProps & {
   title: string;
   heroImage: ImageMetadata;
   gridItems?: Array<{
@@ -17,13 +18,8 @@ interface Props {
     linkText?: string;
   }>;
   seoTitle: string;
-  description: string;
-  breadcrumbs: Array<{
-    label: string;
-    href: string;
-  }>;
   withoutLocations?: boolean;
-}
+};
 
 const {
   title,
