@@ -93,7 +93,7 @@ const categoriesForBreadcrumbs = getCategoriesFromSlug(
 );
 
 const breadcrumbs = [
-  { label: 'Blog', href: '/blog/' },
+  { label: 'Blog', href: '/category/' },
   ...categoriesForBreadcrumbs.reduce<{ label: string; href: string }[]>(
     (acc, currentCategory) => {
       const lastElementInAcc = acc.at(-1);
@@ -104,7 +104,7 @@ const breadcrumbs = [
           label: currentCategory.name,
           href: lastElementInAcc
             ? `${lastElementInAcc.href}/${currentCategory.slug}`
-            : `/blog/${currentCategory.slug}`,
+            : `/category/${currentCategory.slug}`,
         },
       ];
     },
@@ -136,7 +136,7 @@ if (isCategoryPage) {
   allCategories = Object.values(getFlatCategories(blogCategoriesData))
     .filter((cat) => cat.count > 0)
     .map((cat) => ({
-      href: `/blog/${cat.slug}`,
+      href: `/category/${cat.slug}`,
       title: cat.name,
     }));
 } else if (isPostPage) {

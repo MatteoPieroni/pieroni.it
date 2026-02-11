@@ -92,7 +92,7 @@ const {
               <ul class="subcategories-list">
                 {subcategories.map((subcat) => (
                   <li>
-                    <a href={`/blog/${subcat.slug}/`} class="button">
+                    <a href={`/category/${subcat.slug}/`} class="button">
                       {subcat.name} ({subcat.count})
                     </a>
                   </li>
@@ -118,7 +118,7 @@ const {
 
                   {post.featuredImage && (
                     <div class="blog-post-image">
-                      <a href={`/blog${post.permalink}`}>
+                      <a href={`/category${post.permalink}`}>
                         <Image
                           src={post.featuredImage.src}
                           alt={post.featuredImage.alt || post.title}
@@ -129,14 +129,17 @@ const {
                     </div>
                   )}
 
-                  <a href={`/blog${post.permalink}`} class="post-title-link">
+                  <a
+                    href={`/category${post.permalink}`}
+                    class="post-title-link"
+                  >
                     <h2>{post.title}</h2>
                   </a>
                   {post.excerpt && (
                     <div class="blog-post-excerpt">
                       <div set:html={post.excerpt} />
 
-                      <a href={`/blog${post.permalink}`}>
+                      <a href={`/category${post.permalink}`}>
                         Continua a leggere
                         <span class="screen-reader-text"> {post.title}</span>
                       </a>
@@ -175,7 +178,7 @@ const {
     {
       posts && posts.length > 0 && pagination && (
         <div class="row archive-toolbar">
-          <Pagination pagination={pagination} basePath="/blog" />
+          <Pagination pagination={pagination} basePath="/category" />
         </div>
       )
     }

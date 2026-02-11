@@ -60,7 +60,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
               {categories.map((cat, index) => (
                 <>
                   {index > 0 && ', '}
-                  <a href={`/blog/${cat.slug}/`}>{cat.name}</a>
+                  <a href={`/category/${cat.slug}/`}>{cat.name}</a>
                 </>
               ))}
             </div>
