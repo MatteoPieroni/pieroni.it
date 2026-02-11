@@ -1,4 +1,4 @@
-import type { APIRoute, AstroIntegration } from 'astro';
+import type { AstroIntegration } from 'astro';
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { loadEnv } from 'vite';
@@ -73,6 +73,10 @@ const getShopCategories = async () => {
         slug: category.slug,
         count: category.count,
         children: children.map(buildCategoryTree),
+        image: {
+          src: category.image?.src,
+          alt: category.image?.alt,
+        },
       };
     }
 
@@ -99,7 +103,7 @@ const getBlogCategories = async () => {
     // Fetch all categories
     while (true) {
       const response = await fetch(
-        `${WORDPRESS_URL}/categories?per_page=${perPage}&page=${page}&_fields=id,name,slug,count,parent`,
+        `${WORDPRESS_URL}/categories?per_page=${perPage}&page=${page}`,
       );
 
       if (!response.ok) {
@@ -143,6 +147,7 @@ const getBlogCategories = async () => {
         name: category.name,
         slug: category.slug,
         count: category.count,
+        description: category.description,
         children: children.map(buildCategoryTree),
       };
     }
@@ -166,8 +171,12 @@ export const categoriesFetcher: AstroIntegration = {
   hooks: {
     'astro:config:setup': async (options) => {
       if (options.command === 'build') {
+        options.logger.info('Fetching shop categories');
         await getShopCategories();
+        options.logger.info('Done fetching shop categories');
+        options.logger.info('Fetching blog categories');
         await getBlogCategories();
+        options.logger.info('Done fetching blog categories');
       }
     },
   },
