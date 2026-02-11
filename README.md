@@ -2,28 +2,20 @@
 
 ## styles adjustments
 
-- home links scroll
-
 ### pages
 
 - Privacy
 - negozio
-
-## Product
-
-- page
+- blog
 
 ## Complex
 
-- blog
-- speciali
 - search
 
 ## Other
 
 - SEO
-  - Page titles
-  - page description
+  - canonical
 - cookie banner
 - google analytics
 - facebook analytics
