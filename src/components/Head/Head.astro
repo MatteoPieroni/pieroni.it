@@ -16,7 +16,50 @@ type Props = PropsWithSEO & {
 const { description, title, breadcrumbs, fontToPreload, isHome } = Astro.props;
 ---
 
-<head>
+<head
+  ><script is:inline type="text/javascript">
+    var _iub = _iub || [];
+    _iub.csConfiguration = {
+      enableCcpa: true,
+      ccpaApplies: true,
+      consentOnContinuedBrowsing: false,
+      ccpaNoticeDisplay: false,
+      ccpaAcknowledgeOnDisplay: true,
+      whitelabel: false,
+      siteId: 264068,
+      cookiePolicyId: 100080,
+      banner: {
+        acceptButtonDisplay: true,
+        customizeButtonDisplay: true,
+        acceptButtonColor: '#0073CE',
+        acceptButtonCaptionColor: 'white',
+        customizeButtonColor: '#DADADA',
+        customizeButtonCaptionColor: '#4D4D4D',
+        rejectButtonDisplay: true,
+        rejectButtonColor: '#0073CE',
+        rejectButtonCaptionColor: 'white',
+        position: 'float-top-center',
+        textColor: 'black',
+        backgroundColor: 'white',
+        prependOnBody: false,
+      },
+    };
+    _iub.csLangConfiguration = { it: { cookiePolicyId: 100080 } };
+  </script>
+  <script
+    is:inline
+    type="text/javascript"
+    src="https://cs.iubenda.com/autoblocking/264068.js"></script>
+  <script
+    is:inline
+    type="text/javascript"
+    src="//cdn.iubenda.com/cs/ccpa/stub.js"></script>
+  <script
+    is:inline
+    type="text/javascript"
+    src="//cdn.iubenda.com/cs/iubenda_cs.js"
+    charset="UTF-8"
+    async></script>
   <meta charset="utf-8" />
   <link
     rel="preload"

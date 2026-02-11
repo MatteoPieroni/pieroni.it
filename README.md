@@ -4,6 +4,8 @@
 
 ### pages
 
+- appuntamento
+
 ## Complex
 
 - search
@@ -12,9 +14,6 @@
 
 - SEO
   - canonical
-- cookie banner
-- google analytics
-- facebook analytics
 
 ## Redirects
 

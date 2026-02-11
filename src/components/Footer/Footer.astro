@@ -1,7 +1,7 @@
 ---
-import Image from './Image.astro';
-import logoWhiteImage from '../assets/images/logo-white.png';
-// Pieroni.it footer component
+import Image from '../Image.astro';
+import logoWhiteImage from '../../assets/images/logo-white.png';
+import Scripts from './Scripts.astro';
 
 type FooterMenuItem = {
   label: string;
@@ -214,6 +214,7 @@ const socialLinks = [
     </div>
   </div>
 </footer>
+<Scripts />
 
 <style>
   .site-footer {
