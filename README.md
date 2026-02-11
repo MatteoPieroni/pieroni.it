@@ -4,8 +4,6 @@
 
 ### pages
 
-- Privacy
-
 ## Complex
 
 - search

@@ -1,0 +1,99 @@
+---
+import MenuLayout from '../layouts/MenuLayout.astro';
+
+const editHtml = (html: string) =>
+  // descend all heading openings 1 level
+  html
+    .replaceAll(/<h[0-9]/g, (t) => {
+      const [number] = t.match(/[0-9]/) || [];
+
+      if (!number) {
+        throw new Error();
+      }
+
+      return `<h${+number + 1}`;
+    })
+    // descend all heading closings 1 level
+    .replaceAll(/<\/h([0-9])>/g, (t) => {
+      const [number] = t.match(/[0-9]/) || [];
+
+      if (!number) {
+        throw new Error();
+      }
+
+      return `</h${+number + 1}>`;
+    })
+    .replaceAll('<main', '<div')
+    .replaceAll('</main>', '</div>');
+
+const getPrivacyPolicy = async () => {
+  try {
+    const response = await fetch(
+      'https://www.iubenda.com/api/privacy-policy/100080/no-markup',
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed fetching privacy policy');
+    }
+
+    const data = await response.json();
+
+    if (!('content' in data) || !(typeof data.content === 'string')) {
+      throw new Error('Fetched privacy content did not return string');
+    }
+
+    const editedContent = editHtml(data.content);
+
+    return editedContent;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+const getCookiePolicy = async () => {
+  try {
+    const response = await fetch(
+      'https://www.iubenda.com/api/privacy-policy/100080/cookie-policy/no-markup',
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed fetching cookie policy');
+    }
+
+    const data = await response.json();
+
+    if (!('content' in data) || !(typeof data.content === 'string')) {
+      throw new Error('Fetched cookie content did not return string');
+    }
+
+    const editedContent = editHtml(data.content);
+
+    return editedContent;
+  } catch (e) {
+    console.error(e);
+    throw e;
+  }
+};
+
+const privacyPolicyHtml = await getPrivacyPolicy();
+const cookiePolicyHtml = await getCookiePolicy();
+---
+
+<MenuLayout
+  title="Privacy e Cookie Policy"
+  description="Leggi qui sotto le nostre privacy policy e cookie policy"
+  breadcrumbs={[
+    { label: 'Privacy e Cookie Policy', href: '/privacy-e-cookie-policy' },
+  ]}
+>
+  <div class="margin-container">
+    <h1>Privacy e Cookie Policy</h1>
+    <div class="row">
+      <Fragment set:html={privacyPolicyHtml} />
+    </div>
+    <div class="row">
+      <Fragment set:html={cookiePolicyHtml} />
+    </div>
+  </div>
+</MenuLayout>
