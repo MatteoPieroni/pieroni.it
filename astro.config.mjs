@@ -9,6 +9,9 @@ import { categoriesFetcher } from './src/config/categories';
 // https://astro.build/config
 export default defineConfig({
   integrations: [categoriesFetcher, icon(), pagefind()],
+  image: {
+    domains: ['https://images.pieroni.it']
+  },
   adapter: cloudflare({
     imageService: 'compile'
   }),
