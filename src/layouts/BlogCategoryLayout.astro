@@ -2,6 +2,7 @@
 import MenuLayout from './MenuLayout.astro';
 import Pagination from '../components/Pagination.astro';
 import Image from '../components/Image.astro';
+import { Icon } from 'astro-icon/components';
 
 interface BlogPost {
   id: number;
@@ -77,53 +78,36 @@ const {
               Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
               risultati
             </p>
-
-            {pagination && (
-              <Pagination pagination={pagination} basePath="/blog" />
-            )}
           </div>
         )
       }
     </header>
 
-    {
-      subcategories && subcategories.length > 0 && (
-        <div class="row">
-          <h2>Sottocategorie</h2>
-          <ul class="subcategories-list">
-            {subcategories.map((subcat) => (
-              <li>
-                <a href={`/blog/${subcat.slug}/`} class="button">
-                  {subcat.name} ({subcat.count})
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )
-    }
+    <div class="category-wrapper">
+      <div>
+        {
+          subcategories && subcategories.length > 0 && (
+            <div class="row">
+              <h2>Sottocategorie</h2>
+              <ul class="subcategories-list">
+                {subcategories.map((subcat) => (
+                  <li>
+                    <a href={`/blog/${subcat.slug}/`} class="button">
+                      {subcat.name} ({subcat.count})
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
 
-    {
-      posts && posts.length > 0 && (
-        <div class="blog-posts-grid row">
-          {posts.map((post) => (
-            <article class="blog-post-card">
-              <a href={`/blog${post.permalink}`}>
-                {post.featuredImage && (
-                  <div class="blog-post-image">
-                    <Image
-                      src={post.featuredImage.src}
-                      alt={post.featuredImage.alt || post.title}
-                      loading="lazy"
-                      remote
-                    />
-                  </div>
-                )}
-                <div class="blog-post-info">
-                  <h2>{post.title}</h2>
-                  {post.excerpt && (
-                    <div class="blog-post-excerpt" set:html={post.excerpt} />
-                  )}
+        {
+          posts && posts.length > 0 && (
+            <div class="row">
+              <h2>Articoli</h2>
+              {posts.map((post) => (
+                <article class="blog-post">
                   <time class="blog-post-date" datetime={post.date}>
                     {new Date(post.date).toLocaleDateString('it-IT', {
                       year: 'numeric',
@@ -131,31 +115,61 @@ const {
                       day: 'numeric',
                     })}
                   </time>
-                </div>
-              </a>
-            </article>
-          ))}
-        </div>
-      )
-    }
 
-    {
-      (!posts || posts.length === 0) && (
-        <p>Nessun articolo trovato in questa categoria.</p>
-      )
-    }
+                  {post.featuredImage && (
+                    <div class="blog-post-image">
+                      <a href={`/blog${post.permalink}`}>
+                        <Image
+                          src={post.featuredImage.src}
+                          alt={post.featuredImage.alt || post.title}
+                          loading="lazy"
+                          remote
+                        />
+                      </a>
+                    </div>
+                  )}
 
-    <div>
-      <h2>Tutte le categorie</h2>
-      <ul>
-        {
-          allCategories.map((cat) => (
-            <li>
-              <a href={cat.href}>{cat.title}</a>
-            </li>
-          ))
+                  <a href={`/blog${post.permalink}`} class="post-title-link">
+                    <h2>{post.title}</h2>
+                  </a>
+                  {post.excerpt && (
+                    <div class="blog-post-excerpt">
+                      <div set:html={post.excerpt} />
+
+                      <a href={`/blog${post.permalink}`}>
+                        Continua a leggere
+                        <span class="screen-reader-text"> {post.title}</span>
+                      </a>
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
+          )
         }
-      </ul>
+
+        {
+          (!posts || posts.length === 0) && (
+            <p>Nessun articolo trovato in questa categoria.</p>
+          )
+        }
+      </div>
+
+      <div class="row">
+        <div class="categories-list-container">
+          <h2>Tutte le categorie</h2>
+          <ul class="categories-list">
+            {
+              allCategories.map((cat) => (
+                <li>
+                  <Icon name="tabler:folder" />
+                  <a href={cat.href}>{cat.title}</a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
     </div>
 
     {
@@ -169,6 +183,12 @@ const {
 </MenuLayout>
 
 <style>
+  h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-block-end: 1rem;
+  }
+
   .archive-toolbar {
     display: flex;
     flex-direction: column;
@@ -186,6 +206,17 @@ const {
     font-size: 0.9rem;
   }
 
+  .category-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+
+    @media (min-width: 960px) {
+      grid-template-columns: 1fr minmax(250px, min-content);
+      gap: 3rem;
+    }
+  }
+
   .subcategories-list {
     list-style: none;
     padding: 0;
@@ -193,35 +224,29 @@ const {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
+    gap: 1rem 0.75rem;
   }
 
   .subcategories-list li {
     margin: 0;
   }
 
-  .blog-posts-grid {
-    display: grid;
-    gap: 2rem;
-
-    @media (min-width: 768px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    @media (min-width: 960px) {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3rem;
-    }
-  }
-
-  .blog-post-card {
-    position: relative;
-  }
-
-  .blog-post-card a {
+  .subcategories-list li a {
     display: block;
+  }
+
+  .blog-post {
+    margin-block-end: 2rem;
+    padding: 1rem;
+    background: var(--bg-darker);
+  }
+
+  .post-title-link {
     text-decoration: none;
-    color: var(--text);
+  }
+
+  .blog-post h2 {
+    margin-block-end: 1rem;
   }
 
   .blog-post-image {
@@ -240,24 +265,9 @@ const {
     transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .blog-post-card:hover .blog-post-image img {
-    transform: scale(1.05);
-  }
-
-  .blog-post-info h2 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-block-end: 0.75rem;
-    text-transform: none;
-    letter-spacing: normal;
-    line-height: 1.3;
-  }
-
   .blog-post-excerpt {
     margin-block-end: 1rem;
     font-size: 0.9rem;
-    line-height: 1.6;
-    color: #666;
   }
 
   .blog-post-excerpt p {
@@ -265,7 +275,32 @@ const {
   }
 
   .blog-post-date {
+    display: block;
+    margin-block-end: 0.75rem;
     font-size: 0.875rem;
-    color: #999;
+  }
+
+  .categories-list-container {
+    padding: 1rem;
+    background: var(--bg-darker);
+  }
+
+  .categories-list-container h2 {
+    font-size: 1.25rem;
+    padding-block-end: 0.5rem;
+    border-block-end: 1px solid var(--color-blue);
+  }
+
+  .categories-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .categories-list li {
+    display: flex;
+    align-items: center;
+    margin-block-end: 0.5rem;
+    gap: 0.5rem;
   }
 </style>
