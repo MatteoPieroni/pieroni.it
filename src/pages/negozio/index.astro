@@ -1,0 +1,60 @@
+---
+import CategoryLayout from '../../layouts/CategoryLayout.astro';
+import heroImageAsset from '../../assets/images/pieroni-sala-mostra-pavimenti-rivestimenti-esterni-mattonelle-piastrelle-bagno-docce-vasche-accessori-mobili-riscaldamento-stufe-camini-caldaie.jpg';
+import productCategoriesData from '../../data/products/categories.json';
+import { getFlatCategories as getProductFlatCategories } from '../../data/products';
+import { swapImageUrlDomain } from '../../utils/remoteLinks';
+
+const title = 'Categorie del negozio';
+const heroImage = heroImageAsset;
+
+const breadcrumbs = [{ label: 'Negozio', href: '/negozio/' }];
+
+const flatProductCategories = getProductFlatCategories(productCategoriesData);
+
+const mainCategories = Object.values(flatProductCategories).filter(
+  (cat: any) => cat.count && cat.count > 0,
+);
+
+const makeDescription = (cat: any) => {
+  const base = `Prodotti della categoria <strong>${cat.name}</strong> del negozio Pieroni srl, selezionati per rispondere alle esigenze di imprese, artigiani e privati.`;
+
+  return `<p>${base}</p>`;
+};
+
+const gridItems = mainCategories.map((cat: any) => {
+  return {
+    image: swapImageUrlDomain(cat.image.src),
+    remote: true as const,
+    imageAlt: cat.image.alt,
+    title: cat.name,
+    description: makeDescription(cat),
+    linkHref: `/negozio/${cat.slug}/`,
+    linkText: `Vai a ${cat.name}`,
+  };
+});
+---
+
+<CategoryLayout
+  title={title}
+  heroImage={heroImage}
+  gridItems={gridItems}
+  breadcrumbs={breadcrumbs}
+  seoTitle="Negozio Pieroni srl – categorie e reparti"
+  description="Scopri tutte le categorie del negozio Pieroni srl: materiali edili, arredo bagno, piastrelle e rivestimenti, riscaldamento, ferramenta e utensileria per imprese e privati."
+>
+  <div slot="description">
+    <div class="row">
+      <p>
+        Il negozio Pieroni srl raccoglie in un unico punto di riferimento
+        materiali da costruzione, soluzioni per la finitura degli ambienti e
+        prodotti specializzati per il comfort della tua casa.
+      </p>
+      <p>
+        Dalle fondamenta al tetto, passando per bagno, pavimenti, rivestimenti,
+        riscaldamento e ferramenta, puoi contare su reparti dedicati e su
+        personale esperto pronto ad accompagnarti nella scelta.
+      </p>
+    </div>
+  </div>
+</CategoryLayout>

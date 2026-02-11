@@ -5,7 +5,6 @@
 ### pages
 
 - Privacy
-- negozio
 - blog
 
 ## Complex
@@ -30,6 +29,11 @@
 - extract css to file
 - caching of html
 - caching of assets
+
+## Architecture
+
+- tighten product types
+- tighten post types
 
 # Astro Starter Kit: Minimal
 

@@ -9,14 +9,15 @@ import type { PageProps } from './types';
 type Props = PageProps & {
   title: string;
   heroImage: ImageMetadata;
-  gridItems?: Array<{
-    image: ImageMetadata;
-    imageAlt: string;
-    title: string;
-    description: string;
-    linkHref?: string;
-    linkText?: string;
-  }>;
+  gridItems?: Array<
+    {
+      imageAlt: string;
+      title: string;
+      description: string;
+      linkHref?: string;
+      linkText?: string;
+    } & ({ image: ImageMetadata } | { image: string; remote: true })
+  >;
   seoTitle: string;
   withoutLocations?: boolean;
 };
@@ -52,10 +53,20 @@ const {
           <div class="card">
             {item.linkHref ? (
               <a href={item.linkHref} title={item.linkText || item.title}>
-                <Image src={item.image} alt={item.imageAlt} />
+                <Image
+                  alt={item.imageAlt}
+                  {...('remote' in item
+                    ? { remote: true, src: item.image }
+                    : { src: item.image })}
+                />
               </a>
             ) : (
-              <Image src={item.image} alt={item.imageAlt} />
+              <Image
+                alt={item.imageAlt}
+                {...('remote' in item
+                  ? { remote: true, src: item.image }
+                  : { src: item.image })}
+              />
             )}
             <div class="card-body">
               {item.linkHref ? (
@@ -112,6 +123,7 @@ const {
     height: auto;
     display: block;
     border-radius: var(--radius) var(--radius) 0 0;
+    aspect-ratio: 1;
   }
 
   .card-body {
