@@ -11,12 +11,16 @@ type Props = PageProps & {
   heroImage: ImageMetadata;
   gridItems?: Array<
     {
-      imageAlt: string;
       title: string;
       description: string;
       linkHref?: string;
       linkText?: string;
-    } & ({ image: ImageMetadata } | { image: string; remote: true })
+    } & (
+      | ({
+          imageAlt: string;
+        } & ({ image: ImageMetadata } | { image: string; remote: true }))
+      | { imageAlt?: never; image?: never }
+    )
   >;
   seoTitle: string;
   withoutLocations?: boolean;
@@ -51,23 +55,24 @@ const {
       <section class="subcategories-grid margin-container row">
         {gridItems.map((item) => (
           <div class="card">
-            {item.linkHref ? (
-              <a href={item.linkHref} title={item.linkText || item.title}>
+            {item.image &&
+              (item.linkHref ? (
+                <a href={item.linkHref} title={item.linkText || item.title}>
+                  <Image
+                    alt={item.imageAlt}
+                    {...('remote' in item
+                      ? { remote: true, src: item.image }
+                      : { src: item.image })}
+                  />
+                </a>
+              ) : (
                 <Image
                   alt={item.imageAlt}
                   {...('remote' in item
                     ? { remote: true, src: item.image }
                     : { src: item.image })}
                 />
-              </a>
-            ) : (
-              <Image
-                alt={item.imageAlt}
-                {...('remote' in item
-                  ? { remote: true, src: item.image }
-                  : { src: item.image })}
-              />
-            )}
+              ))}
             <div class="card-body">
               {item.linkHref ? (
                 <a href={item.linkHref} title={item.linkText || item.title}>

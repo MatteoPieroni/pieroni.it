@@ -5,7 +5,6 @@
 ### pages
 
 - Privacy
-- blog
 
 ## Complex
 

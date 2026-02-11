@@ -1,0 +1,56 @@
+---
+import CategoryLayout from '../../layouts/CategoryLayout.astro';
+import heroImageAsset from '../../assets/images/hero-fuoco.jpg';
+import blogCategoriesData from '../../data/blog/categories.json';
+import { getFlatCategories } from '../../data/products';
+
+const title = 'Categorie del blog';
+const heroImage = heroImageAsset;
+
+const breadcrumbs = [{ label: 'Blog', href: '/category/' }];
+
+const flatCategoriesMap = getFlatCategories(blogCategoriesData);
+const flatCategories = Object.values(flatCategoriesMap).filter(
+  (cat: any) => cat.count && cat.count > 0,
+);
+
+const makeDescription = (cat: any) => {
+  if (cat.description && cat.description.trim().length > 0) {
+    return `<p>${cat.description}</p>`;
+  }
+
+  return `<p>Articoli, consigli e approfondimenti dedicati al tema <strong>${cat.name}</strong>, per aiutarti a prendere decisioni più consapevoli per la tua casa e il tuo lavoro.</p>`;
+};
+
+const gridItems = flatCategories.map((cat) => ({
+  title: cat.name,
+  description: makeDescription(cat),
+  linkHref: `/category/${cat.slug}/`,
+  linkText: `Vai a ${cat.name}`,
+}));
+---
+
+<CategoryLayout
+  title={title}
+  heroImage={heroImage}
+  gridItems={gridItems}
+  breadcrumbs={breadcrumbs}
+  seoTitle="Categorie del blog Pieroni srl"
+  description="Scopri tutte le categorie del blog Pieroni srl: novità, consigli tecnici, approfondimenti su materiali, bonus fiscali e soluzioni per la casa e l’edilizia."
+>
+  <div slot="description">
+    <div class="row">
+      <p>
+        Il blog di Pieroni srl raccoglie notizie, guide pratiche e
+        approfondimenti dedicati a chi sta ristrutturando, costruendo o
+        semplicemente vuole conoscere meglio materiali, tecnologie e opportunità
+        legate alla casa.
+      </p>
+      <p>
+        In questa pagina trovi tutte le categorie editoriali: esplorale per
+        leggere articoli su bonus fiscali, pavimenti, arredo bagno, soluzioni
+        per il riscaldamento, eventi e molto altro ancora.
+      </p>
+    </div>
+  </div>
+</CategoryLayout>
