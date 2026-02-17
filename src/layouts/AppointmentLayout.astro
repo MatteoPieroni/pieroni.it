@@ -1,23 +1,34 @@
 ---
-import MenuLayout from '../layouts/MenuLayout.astro';
+import MenuLayout from './MenuLayout.astro';
+
+interface Breadcrumb {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  breadcrumbs: Breadcrumb[];
+  /** Hidden value to identify from which page the request comes */
+  pageKey: string;
+}
+
+const { title, description, breadcrumbs, pageKey } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const origin = Astro.url.origin;
+const redirectSuccess = `${origin}${pathname}?status=success`;
+const redirectError = `${origin}${pathname}?status=error`;
 ---
 
-<MenuLayout
-  title="Richiedi un appuntamento"
-  description="Richiedi un appuntamento presso Pieroni srl. Compila il form e ti contatteremo per confermare data e ora."
-  breadcrumbs={[
-    { label: 'Richiedi appuntamento', href: '/richiedi-appuntamento/' },
-  ]}
->
+<MenuLayout title={title} description={description} breadcrumbs={breadcrumbs}>
   <div class="appointment-form-container">
-    <h1>Richiedi un appuntamento</h1>
-    <p>
-      Compila il form sottostante per richiedere un appuntamento presso la
-      nostra sala mostra. Ti contatteremo al più presto per confermare data e
-      ora.
-    </p>
+    <h1>{title}</h1>
+    <p>{description}</p>
 
     <form
+      id="appointment-form"
       class="appointment-form"
       action="https://submit-form.com/zSHqUmjOu"
       method="POST"
@@ -143,17 +154,16 @@ import MenuLayout from '../layouts/MenuLayout.astro';
         Error: redirect back with ?status=error
       */
       }
-      <input
-        type="hidden"
-        name="_redirect"
-        value="https://www.pieroni.it/richiedi-appuntamento/?status=success"
-      />
-      <input
-        type="hidden"
-        name="_redirect_error"
-        value="https://www.pieroni.it/richiedi-appuntamento/?status=error"
-      />
+      <input type="hidden" name="_redirect" value={redirectSuccess} />
+      <input type="hidden" name="_redirect_error" value={redirectError} />
       <input type="hidden" name="_append" value="false" />
+
+      {
+        /*
+        Hidden field to identify from which page the request comes
+      */
+      }
+      <input type="hidden" name="page" value={pageKey} />
 
       <div class="form-actions">
         <button type="submit" class="button" onclick="onManualStep(event)"
@@ -221,25 +231,22 @@ import MenuLayout from '../layouts/MenuLayout.astro';
       size: 'invisible', // invisible mode
       callback: onSolve,
       'error-callback': onError,
-      'expired-callback': onExpired,
     });
   }
 
-  function onSolve(token, key) {
+  function onSolve() {
     // This function is called after successful solve
     // `token` is the h-captcha-response value
-    console.log('hCaptcha solved:', { token, key });
-    document.getElementById('demo-form').submit(); // or handle manually
+
+    const form = document.getElementById('appointment-form');
+    if (form) {
+      form.submit();
+    }
   }
 
   function onError(err) {
     console.error('hCaptcha error callback:', err);
     // log to analytics, restart flow
-  }
-
-  function onExpired() {
-    console.warn('hCaptcha token expired');
-    // make sure to fetch a new token before user submits form
   }
 
   function onManualStep(event) {
