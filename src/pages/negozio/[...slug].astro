@@ -76,6 +76,7 @@ let description = '';
 let fullDescription = '';
 let attributes: any[] = [];
 let categories: any[] = [];
+let permalink = '';
 
 // remove the numbered pages
 const cleanSlug = slug.replace(/\/page\/.*/, '');
@@ -124,6 +125,7 @@ if (isCategoryPage) {
 } else if (isProductPage) {
   // This is a product page
   title = product.name || product.title;
+  permalink = remoteToLocalUrl(product.permalink);
 
   breadcrumbs.push({
     label: title,
@@ -178,6 +180,7 @@ if (isCategoryPage) {
       fullDescription={fullDescription}
       attributes={attributes}
       categories={categories}
+      permalink={permalink}
       ctaText="Sei interessato? Prendi un appuntamento!"
       ctaLink="/appuntamento-sala-mostra/"
     />

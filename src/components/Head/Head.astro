@@ -11,9 +11,13 @@ type Props = PropsWithSEO & {
   }>;
   isHome?: true;
   fontToPreload: string;
+  canonicalUrl?: string;
 };
 
-const { description, title, breadcrumbs, fontToPreload, isHome } = Astro.props;
+const { description, title, breadcrumbs, fontToPreload, isHome, canonicalUrl } =
+  Astro.props;
+
+const basePath = 'https://www.pieroni.it';
 ---
 
 <head
@@ -75,6 +79,7 @@ const { description, title, breadcrumbs, fontToPreload, isHome } = Astro.props;
     title={title}
     titleTemplate={isHome ? undefined : `%s | Pieroni srl`}
     description={description}
+    canonical={canonicalUrl ? `${basePath}${canonicalUrl}` : undefined}
   />
   <Schema breadcrumbs={breadcrumbs} description={description} />
   <Favicons />

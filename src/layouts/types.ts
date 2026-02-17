@@ -1,6 +1,7 @@
 export type PropsWithSEO = {
   title: string;
   description: string;
+  canonicalUrl?: string;
 };
 
 type PropsWithBreadcrumbs = {

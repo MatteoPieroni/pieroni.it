@@ -24,6 +24,7 @@ interface ProductCategory {
 type Props = PageProps & {
   images?: ProductImage[];
   description?: string;
+  permalink?: string;
   fullDescription?: string;
   attributes?: ProductAttribute[];
   categories?: ProductCategory[];
@@ -36,6 +37,7 @@ const {
   breadcrumbs,
   images,
   description,
+  permalink,
   fullDescription,
   attributes,
   categories,
@@ -50,6 +52,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
   breadcrumbs={breadcrumbs}
   title={title}
   description={parsedDescription}
+  canonicalUrl={permalink}
 >
   <div class="margin-container product-page">
     {
