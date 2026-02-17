@@ -1,0 +1,392 @@
+---
+import MenuLayout from '../layouts/MenuLayout.astro';
+---
+
+<MenuLayout
+  title="Richiedi un appuntamento"
+  description="Richiedi un appuntamento presso Pieroni srl. Compila il form e ti contatteremo per confermare data e ora."
+  breadcrumbs={[
+    { label: 'Richiedi appuntamento', href: '/richiedi-appuntamento/' },
+  ]}
+>
+  <div class="appointment-form-container">
+    <h1>Richiedi un appuntamento</h1>
+    <p>
+      Compila il form sottostante per richiedere un appuntamento presso la
+      nostra sala mostra. Ti contatteremo al più presto per confermare data e
+      ora.
+    </p>
+
+    <form
+      class="appointment-form"
+      action="https://submit-form.com/zSHqUmjOu"
+      method="POST"
+    >
+      <div
+        id="form-message"
+        class="form-message"
+        role="alert"
+        aria-live="polite"
+      >
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">
+            Nome <span class="required" aria-label="campo obbligatorio">*</span>
+          </label>
+          <input
+            type="text"
+            id="firstName"
+            name="firstName"
+            required
+            autocomplete="given-name"
+            aria-required="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">
+            Cognome <span class="required" aria-label="campo obbligatorio"
+              >*</span
+            >
+          </label>
+          <input
+            type="text"
+            id="lastName"
+            name="lastName"
+            required
+            autocomplete="family-name"
+            aria-required="true"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">
+            Email <span class="required" aria-label="campo obbligatorio">*</span
+            >
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            autocomplete="email"
+            aria-required="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="telephone">
+            Telefono <span class="required" aria-label="campo obbligatorio"
+              >*</span
+            >
+          </label>
+          <input
+            type="tel"
+            id="telephone"
+            name="telephone"
+            required
+            autocomplete="tel"
+            aria-required="true"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="preferredDate">
+            Data preferita <span
+              class="required"
+              aria-label="campo obbligatorio">*</span
+            >
+          </label>
+          <input
+            type="date"
+            id="preferredDate"
+            name="preferredDate"
+            required
+            aria-required="true"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="preferredTime">
+            Ora preferita <span class="required" aria-label="campo obbligatorio"
+              >*</span
+            >
+          </label>
+          <input
+            type="time"
+            id="preferredTime"
+            name="preferredTime"
+            required
+            aria-required="true"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="notes">Note (opzionale)</label>
+        <textarea id="notes" name="notes" rows="5" autocomplete="off"
+        ></textarea>
+      </div>
+
+      <div id="hcaptcha-container"></div>
+
+      {
+        /*
+        Formspark / SubmitForm hidden fields for redirects.
+        Success: redirect back with ?status=success
+        Error: redirect back with ?status=error
+      */
+      }
+      <input
+        type="hidden"
+        name="_redirect"
+        value="https://www.pieroni.it/richiedi-appuntamento/?status=success"
+      />
+      <input
+        type="hidden"
+        name="_redirect_error"
+        value="https://www.pieroni.it/richiedi-appuntamento/?status=error"
+      />
+      <input type="hidden" name="_append" value="false" />
+
+      <div class="form-actions">
+        <button type="submit" class="button" onclick="onManualStep(event)"
+          >Invia richiesta</button
+        >
+      </div>
+    </form>
+  </div>
+</MenuLayout>
+
+<script is:inline>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get('status');
+    const messageEl = document.getElementById('form-message');
+
+    if (!messageEl || !status) {
+      return;
+    }
+
+    let text = '';
+    let type = '';
+
+    if (status === 'success') {
+      text =
+        "Richiesta inviata con successo! Ti contatteremo al più presto per confermare l'appuntamento.";
+      type = 'success';
+    } else if (status === 'error') {
+      text =
+        "Si è verificato un errore durante l'invio. Riprova più tardi o contattaci direttamente.";
+      type = 'error';
+    }
+
+    if (!type) {
+      return;
+    }
+
+    messageEl.textContent = text;
+    messageEl.classList.add(type);
+    messageEl.style.display = 'block';
+
+    // Facoltativo: ripulisce l'URL dai parametri dopo aver mostrato il messaggio
+    if (window.history && window.history.replaceState) {
+      const url = new URL(window.location.href);
+      url.searchParams.delete('status');
+      window.history.replaceState({}, '', url.toString());
+    }
+  })();
+</script>
+
+<!-- 1. Load hCaptcha SDK with explicit rendering -->
+<script
+  is:inline
+  src="https://js.hcaptcha.com/1/api.js?onload=onloadHCaptcha&render=explicit"
+  async
+  defer></script>
+
+<script is:inline>
+  let widgetId = null; // will hold the widget ID assigned by hCaptcha
+
+  function onloadHCaptcha() {
+    // 2. Once SDK is loaded, render invisible hCaptcha widget
+    widgetId = hcaptcha.render('hcaptcha-container', {
+      sitekey: '9a7e89c2-0d62-45f4-8402-008a5d7edc60',
+      size: 'invisible', // invisible mode
+      callback: onSolve,
+      'error-callback': onError,
+      'expired-callback': onExpired,
+    });
+  }
+
+  function onSolve(token, key) {
+    // This function is called after successful solve
+    // `token` is the h-captcha-response value
+    console.log('hCaptcha solved:', { token, key });
+    document.getElementById('demo-form').submit(); // or handle manually
+  }
+
+  function onError(err) {
+    console.error('hCaptcha error callback:', err);
+    // log to analytics, restart flow
+  }
+
+  function onExpired() {
+    console.warn('hCaptcha token expired');
+    // make sure to fetch a new token before user submits form
+  }
+
+  function onManualStep(event) {
+    event.preventDefault();
+    // 3. Trigger the hCaptcha flow programmatically
+    if (widgetId === null) {
+      console.error('Widget not yet initialized');
+    } else {
+      hcaptcha.execute(widgetId);
+    }
+  }
+</script>
+
+<style>
+  .appointment-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem var(--page-margin);
+  }
+
+  .appointment-form-container h1 {
+    margin-block-end: 1rem;
+  }
+
+  .appointment-form-container > p {
+    margin-block-end: 2rem;
+    color: #666;
+  }
+
+  .appointment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .form-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-group label {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .required {
+    color: #d32f2f;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--input-border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-family: inherit;
+    transition:
+      border-color 0.2s,
+      box-shadow 0.2s;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 2px rgba(20, 40, 99, 0.1);
+  }
+
+  .form-group input:invalid[aria-invalid='true'],
+  .form-group textarea:invalid[aria-invalid='true'] {
+    border-color: #d32f2f;
+  }
+
+  .form-group input:valid:not(:placeholder-shown),
+  .form-group textarea:valid:not(:placeholder-shown) {
+    border-color: #2e7d32;
+  }
+
+  .error-message {
+    display: none;
+    color: #d32f2f;
+    font-size: 0.875rem;
+    margin-block-start: 0.25rem;
+  }
+
+  .error-message[style*='display: block'] {
+    display: block;
+  }
+
+  .form-actions {
+    margin-block-start: 0.5rem;
+  }
+
+  .form-actions button {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition:
+      background-color 0.2s,
+      border-color 0.2s;
+  }
+
+  .form-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @media (min-width: 640px) {
+    .form-actions button {
+      width: auto;
+    }
+  }
+
+  .form-message {
+    display: none;
+    padding: 1rem;
+    border-radius: var(--radius);
+    margin-block-start: 1rem;
+  }
+
+  .form-message.success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #4caf50;
+  }
+
+  .form-message.error {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ef5350;
+  }
+
+  .form-message[style*='display: block'] {
+    display: block;
+  }
+</style>
