@@ -2,7 +2,7 @@
 import MenuLayout from './MenuLayout.astro';
 import Pagination from '../components/Pagination.astro';
 import Image from '../components/Image.astro';
-import type { PageProps, PropsWithSEO } from './types';
+import type { PageProps } from './types';
 
 interface Product {
   id: number;
@@ -17,6 +17,7 @@ interface Product {
 
 type Props = Omit<PageProps, 'description'> & {
   products: Product[];
+  baseSlug: string;
   subcategories?: Array<{
     name: string;
     slug: string;
@@ -41,14 +42,22 @@ type PaginationPage = {
   href: string;
 };
 
-const { title, breadcrumbs, products, subcategories, count, pagination } =
-  Astro.props;
+const {
+  title,
+  baseSlug,
+  breadcrumbs,
+  products,
+  subcategories,
+  count,
+  pagination,
+} = Astro.props;
 ---
 
 <MenuLayout
   breadcrumbs={breadcrumbs}
   title={title}
   description={`Vedi tutti i prodotti nella categoria ${title} di Pieroni srl`}
+  canonicalUrl={`/negozio/${baseSlug}`}
 >
   <div class="margin-container">
     <header class="row-small">

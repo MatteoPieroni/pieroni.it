@@ -41,6 +41,7 @@ interface Props {
   products?: any[];
   subCategories?: any[];
   title?: string;
+  baseSlug?: string;
   count?: {
     total: number;
     start: number;
@@ -65,6 +66,7 @@ const {
   products,
   subCategories,
   title: catTitle,
+  baseSlug,
   pagination,
   count,
 } = Astro.props;
@@ -78,6 +80,7 @@ const isPostPage = post;
 let formattedPosts: any[] = [];
 let formattedSubcategories: any[] = [];
 let title = '';
+let permalink = '';
 let date = '';
 let content = '';
 let excerpt = '';
@@ -141,6 +144,7 @@ if (isCategoryPage) {
     }));
 } else if (isPostPage) {
   title = post.title.rendered;
+  permalink = remoteToLocalUrl(post.link);
 
   date = post.date;
 
@@ -180,6 +184,7 @@ if (isCategoryPage) {
   isCategoryPage ? (
     <BlogCategoryLayout
       title={catTitle || 'Categoria'}
+      baseSlug={baseSlug || ''}
       breadcrumbs={breadcrumbs}
       subcategories={formattedSubcategories}
       pagination={pagination}
@@ -192,6 +197,7 @@ if (isCategoryPage) {
       content={content}
       categories={categories}
       title={title}
+      permalink={permalink}
       date={date}
       breadcrumbs={breadcrumbs}
       featuredImage={featuredImage}

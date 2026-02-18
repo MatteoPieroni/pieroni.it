@@ -145,6 +145,7 @@ const splitProductsIntoPages = (array: unknown[], limit: number) => {
 
 type CategoryPageData = {
   slug: string;
+  baseSlug: string;
   title: string;
   products: any[];
   subCategories?: FlatCategory[];
@@ -293,6 +294,7 @@ export const getCategoryPaths = (
       title,
       products: category.products,
       count: getCount(category.count, 1, limit),
+      baseSlug: mainSlug,
       ...subCategories,
     };
 
@@ -348,6 +350,7 @@ export const getCategoryPaths = (
 
   const basePage = {
     title,
+    baseSlug: mainSlug,
   };
 
   if (!currentCategorySlugs.slugs.hierarchical) {

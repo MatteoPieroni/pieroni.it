@@ -4,16 +4,11 @@
 
 ### pages
 
-- appuntamento
-
 ## Complex
 
 - search
 
 ## Other
-
-- SEO
-  - canonical
 
 ## Redirects
 

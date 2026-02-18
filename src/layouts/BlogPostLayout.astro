@@ -5,6 +5,7 @@ import { getMetaDescriptionFromHtmlDescription } from '../utils/seo';
 
 interface Props {
   title: string;
+  permalink: string;
   breadcrumbs: Array<{
     label: string;
     href: string;
@@ -24,6 +25,7 @@ interface Props {
 
 const {
   title,
+  permalink,
   breadcrumbs,
   content,
   excerpt,
@@ -39,6 +41,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
   breadcrumbs={breadcrumbs}
   title={title}
   description={parsedDescription}
+  canonicalUrl={`/category/${permalink}`}
 >
   <article class="margin-container blog-post">
     <header class="blog-post-header">

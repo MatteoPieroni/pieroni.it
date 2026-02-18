@@ -336,10 +336,12 @@ describe.each<[undefined | FlatCategory[], string]>([
       expect(generatedCategoryPages).toStrictEqual([
         {
           slug: 'riscaldamento/page/1',
+          baseSlug: 'riscaldamento',
           ...basePage,
         },
         {
           slug: 'riscaldamento',
+          baseSlug: 'riscaldamento',
           ...basePage,
         },
       ]);
@@ -362,6 +364,7 @@ describe.each<[undefined | FlatCategory[], string]>([
       const basePage = {
         title: 'Caldaie',
         products: [dummyProduct],
+        baseSlug: 'caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -405,6 +408,7 @@ describe.each<[undefined | FlatCategory[], string]>([
 
       const basePage = {
         title: 'Riscaldamento',
+        baseSlug: 'riscaldamento',
       };
 
       expect(generatedCategoryPages).toStrictEqual([
@@ -513,6 +517,7 @@ describe.each<[undefined | FlatCategory[], string]>([
 
       const basePage = {
         title: 'Camini',
+        baseSlug: 'camini-inserti',
       };
       const firstPageCount = {
         end: 3,
@@ -789,6 +794,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/page/1',
+        baseSlug: 'riscaldamento',
         count: {
           end: 2,
           start: 1,
@@ -827,6 +833,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento',
+        baseSlug: 'riscaldamento',
         count: {
           end: 2,
           start: 1,
@@ -843,6 +850,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet/page/1',
+        baseSlug: 'caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -866,7 +874,6 @@ test('generates the full payload', async () => {
             slug: 'test-product',
           },
         ],
-
         subCategories: [
           {
             count: 1,
@@ -876,6 +883,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet',
+        baseSlug: 'caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -901,6 +909,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'caldaie-a-pellet/page/1',
+        baseSlug: 'caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -916,7 +925,6 @@ test('generates the full payload', async () => {
             slug: 'test-product',
           },
         ],
-
         subCategories: [
           {
             count: 1,
@@ -926,6 +934,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'caldaie-a-pellet',
+        baseSlug: 'caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -942,6 +951,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1',
+        baseSlug: 'caldaie-a-pellet-caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -958,6 +968,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet',
+        baseSlug: 'caldaie-a-pellet-caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -974,6 +985,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'caldaie-a-pellet-caldaie-a-pellet/page/1',
+        baseSlug: 'caldaie-a-pellet-caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
@@ -990,6 +1002,7 @@ test('generates the full payload', async () => {
           },
         ],
         slug: 'caldaie-a-pellet-caldaie-a-pellet',
+        baseSlug: 'caldaie-a-pellet-caldaie-a-pellet',
         count: {
           end: 1,
           start: 1,
