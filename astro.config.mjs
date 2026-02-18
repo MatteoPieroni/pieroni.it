@@ -12,6 +12,7 @@ import { redirects } from './src/config/redirects';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.pieroni.it',
+  trailingSlash: 'always',
   integrations: [categoriesFetcher, icon(), pagefind(), sitemap()],
   image: {
     domains: ['https://images.pieroni.it']

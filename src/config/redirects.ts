@@ -63,5 +63,6 @@ export const redirects = {
   '/?modulo=sala-mostra-fornaci':
     'https://www.pieroni.it/blog/pieroni-srl/nuovi-progetti-per-il-futuro/',
   '/tv/': 'https://www.pieroni.it/',
-  '/tv': 'https://www.pieroni.it/',
+  '/eventi/': 'https://www.pieroni.it/professionisti-edilizia/',
+  '/primo-maggio/': 'https://www.pieroni.it',
 };
