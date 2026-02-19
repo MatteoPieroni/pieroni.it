@@ -10,8 +10,6 @@ export async function getPostsInCategory(
   const WORDPRESS_URL = 'https://api.pieroni.it/wp-json/wp/v2';
   const auth = Buffer.from(`${USER_KEY}:${USER_SECRET}`).toString('base64');
 
-  console.log({ USER_KEY, USER_SECRET });
-
   const posts: any[] = [];
 
   while (true) {
