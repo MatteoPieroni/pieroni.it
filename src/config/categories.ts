@@ -9,8 +9,7 @@ const { USER_SECRET } = loadEnv(
   process.cwd(),
   '',
 );
-const WOOCOMMERCE_URL = 'https://www.pieroni.it/wp-json/wc/v3';
-const WORDPRESS_URL = 'https://www.pieroni.it/wp-json/wp/v2';
+const WOOCOMMERCE_URL = 'https://api.pieroni.it/wp-json/wc/v3';
 
 const getShopCategories = async () => {
   try {
@@ -94,7 +93,17 @@ const getShopCategories = async () => {
   }
 };
 
+const { REST_USER } = loadEnv(process.env.REST_USER || '', process.cwd(), '');
+const { REST_PASSWORD } = loadEnv(
+  process.env.REST_PASSWORD || '',
+  process.cwd(),
+  '',
+);
+const WORDPRESS_URL = 'https://api.pieroni.it/wp-json/wp/v2';
+
 const getBlogCategories = async () => {
+  const auth = Buffer.from(`${REST_USER}:${REST_PASSWORD}`).toString('base64');
+
   try {
     let allCategories: any[] = [];
     let page = 1;
@@ -104,6 +113,12 @@ const getBlogCategories = async () => {
     while (true) {
       const response = await fetch(
         `${WORDPRESS_URL}/categories?per_page=${perPage}&page=${page}`,
+        {
+          headers: {
+            Authorization: `Basic ${auth}`,
+            'Content-Type': 'application/json',
+          },
+        },
       );
 
       if (!response.ok) {

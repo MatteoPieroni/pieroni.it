@@ -7,7 +7,7 @@ export const getProductsInCategory = async (
 ) => {
   const USER_KEY = import.meta.env.USER_KEY;
   const USER_SECRET = import.meta.env.USER_SECRET;
-  const WOOCOMMERCE_URL = 'https://www.pieroni.it/wp-json/wc/v3';
+  const WOOCOMMERCE_URL = 'https://api.pieroni.it/wp-json/wc/v3';
 
   const auth = Buffer.from(`${USER_KEY}:${USER_SECRET}`).toString('base64');
   const products: any[] = [];

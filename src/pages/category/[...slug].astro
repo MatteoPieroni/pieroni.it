@@ -9,8 +9,7 @@ import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
 import { remoteToLocalUrl, swapImageUrlDomain } from '../../utils/remoteLinks';
 import blogCategoriesData from '../../data/blog/categories.json';
 import { getFlatCategories } from '../../data/products';
-
-const WORDPRESS_URL = 'https://www.pieroni.it/wp-json/wp/v2';
+import { getMedia } from '../../data/blog/adapter';
 
 export async function getStaticPaths() {
   const { categories, postsPages } = await getAllBlogCategories();
@@ -151,16 +150,11 @@ if (isCategoryPage) {
   // Fetch featured image
   if (post.featured_media) {
     try {
-      const mediaResponse = await fetch(
-        `${WORDPRESS_URL}/media/${post.featured_media}?_fields=source_url,alt_text`,
-      );
-      if (mediaResponse.ok) {
-        const media = await mediaResponse.json();
-        featuredImage = {
-          src: swapImageUrlDomain(media.source_url),
-          alt: media.alt_text || title,
-        };
-      }
+      const fetchedMedia = await getMedia(post.featured_media);
+      featuredImage = {
+        src: swapImageUrlDomain(fetchedMedia?.src),
+        alt: fetchedMedia?.alt || title,
+      };
     } catch (err) {
       // Ignore errors
     }
