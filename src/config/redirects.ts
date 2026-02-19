@@ -59,8 +59,6 @@ export const redirects = {
     'https://www.pieroni.it/negozio/riscaldamento/pellet-prezzi-offerta/',
   '/magazzino-edile/fornaci-di-barga/':
     'https://www.pieroni.it/category/blog/pieroni-srl/nuovi-progetti-per-il-futuro/',
-  '/?modulo=sala-mostra-fornaci':
-    'https://www.pieroni.it/category/blog/pieroni-srl/nuovi-progetti-per-il-futuro/',
   '/tv/': 'https://www.pieroni.it/',
   '/eventi/': 'https://www.pieroni.it/professionisti-edilizia/',
   '/primo-maggio/': 'https://www.pieroni.it',
