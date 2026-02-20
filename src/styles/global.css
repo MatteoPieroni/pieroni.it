@@ -122,7 +122,8 @@ input {
   border: 1px solid var(--input-border);
 }
 
-img {
+img,
+figure {
   height: auto;
   max-width: 100%;
   display: block;
