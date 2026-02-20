@@ -10,10 +10,9 @@
 
 ## Other
 
-## Redirects
+- aria-current links
 
-- /marca
-- /formato
+## Redirects
 
 ## Perf
 
