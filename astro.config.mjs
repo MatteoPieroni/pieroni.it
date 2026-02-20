@@ -4,7 +4,7 @@ import icon from "astro-icon";
 import pagefind from "astro-pagefind";
 import cloudflare from "@astrojs/cloudflare";
 import sitemap from '@astrojs/sitemap';
-import compress from "astro-compress";
+import compress from "@playform/compress";
 import compressor from "astro-compressor";
 
 import { categoriesFetcher } from './src/config/categories';
