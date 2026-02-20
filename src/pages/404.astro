@@ -1,0 +1,24 @@
+---
+import MenuLayout from '../layouts/MenuLayout.astro';
+---
+
+<MenuLayout
+  description="Non siamo riusciti a trovare quello che cercavi"
+  title="Ops, sembra esserci stato un problema"
+  breadcrumbs={[
+    {
+      href: '404',
+      label: '404',
+    },
+  ]}
+>
+  <div class="margin-container">
+    <h1>Non c'è niente qui!</h1>
+
+    <p>
+      Non siamo riusciti a trovare la pagina che stavi cercando, potrebbe essere
+      stata spostata o rimossa.
+    </p>
+    <p><a href="/" class="button">Torna alla home</a></p>
+  </div>
+</MenuLayout>
