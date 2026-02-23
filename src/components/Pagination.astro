@@ -150,7 +150,8 @@ const { pagination, basePath = '/negozio' } = Astro.props;
     border-radius: var(--radius);
   }
 
-  .pagination-link:hover {
+  .pagination-link:hover,
+  .pagination-link:focus {
     background: var(--bg-darker);
     border-color: var(--color-blue);
   }
