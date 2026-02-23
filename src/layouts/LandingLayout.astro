@@ -1,0 +1,19 @@
+---
+import '../styles/global.css';
+import Head from '../components/Head/Head.astro';
+import type { PageProps } from './types';
+
+type Props = Omit<PageProps, 'breadcrumbs'>;
+
+const { title, description, canonicalUrl } = Astro.props;
+---
+
+<html lang="it">
+  <Head title={title} description={description} canonicalUrl={canonicalUrl} />
+
+  <body>
+    <main id="content">
+      <slot />
+    </main>
+  </body>
+</html>
