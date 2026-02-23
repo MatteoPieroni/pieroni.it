@@ -324,6 +324,7 @@ const addActiveAttributes = (href: string) => {
   .main-navigation {
     flex-grow: 1;
     text-align: center;
+    min-width: 0;
 
     @media (min-width: 960px) {
       display: flex;
@@ -380,7 +381,7 @@ const addActiveAttributes = (href: string) => {
   }
 
   .menu ul li {
-    &:has(> a:hover) {
+    &:has(> a:hover), &:has(> a:focus) {
       background-color: rgba(0, 0, 0, 0.025);
     }
   }
@@ -415,7 +416,7 @@ const addActiveAttributes = (href: string) => {
       left: auto;
       min-width: 100%;
 
-      li:hover {
+      li:hover, li:focus {
         background-color: rgba(0, 0, 0, 0.025);
       }
     }
@@ -529,7 +530,7 @@ const addActiveAttributes = (href: string) => {
     text-decoration: none;
   }
 
-  .handheld-navigation a:hover {
+  .handheld-navigation a:hover, .handheld-navigation a:focus {
     background: var(--bg-darker);
   }
 
@@ -565,7 +566,7 @@ const addActiveAttributes = (href: string) => {
     text-decoration-color: var(--color-blue);
   }
 
-  .menu__featured a:hover {
+  .menu__featured a:hover, .menu__featured a:focus {
     text-decoration: underline;
   }
 </style>
