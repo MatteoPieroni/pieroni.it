@@ -90,6 +90,16 @@ a:hover {
   /* text-decoration: underline; */
 }
 
+a.contrast {
+  color: var(--link-text-contrast);
+  /* text-decoration: none; */
+}
+
+a.contrast:hover {
+  color: var(--link-text-contrast);
+  /* text-decoration: underline; */
+}
+
 button,
 a.button,
 input[type='submit'] {
