@@ -1,4 +1,5 @@
 ---
+import { Font } from 'astro:assets';
 import { SEO } from 'astro-seo';
 import Favicons from './Favicons.astro';
 import Schema from './Schema.astro';
@@ -10,12 +11,10 @@ type Props = PropsWithSEO & {
     href: string;
   }>;
   isHome?: true;
-  fontToPreload: string;
   canonicalUrl?: string;
 };
 
-const { description, title, breadcrumbs, fontToPreload, isHome, canonicalUrl } =
-  Astro.props;
+const { description, title, breadcrumbs, isHome, canonicalUrl } = Astro.props;
 
 const basePath = 'https://www.pieroni.it';
 ---
@@ -64,17 +63,13 @@ const basePath = 'https://www.pieroni.it';
     src="//cdn.iubenda.com/cs/iubenda_cs.js"
     charset="UTF-8"
     async></script>
+
   <meta charset="utf-8" />
+
+  <Font cssVariable="--font-sourceSansPro" preload={[{ weight: '300' }]} />
 
   <slot name="page-specific-head" />
 
-  <link
-    rel="preload"
-    as="font"
-    type="font/woff2"
-    href={fontToPreload}
-    crossorigin="anonymous"
-  />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="generator" content={Astro.generator} />
   <link rel="profile" href="https://gmpg.org/xfn/11" />

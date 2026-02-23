@@ -1,5 +1,5 @@
 // @ts-check
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 import icon from 'astro-icon';
 import pagefind from 'astro-pagefind';
 import cloudflare from '@astrojs/cloudflare';
@@ -23,13 +23,13 @@ export default defineConfig({
       CSS: {
         csso: false,
         lightningcss: {
-          minify: true
-        }
+          minify: true,
+        },
       },
       HTML: {
-        "html-minifier-terser": {
+        'html-minifier-terser': {
           minifyCSS: false,
-        }
+        },
       },
     }),
     compressor(),
@@ -41,4 +41,26 @@ export default defineConfig({
     imageService: 'compile',
   }),
   redirects,
+
+  experimental: {
+    fonts: [
+      {
+        provider: fontProviders.fontsource(),
+        name: 'Source Sans Pro',
+        cssVariable: '--font-sourceSansPro',
+        weights: [300, 400, 600],
+        subsets: ['latin'],
+        styles: ['normal'],
+        fallbacks: [
+          'HelveticaNeue-Light',
+          'Helvetica Neue Light',
+          'Helvetica Neue',
+          'Helvetica',
+          'Arial',
+          'Lucida Grande',
+          'sans-serif',
+        ],
+      },
+    ],
+  },
 });
