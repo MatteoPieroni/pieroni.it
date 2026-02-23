@@ -20,7 +20,17 @@ export default defineConfig({
     pagefind(),
     sitemap(),
     compress({
-      CSS: false,
+      CSS: {
+        csso: false,
+        lightningcss: {
+          minify: true
+        }
+      },
+      HTML: {
+        "html-minifier-terser": {
+          minifyCSS: false,
+        }
+      },
     }),
     compressor(),
   ],
