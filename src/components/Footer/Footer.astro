@@ -131,6 +131,18 @@ const socialLinks = [
     icon: 'icon__in',
   },
 ];
+
+const pathName = Astro.url.pathname;
+const addActiveAttributes = (href: string) => {
+  if (href !== pathName) {
+    return {};
+  }
+
+  return {
+    class: 'active',
+    'aria-current': 'page' as const,
+  };
+};
 ---
 
 <footer class="site-footer">
@@ -148,7 +160,9 @@ const socialLinks = [
                 const renderMenu = (items: FooterMenuItem[]) =>
                   items.map((item) => (
                     <li class={item.children ? 'has-children' : undefined}>
-                      <a href={item.href}>{item.label}</a>
+                      <a href={item.href} {...addActiveAttributes(item.href)}>
+                        {item.label}
+                      </a>
                       {item.children && (
                         <ul class="sub-menu">{renderMenu(item.children)}</ul>
                       )}
@@ -168,7 +182,9 @@ const socialLinks = [
             {
               negozioMenu.map((item) => (
                 <li>
-                  <a href={item.href}>{item.label}</a>
+                  <a href={item.href} {...addActiveAttributes(item.href)}>
+                    {item.label}
+                  </a>
                 </li>
               ))
             }
@@ -187,7 +203,11 @@ const socialLinks = [
           </p>
           <p>P.I. 01798100465</p>
           <p>
-            <a href="/privacy-e-cookie-policy/">Privacy e Cookie Policy</a>
+            <a
+              href="/privacy-e-cookie-policy/"
+              {...addActiveAttributes('/privacy-e-cookie-policy/')}
+              >Privacy e Cookie Policy</a
+            >
           </p>
         </div>
 
@@ -304,6 +324,12 @@ const socialLinks = [
     text-decoration: underline;
   }
 
+  .footer-column .menu a.active {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-decoration-color: var(--color-orange);
+  }
+
   .footer-column .sub-menu {
     margin: 0.5rem 0 0 1rem;
     padding: 0;
@@ -320,6 +346,12 @@ const socialLinks = [
 
   .contact-info a {
     color: var(--link-text-contrast);
+  }
+
+  .contact-info a.active {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-decoration-color: var(--color-orange);
   }
 
   .social-links {
