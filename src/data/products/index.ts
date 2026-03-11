@@ -1,12 +1,13 @@
-import { getCategories, getProductsInCategory } from "./adapter";
+import { getCategories, getProducts, getProductsInCategory } from "./adapter";
 import { getCategoriesPages } from "./categories";
+import { getProductsPages } from "./products";
 
 // URL generation
 //
 // PRODUCT
 // - negozio/slug
-// - negozio/main-cat-slug/slug
-// - negozio/main-cat-breadcrumb-url/slug (LOOP)
+// - negozio/cat-full-slug/slug (LOOP)
+// - negozio/cat-slug/slug (LOOP)
 //
 // CATEGORY
 // - negozio/slug
@@ -15,22 +16,17 @@ import { getCategoriesPages } from "./categories";
 // - negozio/fullslug/page/1 (LOOP)
 export const getAllCategories = async (
   fetchCategories = getCategories,
-  fetchProducts = getProductsInCategory,
+  fetchProductsInCategory = getProductsInCategory,
+  fetchProducts = getProducts,
 ) => {
   const categoriesPages = await getCategoriesPages(
     fetchCategories,
-    fetchProducts,
+    fetchProductsInCategory,
   );
-  // const productsPages: ProductPageData[] = [];
-
-  // for (const category of Object.values(categoriesWithProducts)) {
-  //   const productPaths = getProductsPaths(category, categorySlugs);
-
-  //   productsPages.push(...productPaths);
-  // }
+  const productsPages = await getProductsPages(fetchProducts);
 
   return {
     categories: categoriesPages,
-    productsPages: [],
+    productsPages,
   };
 };

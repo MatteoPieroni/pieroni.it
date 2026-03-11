@@ -4,6 +4,11 @@ type Media = {
   url: string;
 };
 
+type Breadcrumb = {
+  url: string;
+  label: string;
+};
+
 export type DbCategory = {
   id: number;
   name: string;
@@ -12,10 +17,7 @@ export type DbCategory = {
   count: number;
   fullSlug: string;
   level: number;
-  breadcrumbs: ({
-    url: string;
-    label: string;
-  } | null)[];
+  breadcrumbs: (Breadcrumb | null)[];
   parent:
     | number
     | {
@@ -90,4 +92,20 @@ export type ProductForCategory = {
   link: string;
   image?: Media | null;
   name: string;
+};
+
+export type ProductPageData = {
+  name: string;
+  slug: string;
+  fullSlug: string;
+  images: Media[] | null;
+  description: string;
+  fullDescription: {};
+  formats: string | null;
+  brand: string | null;
+  breadcrumbs: Breadcrumb[];
+  categories: {
+    name: string;
+    url: string;
+  }[];
 };

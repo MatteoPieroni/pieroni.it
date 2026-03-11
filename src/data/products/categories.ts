@@ -404,8 +404,8 @@ export const createSlugsCollection = (categories: DbCategory[]) => {
 };
 
 export const getCategoriesPages = async (
-  fetchCategories = getCategories,
-  fetchProducts = getProductsInCategory,
+  fetchCategories: typeof getCategories,
+  fetchProducts: typeof getProductsInCategory,
 ) => {
   const categories = await fetchCategories();
   const flatCategories = getFlatCategories(categories);

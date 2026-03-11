@@ -12,7 +12,6 @@ import type {
   ProductForCategory,
   SubCategory,
 } from "../types";
-import { getProductsPaths } from "./products";
 
 const mockCategories = [
   {
@@ -705,59 +704,5 @@ describe.each<[undefined | SubCategory[], string]>([
         },
       ]);
     });
-  });
-});
-
-/**
- * for a category
- *  for each product
- *    - generate product page with deepest ({long-slug}/{product-slug})
- *    - generate rewrite product slug to deepest ({product-slug} -> {long-slug}/{product-slug})
- *    - generate rewrite main slug to deepest ({slug}/{product-slug} -> {long-slug}/{product-slug})
- */
-describe.skip("generates product pages", () => {
-  test("generates category product page and product rewrite", () => {
-    const generatedProductPages = getProductsPaths(preparedDbWithProducts[35], {
-      35: {
-        slugs: { main: "caldaie-a-pellet" },
-      },
-    });
-
-    expect(generatedProductPages).toStrictEqual([
-      {
-        slug: "caldaie-a-pellet/test-product",
-        product: dummyProduct,
-      },
-      {
-        slug: "test-product",
-        product: dummyProduct,
-      },
-    ]);
-  });
-
-  test("generates hierarchical category product page, product and main rewrites", () => {
-    const generatedProductPages = getProductsPaths(preparedDbWithProducts[35], {
-      35: {
-        slugs: {
-          hierarchical: "riscaldamento/caldaie-a-pellet",
-          main: "caldaie-a-pellet",
-        },
-      },
-    });
-
-    expect(generatedProductPages).toStrictEqual([
-      {
-        slug: "riscaldamento/caldaie-a-pellet/test-product",
-        product: dummyProduct,
-      },
-      {
-        slug: "test-product",
-        product: dummyProduct,
-      },
-      {
-        slug: "caldaie-a-pellet/test-product",
-        product: dummyProduct,
-      },
-    ]);
   });
 });

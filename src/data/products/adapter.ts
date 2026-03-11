@@ -123,3 +123,43 @@ export const getProductsInCategory = async (
 
   return products;
 };
+
+export const getProducts = async (pageLimit = 100, page = 1) => {
+  const API_KEY = import.meta.env.API_KEY;
+  const BE_URL = "https://be.pieroni.it/api";
+
+  const products: z.infer<typeof ProductSchema>[] = [];
+
+  while (true) {
+    const response = await fetch(
+      `${BE_URL}/shop_products?limit=${pageLimit}&page=${page}&depth=3`,
+      {
+        headers: {
+          Authorization: `users API-Key ${API_KEY}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+
+    if (!response.ok) {
+      break;
+    }
+
+    const pageProducts = await response.json();
+    if (pageProducts.docs.length === 0) {
+      break;
+    }
+
+    for (const pageProduct of pageProducts.docs) {
+      products.push(ProductSchema.parse(pageProduct));
+    }
+
+    if (pageProducts.length < pageLimit) {
+      break;
+    }
+
+    page++;
+  }
+
+  return products;
+};

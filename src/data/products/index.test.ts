@@ -1,6 +1,11 @@
 import { expect, test } from "vitest";
 
-import type { Category, DbProduct, ProductForCategory } from "../types";
+import type {
+  Category,
+  DbProduct,
+  ProductForCategory,
+  ProductPageData,
+} from "../types";
 import { getAllCategories } from ".";
 
 const mockCategories = [
@@ -64,24 +69,25 @@ const mockCategories = [
 
 const baseProduct = {
   brand: "test-brand",
-  categories: [],
+  categories: [mockCategories[0]],
   description: "test-description",
   formats: "test-format",
   fullDescription: {},
   images: [],
-  mainCategory: mockCategories[0],
 };
 
-const dummyProduct = {
+const mockProduct = {
   id: 1,
   name: "test product",
   slug: "test-product",
+  mainCategory: mockCategories[0],
   ...baseProduct,
+  categories: [mockCategories[0]],
 } satisfies DbProduct;
 const dummyProductForCategory = {
-  name: dummyProduct.name,
+  name: mockProduct.name,
   image: undefined,
-  link: `riscaldamento/${dummyProduct.slug}`,
+  link: `riscaldamento/${mockProduct.slug}`,
 } satisfies ProductForCategory;
 
 const baseCategory = {
@@ -90,6 +96,20 @@ const baseCategory = {
   breadcrumbs: [],
   parent: null,
 };
+
+const dummyProduct = {
+  ...baseProduct,
+  name: "test product",
+  slug: "test-product",
+  breadcrumbs: [],
+  fullSlug: "riscaldamento/test-product",
+  categories: [
+    {
+      name: "Riscaldamento",
+      url: "riscaldamento",
+    },
+  ],
+} satisfies ProductPageData;
 
 test("generates the full payload", async () => {
   const result = await getAllCategories(
@@ -128,14 +148,47 @@ test("generates the full payload", async () => {
     async (category) => {
       if (category === 24) {
         return [
-          { ...dummyProduct, name: "test product 1" },
-          { ...dummyProduct, name: "test product 2" },
+          { ...mockProduct, name: "test product 1" },
+          { ...mockProduct, name: "test product 2" },
         ];
       }
 
-      return [{ ...dummyProduct, name: "test product 2" }];
+      return [{ ...mockProduct, name: "test product 2" }];
+    },
+    async () => {
+      return [
+        mockProduct,
+        {
+          ...mockProduct,
+          name: "test product 2",
+          slug: "test-product-2",
+          mainCategory: mockCategories[2],
+          categories: [mockCategories[2], mockCategories[1], mockCategories[0]],
+        },
+      ];
     },
   );
+
+  const secondDummyProduct = {
+    ...dummyProduct,
+    name: "test product 2",
+    fullSlug:
+      "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product-2",
+    categories: [
+      {
+        name: "Caldaie a pellet",
+        url: "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
+      },
+      {
+        name: "Caldaie",
+        url: "riscaldamento/caldaie-a-pellet",
+      },
+      {
+        name: "Riscaldamento",
+        url: "riscaldamento",
+      },
+    ],
+  };
 
   expect(result).toStrictEqual({
     categories: [
@@ -351,88 +404,39 @@ test("generates the full payload", async () => {
         },
       },
     ],
-    productsPages: [],
-    // productsPages: [
-    //   {
-    //     product: {
-    //       id: 1,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "riscaldamento/test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 1,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "riscaldamento/test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "riscaldamento/caldaie-a-pellet/test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "caldaie-a-pellet/test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "test-product",
-    //   },
-    //   {
-    //     product: {
-    //       id: 2,
-    //       name: "test product",
-    //       slug: "test-product",
-    //     },
-    //     slug: "caldaie-a-pellet-caldaie-a-pellet/test-product",
-    //   },
-    // ],
+    productsPages: [
+      {
+        ...dummyProduct,
+        slug: "riscaldamento/test-product",
+      },
+      {
+        ...dummyProduct,
+        slug: "test-product",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "riscaldamento/caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "riscaldamento/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "caldaie-a-pellet-caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "test-product-2",
+      },
+    ],
   });
 });
