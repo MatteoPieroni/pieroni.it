@@ -1,36 +1,93 @@
-export type Category = {
+type Media = {
+  id: number;
+  alt: string;
+  url: string;
+};
+
+export type DbCategory = {
   id: number;
   name: string;
   slug: string;
+  featured_image: Media | null;
   count: number;
-  children: Category[];
+  fullSlug: string;
+  level: number;
+  breadcrumbs: ({
+    url: string;
+    label: string;
+  } | null)[];
+  parent:
+    | number
+    | {
+        id: number;
+      }
+    | null;
 };
 
-interface ProductImage {
-  src: string;
-  alt?: string;
-}
-
-interface ProductAttribute {
+export type DbProduct = {
+  id: number;
   name: string;
-  slug?: string;
-  options: string[];
-  visible?: boolean;
-}
+  slug: string;
+  description: string;
+  fullDescription: {};
+  images: Media[] | null;
+  mainCategory: DbCategory;
+  categories: DbCategory[];
+  formats: string | null;
+  brand: string | null;
+};
 
-interface ProductCategory {
+export type SubCategory = {
+  url: string;
   name: string;
-  slug?: string;
-}
+  count: number;
+};
 
-export interface Product {
+export type Category = Exclude<DbCategory, "parent"> & {
+  subCategories?: SubCategory[];
+};
+
+export type CategoryPageData = {
+  slug: string;
+  baseSlug: string;
   title: string;
-  images?: {
-    featured?: ProductImage;
-    gallery?: ProductImage[];
+  products: ProductForCategory[];
+  subCategories?: SubCategory[];
+
+  count: {
+    total: number;
+    start: number;
+    end: number;
   };
-  description?: string;
-  fullDescription?: string;
-  attributes?: ProductAttribute[];
-  categories?: ProductCategory[];
-}
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
+};
+
+type PaginationPage = {
+  number: number;
+  href: string;
+};
+
+export type ProductForCategory = {
+  link: string;
+  image?: Media | null;
+  name: string;
+};
