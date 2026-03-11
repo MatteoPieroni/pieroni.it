@@ -335,12 +335,12 @@ describe.each<[undefined | SubCategory[], string]>([
       expect(generatedCategoryPages).toStrictEqual([
         {
           slug: "riscaldamento/page/1",
-          baseSlug: "riscaldamento",
+          fullSlug: "riscaldamento",
           ...basePage,
         },
         {
           slug: "riscaldamento",
-          baseSlug: "riscaldamento",
+          fullSlug: "riscaldamento",
           ...basePage,
         },
       ]);
@@ -363,7 +363,7 @@ describe.each<[undefined | SubCategory[], string]>([
       const basePage = {
         title: "Caldaie",
         products: [dummyProductForCategory],
-        baseSlug: "caldaie-a-pellet",
+        fullSlug: "riscaldamento/caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -407,12 +407,12 @@ describe.each<[undefined | SubCategory[], string]>([
 
       const basePage = {
         title: "Riscaldamento",
-        baseSlug: "riscaldamento",
       };
 
       expect(generatedCategoryPages).toStrictEqual([
         {
           slug: "riscaldamento/page/1",
+          fullSlug: "riscaldamento",
           products: [
             dummyProductForCategory,
             dummyProductForCategory,
@@ -446,6 +446,7 @@ describe.each<[undefined | SubCategory[], string]>([
         },
         {
           slug: "riscaldamento/page/2",
+          fullSlug: "riscaldamento/page/2",
           products: [dummyProductForCategory],
           ...basePage,
           count: {
@@ -474,6 +475,7 @@ describe.each<[undefined | SubCategory[], string]>([
         },
         {
           slug: "riscaldamento",
+          fullSlug: "riscaldamento",
           products: [
             dummyProductForCategory,
             dummyProductForCategory,
@@ -524,7 +526,6 @@ describe.each<[undefined | SubCategory[], string]>([
 
       const basePage = {
         title: "Camini",
-        baseSlug: "camini-inserti",
       };
       const firstPageCount = {
         end: 3,
@@ -540,6 +541,7 @@ describe.each<[undefined | SubCategory[], string]>([
       expect(generatedCategoryPages).toStrictEqual([
         {
           slug: "riscaldamento/camini-inserti/page/1",
+          fullSlug: "riscaldamento/camini-inserti",
           products: [
             dummyProductForCategory,
             dummyProductForCategory,
@@ -569,6 +571,7 @@ describe.each<[undefined | SubCategory[], string]>([
         },
         {
           slug: "riscaldamento/camini-inserti/page/2",
+          fullSlug: "riscaldamento/camini-inserti/page/2",
           products: [dummyProductForCategory, dummyProductForCategory],
           ...basePage,
           count: secondPageCount,
@@ -593,6 +596,7 @@ describe.each<[undefined | SubCategory[], string]>([
         },
         {
           slug: "riscaldamento/camini-inserti",
+          fullSlug: "riscaldamento/camini-inserti",
           products: [
             dummyProductForCategory,
             dummyProductForCategory,
@@ -622,6 +626,7 @@ describe.each<[undefined | SubCategory[], string]>([
         },
         {
           slug: "camini-inserti/page/1",
+          fullSlug: "riscaldamento/camini-inserti",
           products: [
             dummyProductForCategory,
             dummyProductForCategory,
@@ -651,6 +656,7 @@ describe.each<[undefined | SubCategory[], string]>([
         },
         {
           slug: "camini-inserti/page/2",
+          fullSlug: "riscaldamento/camini-inserti/page/2",
           products: [dummyProductForCategory, dummyProductForCategory],
           ...basePage,
           count: secondPageCount,
@@ -675,6 +681,7 @@ describe.each<[undefined | SubCategory[], string]>([
         },
         {
           slug: "camini-inserti",
+          fullSlug: "riscaldamento/camini-inserti",
           products: [
             dummyProductForCategory,
             dummyProductForCategory,

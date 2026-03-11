@@ -192,6 +192,7 @@ export const getCategoryPaths = (
   }
 
   const title = category.name;
+  const fullSlug = category.fullSlug;
   const mainSlug = currentCategorySlugs.slugs.main;
   const firstProductMainPageSlug = `${mainSlug}/page/1`;
 
@@ -204,7 +205,7 @@ export const getCategoryPaths = (
       title,
       products: category.products,
       count: getCount(category.count, 1, limit),
-      baseSlug: mainSlug,
+      fullSlug,
       ...subCategories,
     };
 
@@ -260,7 +261,6 @@ export const getCategoryPaths = (
 
   const basePage = {
     title,
-    baseSlug: mainSlug,
   };
 
   if (!currentCategorySlugs.slugs.hierarchical) {
@@ -271,10 +271,12 @@ export const getCategoryPaths = (
     for (const [index, pageProducts] of splitProducts.entries()) {
       const index1Base = index + 1;
       const slug = `${pageBaseSlug}/${index1Base}`;
+      const pagedFullSlug = `${fullSlug}/page/${index1Base}`;
 
       numberedPages.push({
         ...basePage,
         slug: slug,
+        fullSlug: index === 0 ? fullSlug : pagedFullSlug,
         products: pageProducts,
         // add subcategories only on first page
         ...(index === 0 ? subCategories : []),
@@ -288,11 +290,12 @@ export const getCategoryPaths = (
       });
     }
 
-    // generate main slug ({slug/page/1})
+    // generate main slug ({slug})
     const mainProductPage: CategoryPageData = {
       ...basePage,
       products: splitProducts[0],
       slug: mainSlug,
+      fullSlug,
       ...subCategories,
       count: getCount(category.count, 1, limit),
       pagination: getPagination(
@@ -315,10 +318,12 @@ export const getCategoryPaths = (
   for (const [index, pageProducts] of splitProducts.entries()) {
     const index1Base = index + 1;
     const slug = `${pageBaseSlug}/${index1Base}`;
+    const pagedFullSlug = `${fullSlug}/page/${index1Base}`;
 
     numberedPages.push({
       ...basePage,
       slug,
+      fullSlug: index === 0 ? fullSlug : pagedFullSlug,
       products: pageProducts,
       // add subcategories only on first page
       ...(index === 0 ? subCategories : []),
@@ -337,6 +342,7 @@ export const getCategoryPaths = (
     ...basePage,
     products: splitProducts[0],
     slug: currentCategorySlugs.slugs.hierarchical,
+    fullSlug,
     ...subCategories,
     count: getCount(category.count, 1, limit),
     pagination: getPagination(
@@ -352,6 +358,7 @@ export const getCategoryPaths = (
     (numberedPage, index) => ({
       ...numberedPage,
       slug: `${mainSlug}/page/${index + 1}`,
+      fullSlug: index === 0 ? fullSlug : `${fullSlug}/page/${index + 1}`,
       pagination: getPagination(
         `${mainSlug}/page/${index + 1}`,
         index + 1,
@@ -365,6 +372,7 @@ export const getCategoryPaths = (
   const mainPage: CategoryPageData = {
     ...basePage,
     slug: mainSlug,
+    fullSlug,
     products: splitProducts[0],
     ...subCategories,
     count: getCount(category.count, 1, limit),

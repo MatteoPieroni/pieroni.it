@@ -205,7 +205,7 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "riscaldamento/page/1",
-        baseSlug: "riscaldamento",
+        fullSlug: "riscaldamento",
         count: {
           end: 2,
           start: 1,
@@ -240,7 +240,7 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "riscaldamento",
-        baseSlug: "riscaldamento",
+        fullSlug: "riscaldamento",
         count: {
           end: 2,
           start: 1,
@@ -256,7 +256,7 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "riscaldamento/caldaie-a-pellet/page/1",
-        baseSlug: "caldaie-a-pellet",
+        fullSlug: "riscaldamento/caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -286,7 +286,7 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "riscaldamento/caldaie-a-pellet",
-        baseSlug: "caldaie-a-pellet",
+        fullSlug: "riscaldamento/caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -309,7 +309,7 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "caldaie-a-pellet/page/1",
-        baseSlug: "caldaie-a-pellet",
+        fullSlug: "riscaldamento/caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -332,7 +332,7 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "caldaie-a-pellet",
-        baseSlug: "caldaie-a-pellet",
+        fullSlug: "riscaldamento/caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -348,7 +348,8 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/page/1",
-        baseSlug: "caldaie-a-pellet-caldaie-a-pellet",
+        fullSlug:
+          "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -364,7 +365,8 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
-        baseSlug: "caldaie-a-pellet-caldaie-a-pellet",
+        fullSlug:
+          "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -380,7 +382,8 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "caldaie-a-pellet-caldaie-a-pellet/page/1",
-        baseSlug: "caldaie-a-pellet-caldaie-a-pellet",
+        fullSlug:
+          "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,
@@ -396,7 +399,8 @@ test("generates the full payload", async () => {
           },
         ],
         slug: "caldaie-a-pellet-caldaie-a-pellet",
-        baseSlug: "caldaie-a-pellet-caldaie-a-pellet",
+        fullSlug:
+          "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
         count: {
           end: 1,
           start: 1,

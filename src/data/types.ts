@@ -51,7 +51,7 @@ export type Category = Exclude<DbCategory, "parent"> & {
 
 export type CategoryPageData = {
   slug: string;
-  baseSlug: string;
+  fullSlug: string;
   title: string;
   products: ProductForCategory[];
   subCategories?: SubCategory[];
