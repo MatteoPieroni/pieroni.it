@@ -2,44 +2,25 @@ import type {
   Category,
   CategoryPageData,
   DbCategory,
-  ProductForCategory,
+  DbCategoryProduct,
 } from "../types";
-import { getCategories, getProductsInCategory } from "./adapter";
+import { getCategories } from "./adapter";
 
-type CategoryCollection = Record<number, Category>;
-
-type CategoryWithProducts = {
-  products: ProductForCategory[];
-} & Category;
-
-export type CategoryCollectionWithProduct = Record<
-  number,
-  CategoryWithProducts
->;
-
-type CategorySlugs = {
-  main: string;
-  hierarchical?: string;
-};
-export type CategoriesSlugsCollection = {
-  [key: number]: {
-    slugs: CategorySlugs;
-  };
+export type CategoryWithSubcategories = Category & {
+  subCategories?: {
+    name: string;
+    count: number;
+    url: string;
+  }[];
 };
 
-export const getFlatCategories: (
+export const getSubcategories: (
   categories: DbCategory[],
-) => CategoryCollection = (categories) => {
-  return categories.reduce<CategoryCollection>((acc, current) => {
+) => CategoryWithSubcategories[] = (categories) => {
+  return categories.map((category) => {
     const subCategories = categories
       .filter((cat) => {
-        if (typeof cat.parent !== "number" && !cat.parent) {
-          return false;
-        }
-
-        return typeof cat.parent === "number"
-          ? cat.parent === current.id
-          : cat.parent.id === current.id;
+        return cat.parent === category.id;
       })
       .map(({ name, count, fullSlug }) => ({
         name,
@@ -48,38 +29,13 @@ export const getFlatCategories: (
       }));
 
     return {
-      ...acc,
-      [current.id]: {
-        ...current,
-        ...(subCategories.length > 0 ? { subCategories } : {}),
-      },
-    };
-  }, {});
-};
-
-export const enrichCategoriesWithProducts = async (
-  categories: CategoryCollection,
-  fetchProducts: typeof getProductsInCategory,
-) => {
-  const categoriesWithProducts: CategoryCollectionWithProduct = {};
-
-  for (const category of Object.values(categories)) {
-    const products = await fetchProducts(category.id);
-
-    categoriesWithProducts[category.id] = {
       ...category,
-      products: products.map(({ mainCategory, slug, name, images }) => ({
-        name,
-        link: `${mainCategory.fullSlug}/${slug}`,
-        image: images?.[0],
-      })),
+      ...(subCategories.length > 0 ? { subCategories } : {}),
     };
-  }
-
-  return categoriesWithProducts;
+  });
 };
 
-const splitProductsIntoPages = (array: ProductForCategory[], limit: number) => {
+const splitProductsIntoPages = (array: DbCategoryProduct[], limit: number) => {
   const splitProducts = [];
 
   for (let index = 0; index < array.length; index += limit) {
@@ -147,6 +103,10 @@ const getPagination = (
     href: `${baseSlug}/${currentPageNumber + 1}`,
   };
 
+  if (totalPages === 1) {
+    return undefined;
+  }
+
   if (currentPageNumber === 1) {
     return {
       ...basePagination,
@@ -182,251 +142,133 @@ const getPagination = (
  *   - generate main slug page ({slug})
  */
 export const getCategoryPaths = (
-  category: CategoryWithProducts,
-  categorySlugs: CategoriesSlugsCollection,
+  {
+    name,
+    fullSlug,
+    slug,
+    breadcrumbs: catBreadcrumbs,
+    count,
+    products,
+    subCategories,
+  }: Category,
   limit: number,
 ) => {
-  const currentCategorySlugs = categorySlugs[category.id];
-  if (!currentCategorySlugs) {
-    throw new Error("Slugs not collected");
-  }
+  const title = name;
+  const breadcrumbs = catBreadcrumbs.filter((crumb) => crumb !== null);
 
-  const title = category.name;
-  const fullSlug = category.fullSlug;
-  const mainSlug = currentCategorySlugs.slugs.main;
-  const firstProductMainPageSlug = `${mainSlug}/page/1`;
+  const hasPagination = products.length > limit;
 
-  const subCategories = category.subCategories
-    ? { subCategories: category.subCategories }
-    : {};
+  const splitProducts = splitProductsIntoPages(products, limit);
+  const fullSlugPagesWithProduct = splitProducts.map((products, index) => {
+    const pageFullSlug = `${fullSlug}/page`;
+    const index1Base = index + 1;
+    const pagedSlug = `${pageFullSlug}/${index1Base}`;
+    const pagedFullSlug = `${fullSlug}/page/${index1Base}`;
 
-  if (category.products.length <= limit) {
-    const basePage = {
+    const page = {
       title,
-      products: category.products,
-      count: getCount(category.count, 1, limit),
-      fullSlug,
-      ...subCategories,
+      breadcrumbs,
+      slug: pagedSlug,
+      fullSlug: index === 0 ? fullSlug : pagedFullSlug,
+      count: getCount(count, index1Base, limit),
+      products,
+      ...(hasPagination && {
+        pagination: getPagination(
+          pagedSlug,
+          index1Base,
+          splitProducts.length,
+          pageFullSlug,
+        ),
+      }),
+      ...(index === 0 && subCategories && { subCategories }),
     };
 
-    if (!currentCategorySlugs.slugs.hierarchical) {
-      // generate main numbered page ({slug}/page/1)
-      const firstProductPage: CategoryPageData = {
-        ...basePage,
-        slug: firstProductMainPageSlug,
-      };
-      // generate main slug page ({slug})
-      const mainProductPage: CategoryPageData = {
-        ...basePage,
-        slug: currentCategorySlugs.slugs.main,
-      };
-
-      return [firstProductPage, mainProductPage];
+    if (index === 0) {
+      return [
+        // main page with full slug
+        {
+          ...page,
+          slug: fullSlug,
+          ...(hasPagination && {
+            pagination: getPagination(
+              fullSlug,
+              index1Base,
+              splitProducts.length,
+              pageFullSlug,
+            ),
+          }),
+        },
+        page,
+      ];
     }
 
-    const hierarchicalSlug = currentCategorySlugs.slugs.hierarchical;
-    const firstProductPageSlug = `${hierarchicalSlug}/page/1`;
+    return page;
+  });
 
-    // generate hierarchical first page with products ({long-slug}/page/1)
-    const hierarchicalFirstProductPage: CategoryPageData = {
-      ...basePage,
-      slug: firstProductPageSlug,
-    };
-    // generate hierarchical slug page ({long-slug})
-    const hierarchicalMainPage: CategoryPageData = {
-      ...basePage,
-      slug: currentCategorySlugs.slugs.hierarchical,
-    };
-
-    // generate main first page ({slug}/page/1)
-    const firstProductPage: CategoryPageData = {
-      ...basePage,
-      slug: firstProductMainPageSlug,
-    };
-    // generate main slug page ({slug})
-    const mainProductPage: CategoryPageData = {
-      ...basePage,
-      slug: mainSlug,
-    };
-
-    return [
-      hierarchicalFirstProductPage,
-      hierarchicalMainPage,
-      firstProductPage,
-      mainProductPage,
-    ];
+  // in this case we are at a category without parents
+  if (slug === fullSlug) {
+    return fullSlugPagesWithProduct.flat();
   }
 
-  const splitProducts = splitProductsIntoPages(category.products, limit);
+  const slugPagesWithProduct = splitProducts.map((products, index) => {
+    const pageBaseSlug = `${slug}/page`;
+    const index1Base = index + 1;
+    const pagedSlug = `${pageBaseSlug}/${index1Base}`;
+    const pagedFullSlug = `${fullSlug}/page/${index1Base}`;
 
-  const basePage = {
-    title,
-  };
-
-  if (!currentCategorySlugs.slugs.hierarchical) {
-    const numberedPages: CategoryPageData[] = [];
-    const pageBaseSlug = `${category.slug}/page`;
-
-    // generate numbered pages with products ({slug}/page/x)
-    for (const [index, pageProducts] of splitProducts.entries()) {
-      const index1Base = index + 1;
-      const slug = `${pageBaseSlug}/${index1Base}`;
-      const pagedFullSlug = `${fullSlug}/page/${index1Base}`;
-
-      numberedPages.push({
-        ...basePage,
-        slug: slug,
-        fullSlug: index === 0 ? fullSlug : pagedFullSlug,
-        products: pageProducts,
-        // add subcategories only on first page
-        ...(index === 0 ? subCategories : []),
-        count: getCount(category.count, index1Base, limit),
+    const page = {
+      title,
+      breadcrumbs,
+      slug: pagedSlug,
+      fullSlug: index === 0 ? fullSlug : pagedFullSlug,
+      products,
+      count: getCount(count, index1Base, limit),
+      ...(hasPagination && {
         pagination: getPagination(
-          slug,
+          pagedSlug,
           index1Base,
           splitProducts.length,
           pageBaseSlug,
         ),
-      });
+      }),
+      ...(index === 0 && subCategories ? { subCategories } : {}),
+    };
+
+    if (index === 0) {
+      return [
+        // main page with base slug
+        {
+          ...page,
+          slug: slug,
+          ...(hasPagination && {
+            pagination: getPagination(
+              slug,
+              index1Base,
+              splitProducts.length,
+              pageBaseSlug,
+            ),
+          }),
+        },
+        page,
+      ];
     }
 
-    // generate main slug ({slug})
-    const mainProductPage: CategoryPageData = {
-      ...basePage,
-      products: splitProducts[0],
-      slug: mainSlug,
-      fullSlug,
-      ...subCategories,
-      count: getCount(category.count, 1, limit),
-      pagination: getPagination(
-        mainSlug,
-        1,
-        splitProducts.length,
-        pageBaseSlug,
-      ),
-    };
+    return page;
+  });
 
-    return [...numberedPages, mainProductPage];
-  }
-
-  const hierarchicalSlug = currentCategorySlugs.slugs.hierarchical;
-  const pageBaseSlug = `${hierarchicalSlug}/page`;
-
-  const numberedPages: CategoryPageData[] = [];
-
-  // generate hierarchical numbered pages with products ({long-slug}/page/x)
-  for (const [index, pageProducts] of splitProducts.entries()) {
-    const index1Base = index + 1;
-    const slug = `${pageBaseSlug}/${index1Base}`;
-    const pagedFullSlug = `${fullSlug}/page/${index1Base}`;
-
-    numberedPages.push({
-      ...basePage,
-      slug,
-      fullSlug: index === 0 ? fullSlug : pagedFullSlug,
-      products: pageProducts,
-      // add subcategories only on first page
-      ...(index === 0 ? subCategories : []),
-      count: getCount(category.count, index1Base, limit),
-      pagination: getPagination(
-        slug,
-        index1Base,
-        splitProducts.length,
-        pageBaseSlug,
-      ),
-    });
-  }
-
-  // generate main hierarchical page ({long-slug})
-  const hierarchicalMainPage: CategoryPageData = {
-    ...basePage,
-    products: splitProducts[0],
-    slug: currentCategorySlugs.slugs.hierarchical,
-    fullSlug,
-    ...subCategories,
-    count: getCount(category.count, 1, limit),
-    pagination: getPagination(
-      currentCategorySlugs.slugs.hierarchical,
-      1,
-      splitProducts.length,
-      pageBaseSlug,
-    ),
-  };
-
-  // generate main numbered pages ({slug}/page/x)
-  const mainNumberedProductPages: CategoryPageData[] = numberedPages.map(
-    (numberedPage, index) => ({
-      ...numberedPage,
-      slug: `${mainSlug}/page/${index + 1}`,
-      fullSlug: index === 0 ? fullSlug : `${fullSlug}/page/${index + 1}`,
-      pagination: getPagination(
-        `${mainSlug}/page/${index + 1}`,
-        index + 1,
-        splitProducts.length,
-        `${mainSlug}/page`,
-      ),
-    }),
-  );
-
-  // generate main slug page ({slug})
-  const mainPage: CategoryPageData = {
-    ...basePage,
-    slug: mainSlug,
-    fullSlug,
-    products: splitProducts[0],
-    ...subCategories,
-    count: getCount(category.count, 1, limit),
-    pagination: getPagination(
-      mainSlug,
-      1,
-      splitProducts.length,
-      `${mainSlug}/page`,
-    ),
-  };
-
-  return [
-    ...numberedPages,
-    hierarchicalMainPage,
-    ...mainNumberedProductPages,
-    mainPage,
-  ];
-};
-
-export const createSlugsCollection = (categories: DbCategory[]) => {
-  const slugsCollection: CategoriesSlugsCollection = {};
-
-  // looping main cats
-  for (const category of categories) {
-    // add current category to collection
-    slugsCollection[category.id] = {
-      slugs: {
-        main: category.slug,
-        ...(typeof category.parent !== "number" && !category.parent
-          ? {}
-          : { hierarchical: category.fullSlug }),
-      },
-    };
-  }
-
-  return slugsCollection;
+  return [...fullSlugPagesWithProduct.flat(), ...slugPagesWithProduct.flat()];
 };
 
 export const getCategoriesPages = async (
   fetchCategories: typeof getCategories,
-  fetchProducts: typeof getProductsInCategory,
 ) => {
   const categories = await fetchCategories();
-  const flatCategories = getFlatCategories(categories);
-  const categoriesWithProducts = await enrichCategoriesWithProducts(
-    flatCategories,
-    fetchProducts,
-  );
-  const categorySlugs = createSlugsCollection(categories);
+  const flatCategories = getSubcategories(categories);
 
   const categoriesPages: CategoryPageData[] = [];
 
-  for (const category of Object.values(categoriesWithProducts)) {
-    const categoryPaths = getCategoryPaths(category, categorySlugs, 12);
+  for (const category of flatCategories) {
+    const categoryPaths = getCategoryPaths(category, 12);
 
     categoriesPages.push(...categoryPaths);
   }

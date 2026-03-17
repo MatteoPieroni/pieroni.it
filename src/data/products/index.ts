@@ -1,4 +1,4 @@
-import { getCategories, getProducts, getProductsInCategory } from "./adapter";
+import { getCategories, getProducts } from "./adapter";
 import { getCategoriesPages } from "./categories";
 import { getProductsPages } from "./products";
 
@@ -16,17 +16,13 @@ import { getProductsPages } from "./products";
 // - negozio/fullslug/page/1 (LOOP)
 export const getAllCategories = async (
   fetchCategories = getCategories,
-  fetchProductsInCategory = getProductsInCategory,
   fetchProducts = getProducts,
 ) => {
-  const categoriesPages = await getCategoriesPages(
-    fetchCategories,
-    fetchProductsInCategory,
-  );
-  const productsPages = await getProductsPages(fetchProducts);
+  const categoriesPages = await getCategoriesPages(fetchCategories);
+  // const productsPages = await getProductsPages(fetchProducts);
 
   return {
     categories: categoriesPages,
-    productsPages,
+    productsPages: [],
   };
 };

@@ -1,5 +1,4 @@
 type Media = {
-  id: number;
   alt: string;
   url: string;
 };
@@ -9,32 +8,35 @@ type Breadcrumb = {
   label: string;
 };
 
+export type DbCategoryProduct = {
+  name: string;
+  fullSlug: string;
+  featuredImage: Media;
+};
 export type DbCategory = {
   id: number;
   name: string;
   slug: string;
-  featured_image: Media | null;
+  featured_image?: Media | null;
   count: number;
   fullSlug: string;
-  level: number;
   breadcrumbs: (Breadcrumb | null)[];
-  parent:
-    | number
-    | {
-        id: number;
-      }
-    | null;
+  parent?: number | null;
+  products: DbCategoryProduct[];
 };
 
+type DbProductCategory = Pick<DbCategory, "breadcrumbs" | "slug" | "name">;
 export type DbProduct = {
   id: number;
   name: string;
   slug: string;
+  fullSlug: string;
   description: string;
-  fullDescription: {};
+  fullDescription: string;
+  featuredImage: Media;
   images: Media[] | null;
-  mainCategory: DbCategory;
-  categories: DbCategory[];
+  mainCategory: DbProductCategory;
+  categories: DbProductCategory[];
   formats: string | null;
   brand: string | null;
 };
@@ -53,8 +55,9 @@ export type CategoryPageData = {
   slug: string;
   fullSlug: string;
   title: string;
-  products: ProductForCategory[];
+  products: DbCategoryProduct[];
   subCategories?: SubCategory[];
+  breadcrumbs: Breadcrumb[];
 
   count: {
     total: number;
@@ -88,14 +91,8 @@ type PaginationPage = {
   href: string;
 };
 
-export type ProductForCategory = {
-  link: string;
-  image?: Media | null;
-  name: string;
-};
-
 export type ProductPageData = {
-  name: string;
+  title: string;
   slug: string;
   fullSlug: string;
   images: Media[] | null;

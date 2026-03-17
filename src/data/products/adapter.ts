@@ -1,19 +1,26 @@
 import * as z from "zod";
+import type { DbCategory } from "../types";
 
 const MediaSchema = z.object({
-  id: z.number(),
   alt: z.string(),
   url: z.string(),
 });
 
+const CategoryProductSchema = z.object({
+  name: z.string(),
+  fullSlug: z.string(),
+  featuredImage: z.object({
+    url: z.string(),
+    alt: z.string(),
+  }),
+});
 const CategorySchema = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
-  featured_image: z.nullable(MediaSchema),
+  featured_image: z.optional(z.nullable(MediaSchema)),
   count: z.number(),
   fullSlug: z.string(),
-  level: z.number(),
   breadcrumbs: z.array(
     z.nullable(
       z.object({
@@ -22,139 +29,103 @@ const CategorySchema = z.object({
       }),
     ),
   ),
-  parent: z.nullable(z.union([z.number(), z.object({ id: z.number() })])),
+  products: z.array(CategoryProductSchema),
+  parent: z.optional(z.number()),
 });
 
+const ProductCategorySchema = z.object({
+  name: z.string(),
+  fullSlug: z.string(),
+  breadcrumbs: z.array(
+    z.object({
+      url: z.string(),
+      label: z.string(),
+    }),
+  ),
+});
 const ProductSchema = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
+  fullSlug: z.string(),
   description: z.string(),
-  fullDescription: z.object({}),
+  fullDescription: z.string(),
+  featuredImage: MediaSchema,
   images: z.nullable(z.array(MediaSchema)),
-  mainCategory: CategorySchema,
-  categories: z.array(CategorySchema),
+  mainCategory: ProductCategorySchema,
+  categories: z.array(ProductCategorySchema),
   formats: z.nullable(z.string()),
   brand: z.nullable(z.string()),
 });
 
-export const getCategories = async (pageLimit = 30, page = 1) => {
+export const getCategories = async () => {
   const API_KEY = import.meta.env.API_KEY;
-  const BE_URL = "https://be.pieroni.it/api";
+  const BE_URL = "https://be.pieroni.it/website";
 
-  const categories: z.infer<typeof CategorySchema>[] = [];
+  const categories: DbCategory[] = [];
 
-  while (true) {
-    const response = await fetch(
-      `${BE_URL}/shop_categories?limit=${pageLimit}&page=${page}&depth=1`,
-      {
-        headers: {
-          Authorization: `users API-Key ${API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
+  const response = await fetch(`${BE_URL}/shop-categories`, {
+    headers: {
+      Authorization: `users API-Key ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+  });
 
-    if (!response.ok) {
-      break;
-    }
+  if (!response.ok) {
+    throw new Error("");
+  }
 
-    const fetchedCategories = await response.json();
-    if (fetchedCategories.docs.length === 0) {
-      break;
-    }
+  const categoriesResponse = await response.json();
+  if (categoriesResponse.data.categories.length === 0) {
+    throw new Error("");
+  }
 
-    for (const fetchedCategory of fetchedCategories.docs) {
+  const fetchedCategories = categoriesResponse.data.categories;
+
+  for (const fetchedCategory of fetchedCategories) {
+    try {
       categories.push(CategorySchema.parse(fetchedCategory));
+    } catch (e) {
+      console.error({ e, id: fetchedCategory.id });
+      continue;
     }
+  }
 
-    categories.push(...fetchedCategories.docs);
-
-    if (fetchedCategories.length < pageLimit) {
-      break;
-    }
-
-    page++;
+  if (categories.length === 0) {
+    throw new Error("Error fetching categories");
   }
 
   return categories;
 };
 
-export const getProductsInCategory = async (
-  category: number,
-  pageLimit = 100,
-  page = 1,
-) => {
+export const getProducts = async (page = 1) => {
   const API_KEY = import.meta.env.API_KEY;
-  const BE_URL = "https://be.pieroni.it/api";
+  const BE_URL = "https://be.pieroni.it/website";
 
   const products: z.infer<typeof ProductSchema>[] = [];
 
   while (true) {
-    const response = await fetch(
-      `${BE_URL}/shop_products?limit=${pageLimit}&page=${page}&depth=3&where[categories][contains]=${category}`,
-      {
-        headers: {
-          Authorization: `users API-Key ${API_KEY}`,
-          "Content-Type": "application/json",
-        },
+    const response = await fetch(`${BE_URL}/shop-products?page=${page}`, {
+      headers: {
+        Authorization: `users API-Key ${API_KEY}`,
+        "Content-Type": "application/json",
       },
-    );
+    });
 
     if (!response.ok) {
       break;
     }
 
-    const pageProducts = await response.json();
-    if (pageProducts.docs.length === 0) {
+    const productsResponse = await response.json();
+    if (productsResponse.data.products.length === 0) {
       break;
     }
 
-    for (const pageProduct of pageProducts.docs) {
+    for (const pageProduct of productsResponse.data.products) {
       products.push(ProductSchema.parse(pageProduct));
     }
 
-    if (pageProducts.length < pageLimit) {
-      break;
-    }
-
-    page++;
-  }
-
-  return products;
-};
-
-export const getProducts = async (pageLimit = 100, page = 1) => {
-  const API_KEY = import.meta.env.API_KEY;
-  const BE_URL = "https://be.pieroni.it/api";
-
-  const products: z.infer<typeof ProductSchema>[] = [];
-
-  while (true) {
-    const response = await fetch(
-      `${BE_URL}/shop_products?limit=${pageLimit}&page=${page}&depth=3`,
-      {
-        headers: {
-          Authorization: `users API-Key ${API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      },
-    );
-
-    if (!response.ok) {
-      break;
-    }
-
-    const pageProducts = await response.json();
-    if (pageProducts.docs.length === 0) {
-      break;
-    }
-
-    for (const pageProduct of pageProducts.docs) {
-      products.push(ProductSchema.parse(pageProduct));
-    }
-
-    if (pageProducts.length < pageLimit) {
+    if (!productsResponse.data.hasNextPage) {
       break;
     }
 

@@ -1,231 +1,24 @@
 import { describe, expect, test } from "vitest";
 
-import {
-  getCategoryPaths,
-  enrichCategoriesWithProducts,
-  createSlugsCollection,
-  type CategoryCollectionWithProduct,
-} from "./categories";
-import type {
-  Category,
-  DbProduct,
-  ProductForCategory,
-  SubCategory,
-} from "../types";
+import { getCategoryPaths, type CategoryWithSubcategories } from "./categories";
+import type { Category, DbCategoryProduct, SubCategory } from "../types";
 
-const mockCategories = [
-  {
-    id: 24,
-    name: "Riscaldamento",
-    slug: "riscaldamento",
-    count: 73,
-    parent: null,
-    featured_image: null,
-    fullSlug: "riscaldamento",
-    level: 0,
-    breadcrumbs: [],
-  },
-  {
-    id: 35,
-    name: "Caldaie",
-    slug: "caldaie-a-pellet",
-    count: 9,
-    parent: 24,
-    featured_image: null,
-    level: 1,
-    fullSlug: "riscaldamento/caldaie-a-pellet",
-    breadcrumbs: [],
-  },
-  {
-    id: 406,
-    name: "Caldaie a pellet",
-    slug: "caldaie-a-pellet-caldaie-a-pellet",
-    count: 3,
-    featured_image: null,
-    parent: 35,
-    fullSlug:
-      "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
-    breadcrumbs: [],
-    level: 2,
-  },
-  {
-    id: 34,
-    name: "Camini",
-    slug: "camini-inserti",
-    count: 38,
-    parent: 24,
-    featured_image: null,
-    breadcrumbs: [],
-    fullSlug: "riscaldamento/camini-inserti",
-    level: 1,
-  },
-  {
-    id: 407,
-    name: "Inserti a legna",
-    slug: "inserti-a-legna-camini-inserti",
-    count: 10,
-    parent: 34,
-    featured_image: null,
-    breadcrumbs: [],
-    fullSlug: "riscaldamento/camini-inserti/inserti-a-legna-camini-inserti",
-    level: 2,
-  },
-] satisfies Category[];
-
-const baseProduct = {
-  brand: "test-brand",
-  categories: [],
-  description: "test-description",
-  formats: "test-format",
-  fullDescription: {},
-  images: [],
-  mainCategory: mockCategories[0],
-};
-
-const dummyProduct = {
-  id: 1,
-  name: "test product",
-  slug: "test-product",
-  ...baseProduct,
-} satisfies DbProduct;
 const dummyProductForCategory = {
-  name: dummyProduct.name,
-  image: undefined,
-  link: `riscaldamento/${dummyProduct.slug}`,
-} satisfies ProductForCategory;
-
-const createMockGetProducts =
-  (products?: (typeof dummyProduct)[]) => async () => {
-    return products || [];
-  };
+  name: "test product",
+  featuredImage: {
+    url: "",
+    alt: "",
+  },
+  fullSlug: `riscaldamento/test-product`,
+} satisfies DbCategoryProduct;
 
 const baseCategory = {
   featured_image: null,
-  level: 0,
   breadcrumbs: [],
-  parent: null,
 };
 
-const mockCategory = {
-  id: 24,
-  name: "Riscaldamento",
-  slug: "riscaldamento",
-  fullSlug: "riscaldamento",
-  count: 73,
-  ...baseCategory,
-} satisfies Category;
-
-describe("prepare db", () => {
-  test("adds products to a category", async () => {
-    const mockedGetProducts = createMockGetProducts([dummyProduct]);
-
-    const categoriesWithProducts = await enrichCategoriesWithProducts(
-      {
-        24: mockCategory,
-      },
-      mockedGetProducts,
-    );
-
-    expect(categoriesWithProducts).toStrictEqual({
-      24: {
-        ...mockCategory,
-        products: [dummyProductForCategory],
-      },
-    });
-  });
-});
-
-describe("generates slugs for", () => {
-  test("main and paginated first page", () => {
-    expect(
-      createSlugsCollection([
-        {
-          id: 24,
-          name: "Riscaldamento",
-          slug: "riscaldamento",
-          fullSlug: "riscaldamento",
-          count: 73,
-          ...baseCategory,
-        },
-      ]),
-    ).toStrictEqual({
-      24: {
-        slugs: { main: "riscaldamento" },
-      },
-    });
-  });
-
-  test("with children", () => {
-    expect(
-      createSlugsCollection([
-        {
-          id: 24,
-          name: "Riscaldamento",
-          slug: "riscaldamento",
-          fullSlug: "riscaldamento",
-          count: 73,
-          ...baseCategory,
-        },
-        {
-          id: 35,
-          name: "Caldaie",
-          slug: "caldaie-a-pellet",
-          fullSlug: "riscaldamento/caldaie-a-pellet",
-          count: 9,
-          ...baseCategory,
-          parent: 24,
-        },
-      ]),
-    ).toStrictEqual({
-      24: {
-        slugs: { main: "riscaldamento" },
-      },
-      "35": {
-        slugs: {
-          hierarchical: "riscaldamento/caldaie-a-pellet",
-          main: "caldaie-a-pellet",
-        },
-      },
-    });
-  });
-
-  test("deep hierarchy", () => {
-    expect(createSlugsCollection(mockCategories)).toStrictEqual({
-      24: {
-        slugs: { main: "riscaldamento" },
-      },
-      34: {
-        slugs: {
-          hierarchical: "riscaldamento/camini-inserti",
-          main: "camini-inserti",
-        },
-      },
-      35: {
-        slugs: {
-          hierarchical: "riscaldamento/caldaie-a-pellet",
-          main: "caldaie-a-pellet",
-        },
-      },
-      406: {
-        slugs: {
-          hierarchical:
-            "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet",
-          main: "caldaie-a-pellet-caldaie-a-pellet",
-        },
-      },
-      407: {
-        slugs: {
-          hierarchical:
-            "riscaldamento/camini-inserti/inserti-a-legna-camini-inserti",
-          main: "inserti-a-legna-camini-inserti",
-        },
-      },
-    });
-  });
-});
-
-const preparedDbWithProducts: CategoryCollectionWithProduct = {
-  24: {
+const preparedDbWithProducts: Category[] = [
+  {
     id: 24,
     name: "Riscaldamento",
     slug: "riscaldamento",
@@ -239,7 +32,7 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
       dummyProductForCategory,
     ],
   },
-  35: {
+  {
     id: 35,
     name: "Caldaie",
     slug: "caldaie-a-pellet",
@@ -248,7 +41,7 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
     ...baseCategory,
     products: [dummyProductForCategory],
   },
-  406: {
+  {
     id: 406,
     name: "Caldaie a pellet",
     slug: "caldaie-a-pellet-caldaie-a-pellet",
@@ -258,7 +51,7 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
     ...baseCategory,
     products: [dummyProductForCategory],
   },
-  34: {
+  {
     id: 34,
     name: "Camini",
     slug: "camini-inserti",
@@ -273,7 +66,7 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
       dummyProductForCategory,
     ],
   },
-  407: {
+  {
     id: 407,
     name: "Inserti a legna",
     slug: "inserti-a-legna-camini-inserti",
@@ -282,7 +75,7 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
     count: 1,
     products: [dummyProductForCategory],
   },
-};
+];
 
 /**
  * for a category
@@ -291,9 +84,10 @@ const preparedDbWithProducts: CategoryCollectionWithProduct = {
  *   - generate main numbered pages ({slug}/page/x)
  *   - generate main slug page ({slug})
  */
-describe.each<[undefined | SubCategory[], string]>([
-  [undefined, "without subcategories"],
+describe.each<[string, undefined | SubCategory[]]>([
+  ["without subcategories", undefined],
   [
+    "with subcategories",
     [
       {
         name: "Inserti a legna",
@@ -301,17 +95,14 @@ describe.each<[undefined | SubCategory[], string]>([
         count: 10,
       },
     ],
-    "with subcategories",
   ],
-])("generates category page %s", (subCategories) => {
+])("generates category page %s", (_, subCategories) => {
   describe("with products in limit", () => {
     test("generates number page and main page", () => {
       const generatedCategoryPages = getCategoryPaths(
-        { ...preparedDbWithProducts[24], subCategories },
         {
-          24: {
-            slugs: { main: "riscaldamento" },
-          },
+          ...preparedDbWithProducts[0],
+          ...(subCategories ? { subCategories } : {}),
         },
         5,
       );
@@ -329,17 +120,18 @@ describe.each<[undefined | SubCategory[], string]>([
           start: 1,
           total: 4,
         },
+        breadcrumbs: [],
         ...(subCategories ? { subCategories } : {}),
       };
 
       expect(generatedCategoryPages).toStrictEqual([
         {
-          slug: "riscaldamento/page/1",
+          slug: "riscaldamento",
           fullSlug: "riscaldamento",
           ...basePage,
         },
         {
-          slug: "riscaldamento",
+          slug: "riscaldamento/page/1",
           fullSlug: "riscaldamento",
           ...basePage,
         },
@@ -348,15 +140,7 @@ describe.each<[undefined | SubCategory[], string]>([
 
     test("generates hierarchical numbered, hierarchical page, main numbered page and main page", () => {
       const generatedCategoryPages = getCategoryPaths(
-        { ...preparedDbWithProducts[35], subCategories },
-        {
-          35: {
-            slugs: {
-              hierarchical: "riscaldamento/caldaie-a-pellet",
-              main: "caldaie-a-pellet",
-            },
-          },
-        },
+        { ...preparedDbWithProducts[1], subCategories },
         3,
       );
 
@@ -369,24 +153,25 @@ describe.each<[undefined | SubCategory[], string]>([
           start: 1,
           total: 1,
         },
+        breadcrumbs: [],
         ...(subCategories ? { subCategories } : {}),
       };
 
       expect(generatedCategoryPages).toStrictEqual([
         {
-          slug: "riscaldamento/caldaie-a-pellet/page/1",
-          ...basePage,
-        },
-        {
           slug: "riscaldamento/caldaie-a-pellet",
           ...basePage,
         },
         {
-          slug: "caldaie-a-pellet/page/1",
+          slug: "riscaldamento/caldaie-a-pellet/page/1",
           ...basePage,
         },
         {
           slug: "caldaie-a-pellet",
+          ...basePage,
+        },
+        {
+          slug: "caldaie-a-pellet/page/1",
           ...basePage,
         },
       ]);
@@ -396,20 +181,50 @@ describe.each<[undefined | SubCategory[], string]>([
   describe("with more products than limit", () => {
     test("generates numbered pages and main page", () => {
       const generatedCategoryPages = getCategoryPaths(
-        { ...preparedDbWithProducts[24], subCategories },
-        {
-          24: {
-            slugs: { main: "riscaldamento" },
-          },
-        },
+        { ...preparedDbWithProducts[0], subCategories },
         3,
       );
 
       const basePage = {
         title: "Riscaldamento",
+        breadcrumbs: [],
       };
 
       expect(generatedCategoryPages).toStrictEqual([
+        {
+          slug: "riscaldamento",
+          fullSlug: "riscaldamento",
+          products: [
+            dummyProductForCategory,
+            dummyProductForCategory,
+            dummyProductForCategory,
+          ],
+          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
+          count: {
+            end: 3,
+            start: 1,
+            total: 4,
+          },
+          pagination: {
+            current: {
+              href: "riscaldamento",
+              number: 1,
+            },
+            first: {
+              href: "riscaldamento/page/1",
+              number: 1,
+            },
+            last: {
+              href: "riscaldamento/page/2",
+              number: 2,
+            },
+            next: {
+              href: "riscaldamento/page/2",
+              number: 2,
+            },
+          },
+        },
         {
           slug: "riscaldamento/page/1",
           fullSlug: "riscaldamento",
@@ -473,59 +288,21 @@ describe.each<[undefined | SubCategory[], string]>([
             },
           },
         },
-        {
-          slug: "riscaldamento",
-          fullSlug: "riscaldamento",
-          products: [
-            dummyProductForCategory,
-            dummyProductForCategory,
-            dummyProductForCategory,
-          ],
-          ...(subCategories ? { subCategories } : {}),
-          ...basePage,
-          count: {
-            end: 3,
-            start: 1,
-            total: 4,
-          },
-          pagination: {
-            current: {
-              href: "riscaldamento",
-              number: 1,
-            },
-            first: {
-              href: "riscaldamento/page/1",
-              number: 1,
-            },
-            last: {
-              href: "riscaldamento/page/2",
-              number: 2,
-            },
-            next: {
-              href: "riscaldamento/page/2",
-              number: 2,
-            },
-          },
-        },
       ]);
     });
 
     test("generates hierarchical numbered pages, hierarchical page, main numbered pages and main page", () => {
       const generatedCategoryPages = getCategoryPaths(
-        { ...preparedDbWithProducts[34], subCategories },
         {
-          34: {
-            slugs: {
-              hierarchical: "riscaldamento/camini-inserti",
-              main: "camini-inserti",
-            },
-          },
+          ...preparedDbWithProducts[3],
+          ...(subCategories ? { subCategories } : {}),
         },
         3,
       );
 
       const basePage = {
         title: "Camini",
+        breadcrumbs: [],
       };
       const firstPageCount = {
         end: 3,
@@ -539,6 +316,36 @@ describe.each<[undefined | SubCategory[], string]>([
       };
 
       expect(generatedCategoryPages).toStrictEqual([
+        {
+          slug: "riscaldamento/camini-inserti",
+          fullSlug: "riscaldamento/camini-inserti",
+          products: [
+            dummyProductForCategory,
+            dummyProductForCategory,
+            dummyProductForCategory,
+          ],
+          ...(subCategories ? { subCategories } : {}),
+          ...basePage,
+          count: firstPageCount,
+          pagination: {
+            current: {
+              href: "riscaldamento/camini-inserti",
+              number: 1,
+            },
+            first: {
+              href: "riscaldamento/camini-inserti/page/1",
+              number: 1,
+            },
+            last: {
+              href: "riscaldamento/camini-inserti/page/2",
+              number: 2,
+            },
+            next: {
+              href: "riscaldamento/camini-inserti/page/2",
+              number: 2,
+            },
+          },
+        },
         {
           slug: "riscaldamento/camini-inserti/page/1",
           fullSlug: "riscaldamento/camini-inserti",
@@ -595,7 +402,7 @@ describe.each<[undefined | SubCategory[], string]>([
           },
         },
         {
-          slug: "riscaldamento/camini-inserti",
+          slug: "camini-inserti",
           fullSlug: "riscaldamento/camini-inserti",
           products: [
             dummyProductForCategory,
@@ -607,19 +414,19 @@ describe.each<[undefined | SubCategory[], string]>([
           count: firstPageCount,
           pagination: {
             current: {
-              href: "riscaldamento/camini-inserti",
+              href: "camini-inserti",
               number: 1,
             },
             first: {
-              href: "riscaldamento/camini-inserti/page/1",
+              href: "camini-inserti/page/1",
               number: 1,
             },
             last: {
-              href: "riscaldamento/camini-inserti/page/2",
+              href: "camini-inserti/page/2",
               number: 2,
             },
             next: {
-              href: "riscaldamento/camini-inserti/page/2",
+              href: "camini-inserti/page/2",
               number: 2,
             },
           },
@@ -676,36 +483,6 @@ describe.each<[undefined | SubCategory[], string]>([
             previous: {
               href: "camini-inserti/page/1",
               number: 1,
-            },
-          },
-        },
-        {
-          slug: "camini-inserti",
-          fullSlug: "riscaldamento/camini-inserti",
-          products: [
-            dummyProductForCategory,
-            dummyProductForCategory,
-            dummyProductForCategory,
-          ],
-          ...(subCategories ? { subCategories } : {}),
-          ...basePage,
-          count: firstPageCount,
-          pagination: {
-            current: {
-              href: "camini-inserti",
-              number: 1,
-            },
-            first: {
-              href: "camini-inserti/page/1",
-              number: 1,
-            },
-            last: {
-              href: "camini-inserti/page/2",
-              number: 2,
-            },
-            next: {
-              href: "camini-inserti/page/2",
-              number: 2,
             },
           },
         },
