@@ -1,13 +1,15 @@
 ---
-import { getAllCategories, getCategoriesFromSlug } from '../../data/products';
-import { swapImageUrlDomain, remoteToLocalUrl } from '../../utils/remoteLinks';
-import ProductLayout from '../../layouts/ProductLayout.astro';
-import ShopCategoryLayout from '../../layouts/ShopCategoryLayout.astro';
+import { getAllCategories } from "../../data/products";
+import ProductLayout from "../../layouts/ProductLayout.astro";
+import ShopCategoryLayout from "../../layouts/ShopCategoryLayout.astro";
 
 export async function getStaticPaths() {
   const { categories, productsPages } = await getAllCategories();
 
-  const categoryPages = categories.map(({ slug, ...category }) => ({
+  const categoryPages: {
+    params: { slug: string };
+    props: CategoryPageProps;
+  }[] = categories.map(({ slug, ...category }) => ({
     params: {
       slug,
     },
@@ -16,176 +18,154 @@ export async function getStaticPaths() {
     },
   }));
 
-  const usableProductPages = productsPages.map((page) => ({
+  const usableProductPages = productsPages.map(({ slug, ...product }) => ({
     params: {
-      slug: page.slug,
+      slug,
     },
     props: {
-      ...('product' in page ? { product: page.product } : {}),
-      ...('rewrite' in page ? { rewrite: page.rewrite } : {}),
+      ...product,
     },
   }));
 
-  return [...categoryPages, ...usableProductPages];
+  // return [...categoryPages, ...usableProductPages];
+  return [...categoryPages];
 }
 
-interface Props {
-  product?: any;
-  products?: any[];
-  subCategories?: any[];
-  title?: string;
-  baseSlug?: string;
-  count?: {
+type Image = {
+  alt: string;
+  url: string;
+};
+
+type CategoryPageProps = {
+  products: {
+    fullSlug: string;
+    image?: Image | null;
+    name: string;
+  }[];
+  subCategories?: {
+    url: string;
+    name: string;
+    count: number;
+  }[];
+  count: {
     total: number;
     start: number;
     end: number;
   };
-  pagination?: {
-    current: PaginationPage;
-    previous: PaginationPage;
-    next: PaginationPage;
-    first: PaginationPage;
-    last: PaginationPage;
-  };
-}
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
+};
+
+type ProductPageProps = {
+  images: Image[] | null;
+  description: string;
+  fullDescription: {};
+  formats: string | null;
+  brand: string | null;
+  categories: {
+    name: string;
+    url: string;
+  }[];
+};
+
+type Props = {
+  title: string;
+  fullSlug: string;
+  breadcrumbs: { label: string; url: string }[];
+} & (CategoryPageProps | ProductPageProps);
 
 type PaginationPage = {
   number: number;
   href: string;
 };
 
-const {
-  product,
-  baseSlug,
-  products,
-  subCategories,
-  title: catTitle,
-  pagination,
-  count,
-} = Astro.props;
-const { slug } = Astro.params;
+const { title, fullSlug, breadcrumbs, ...passedProps } = Astro.props;
+
+const checkIsCategoryPage = (
+  props: CategoryPageProps | ProductPageProps,
+): props is CategoryPageProps => {
+  if ("products" in props) {
+    return true;
+  }
+
+  return false;
+};
 
 // Determine if this is a category page or product page
-const isCategoryPage = products && catTitle && count;
-const isProductPage = product;
+const isCategoryPage = checkIsCategoryPage(passedProps);
 
-// Initialize variables for both page types
-let formattedProducts: any[] = [];
-let formattedSubcategories: any[] = [];
-let title = '';
-let images: any = undefined;
-let description = '';
-let fullDescription = '';
-let attributes: any[] = [];
-let categories: any[] = [];
-let permalink = '';
-
-// remove the numbered pages
-const cleanSlug = slug.replace(/\/page\/.*/, '');
-const categoriesForBreadcrumbs = getCategoriesFromSlug(cleanSlug.split('/'));
-
-const breadcrumbs = [
-  { label: 'Negozio', href: '/negozio/' },
-  ...categoriesForBreadcrumbs.reduce<{ label: string; href: string }[]>(
-    (acc, currentCategory) => {
-      const lastElementInAcc = acc.at(-1);
-
-      return [
-        ...acc,
-        {
-          label: currentCategory.name,
-          href: lastElementInAcc
-            ? `${lastElementInAcc.href}/${currentCategory.slug}`
-            : `/negozio/${currentCategory.slug}`,
-        },
-      ];
-    },
-    [],
-  ),
+const formattedBreadcrumbs = [
+  { label: "Negozio", href: "/negozio/" },
+  ...breadcrumbs.map((crumb) => ({
+    ...crumb,
+    href: `/negozio${crumb.url}/`,
+  })),
 ];
 
-if (isCategoryPage) {
-  // Format products for the layout - only image and name
-  formattedProducts = (products || []).map((p: any) => ({
-    id: p.id,
-    name: p.name,
-    slug: p.slug,
-    // yikes
-    permalink: remoteToLocalUrl(p.permalink),
-    images: (p.images || []).map((img: any) => ({
-      src: swapImageUrlDomain(img.src),
-      alt: img.alt || p.name,
-    })),
-  }));
+// const renderedComponent = isCategoryPage ? (
+//   <ShopCategoryLayout
+//     title={title}
+//     breadcrumbs={formattedBreadcrumbs}
+//     fullSlug={fullSlug}
+//     products={passedProps.products}
+//     subcategories={passedProps.subCategories}
+//     pagination={passedProps.pagination}
+//     count={passedProps.count}
+//   />
+// ) : (
+//   <ProductLayout
+//     title={title}
+//     breadcrumbs={formattedBreadcrumbs}
+//     fullSlug={fullSlug}
+//     images={passedProps.images || []}
+//     description={passedProps.description}
+//     fullDescription={passedProps.description}
+//     formats={passedProps.formats}
+//     categories={passedProps.categories}
+//     brand={passedProps.brand}
+//   />
+// );
 
-  // Format subcategories
-  formattedSubcategories = (subCategories || []).map((subcat: any) => ({
-    name: subcat.name,
-    slug: `${cleanSlug}/${subcat.slug}`,
-    count: subcat.count || 0,
-  }));
-} else if (isProductPage) {
-  // This is a product page
-  title = product.name || product.title;
-  permalink = remoteToLocalUrl(product.permalink);
-
-  breadcrumbs.push({
-    label: title,
-    href: product.slug,
-  });
-
-  // Prepare images
-  const galleryImages = product.images || [];
-  images = galleryImages.map((img: any) => ({
-    src: swapImageUrlDomain(img.src),
-    alt: img.alt || title,
-  }));
-
-  // Prepare description
-  description = product.short_description || product.description;
-  fullDescription = product.description || product.fullDescription;
-
-  // Prepare attributes
-  attributes =
-    product.attributes?.map((attr: any) => ({
-      name: attr.name,
-      slug: attr.slug,
-      options: attr.options || [],
-      visible: attr.visible,
-    })) || [];
-
-  // Prepare categories
-  categories =
-    product.categories?.map((cat: any) => ({
-      name: cat.name,
-      slug: cat.slug,
-    })) || [];
-}
+const Component = isCategoryPage ? ShopCategoryLayout : ProductLayout;
+const props = isCategoryPage
+  ? {
+      title: title,
+      breadcrumbs: formattedBreadcrumbs,
+      fullSlug: fullSlug,
+      products: passedProps.products,
+      subcategories: passedProps.subCategories,
+      pagination: passedProps.pagination,
+      count: passedProps.count,
+    }
+  : {
+      title: title,
+      breadcrumbs: formattedBreadcrumbs,
+      fullSlug: fullSlug,
+      images: passedProps.images || [],
+      description: passedProps.description,
+      fullDescription: passedProps.description,
+      formats: passedProps.formats,
+      categories: passedProps.categories,
+      brand: passedProps.brand,
+    };
 ---
 
-{
-  isCategoryPage ? (
-    <ShopCategoryLayout
-      title={catTitle || 'Categoria'}
-      baseSlug={baseSlug || ''}
-      breadcrumbs={breadcrumbs}
-      products={formattedProducts}
-      subcategories={formattedSubcategories}
-      pagination={pagination}
-      count={count}
-    />
-  ) : isProductPage ? (
-    <ProductLayout
-      title={title}
-      breadcrumbs={breadcrumbs}
-      images={images}
-      description={description}
-      fullDescription={fullDescription}
-      attributes={attributes}
-      categories={categories}
-      permalink={permalink}
-      ctaText="Sei interessato? Prendi un appuntamento!"
-      ctaLink="/appuntamento-sala-mostra/"
-    />
-  ) : null
-}
+<Component {...props} />
