@@ -1,4 +1,6 @@
 ---
+import Link from "./Link.astro";
+
 type PaginationPage = {
   number: number;
   href: string;
@@ -15,18 +17,18 @@ interface Props {
   basePath?: string;
 }
 
-const { pagination, basePath = '/negozio' } = Astro.props;
+const { pagination, basePath = "/negozio" } = Astro.props;
 ---
 
 <nav class="pagination" aria-label="Paginazione">
   {
     pagination.previous && (
-      <a
+      <Link
         href={`${basePath}/${pagination.previous.href}`}
         class="pagination-link pagination-prev"
       >
         ←<span class="screen-reader-text">Pagina precedente</span>
-      </a>
+      </Link>
     )
   }
 
@@ -34,12 +36,12 @@ const { pagination, basePath = '/negozio' } = Astro.props;
     {
       pagination.first.number !== pagination.current.number && (
         <li>
-          <a
+          <Link
             href={`${basePath}/${pagination.first.href}`}
             class="pagination-link"
           >
             {pagination.first.number}
-          </a>
+          </Link>
         </li>
       )
     }
@@ -55,35 +57,35 @@ const { pagination, basePath = '/negozio' } = Astro.props;
       pagination.previous &&
         pagination.previous.number !== pagination.first.number && (
           <li>
-            <a
+            <Link
               href={`${basePath}/${pagination.previous.href}`}
               class="pagination-link"
             >
               {pagination.previous.number}
-            </a>
+            </Link>
           </li>
         )
     }
 
     <li>
-      <a
+      <Link
         href={`${basePath}/${pagination.current.href}`}
         class="pagination-current"
         aria-current="page"
       >
         {pagination.current.number}
-      </a>
+      </Link>
     </li>
 
     {
       pagination.next && pagination.next.number !== pagination.last.number && (
         <li>
-          <a
+          <Link
             href={`${basePath}/${pagination.next.href}`}
             class="pagination-link"
           >
             {pagination.next.number}
-          </a>
+          </Link>
         </li>
       )
     }
@@ -98,12 +100,12 @@ const { pagination, basePath = '/negozio' } = Astro.props;
     {
       pagination.last.number !== pagination.current.number && (
         <li>
-          <a
+          <Link
             href={`${basePath}/${pagination.last.href}`}
             class="pagination-link"
           >
             {pagination.last.number}
-          </a>
+          </Link>
         </li>
       )
     }
@@ -111,12 +113,12 @@ const { pagination, basePath = '/negozio' } = Astro.props;
 
   {
     pagination.next && (
-      <a
+      <Link
         href={`${basePath}/${pagination.next.href}`}
         class="pagination-link pagination-next"
       >
         <span class="screen-reader-text">Pagina successiva</span>→
-      </a>
+      </Link>
     )
   }
 </nav>

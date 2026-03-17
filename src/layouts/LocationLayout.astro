@@ -1,7 +1,8 @@
 ---
-import Hero from '../components/Hero.astro';
-import MenuLayout from './MenuLayout.astro';
-import type { PageProps } from './types';
+import Hero from "../components/Hero.astro";
+import Link from "../components/Link.astro";
+import MenuLayout from "./MenuLayout.astro";
+import type { PageProps } from "./types";
 
 type Props = PageProps & {
   heroImage: ImageMetadata;
@@ -48,13 +49,13 @@ const {
         </strong>
       </p>
       <p>
-        <a href={address.href} target="_blank">
+        <Link href={address.href} target="_blank">
           {address.label}
-        </a>
+        </Link>
       </p>
       <p>
         <strong>Numero di Telefono</strong> – <a
-          href={`tel:${phone.replace(/-/g, '')}`}>{phone}</a
+          href={`tel:${phone.replace(/-/g, "")}`}>{phone}</a
         >
       </p>
       <p>
@@ -75,7 +76,7 @@ const {
           {
             hours.map((hour) => (
               <tr>
-                <td>{hour.day || ''}</td>
+                <td>{hour.day || ""}</td>
                 <td>{hour.times}</td>
               </tr>
             ))

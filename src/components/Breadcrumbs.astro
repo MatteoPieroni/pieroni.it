@@ -1,5 +1,6 @@
 ---
-import { Icon } from 'astro-icon/components';
+import { Icon } from "astro-icon/components";
+import Link from "./Link.astro";
 
 interface Props {
   items?: Array<{
@@ -17,19 +18,19 @@ if (items.length === 0) {
 ---
 
 <nav class="breadcrumb" aria-label="Breadcrumb">
-  <a href="/"><Icon name="tabler:home" />Home</a>
+  <Link href="/"><Icon name="tabler:home" />Home</Link>
   {
     items.map((item, index) => (
-      <>
+      <Link>
         <Icon name="tabler:chevron-right" class="breadcrumb-separator" />
         {index === items.length - 1 ? (
           <span class="breadcrumb-current" aria-current="page">
             {item.label}
           </span>
         ) : (
-          <a href={item.href}>{item.label}</a>
+          <Link href={item.href}>{item.label}</Link>
         )}
-      </>
+      </Link>
     ))
   }
 </nav>

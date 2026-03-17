@@ -1,10 +1,11 @@
 ---
-import MenuLayout from './MenuLayout.astro';
-import Hero from '../components/Hero.astro';
-import Locations from '../components/Locations.astro';
-import Professionals from '../components/Professionals.astro';
-import Image from '../components/Image.astro';
-import type { PageProps } from './types';
+import MenuLayout from "./MenuLayout.astro";
+import Hero from "../components/Hero.astro";
+import Locations from "../components/Locations.astro";
+import Professionals from "../components/Professionals.astro";
+import Image from "../components/Image.astro";
+import type { PageProps } from "./types";
+import Link from "../components/Link.astro";
 
 type Props = PageProps & {
   title: string;
@@ -57,35 +58,35 @@ const {
           <div class="card">
             {item.image &&
               (item.linkHref ? (
-                <a href={item.linkHref} title={item.linkText || item.title}>
+                <Link href={item.linkHref} title={item.linkText || item.title}>
                   <Image
                     alt={item.imageAlt}
-                    {...('remote' in item
+                    {...("remote" in item
                       ? { remote: true, src: item.image }
                       : { src: item.image })}
                   />
-                </a>
+                </Link>
               ) : (
                 <Image
                   alt={item.imageAlt}
-                  {...('remote' in item
+                  {...("remote" in item
                     ? { remote: true, src: item.image }
                     : { src: item.image })}
                 />
               ))}
             <div class="card-body">
               {item.linkHref ? (
-                <a href={item.linkHref} title={item.linkText || item.title}>
+                <Link href={item.linkHref} title={item.linkText || item.title}>
                   <h2>{item.title}</h2>
-                </a>
+                </Link>
               ) : (
                 <h2>{item.title}</h2>
               )}
               <Fragment set:html={item.description} />
               {item.linkHref && item.linkText && (
-                <a href={item.linkHref} title={item.linkText} class="button">
+                <Link href={item.linkHref} title={item.linkText} class="button">
                   {item.linkText}
-                </a>
+                </Link>
               )}
             </div>
           </div>

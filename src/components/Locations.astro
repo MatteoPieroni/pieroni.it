@@ -1,21 +1,22 @@
 ---
-import Image from './Image.astro';
-import locationDiecimoImage from '../assets/images/location-diecimo.jpg';
-import locationLuccaImage from '../assets/images/location-lucca.jpg';
+import Image from "./Image.astro";
+import locationDiecimoImage from "../assets/images/location-diecimo.jpg";
+import locationLuccaImage from "../assets/images/location-lucca.jpg";
+import Link from "./Link.astro";
 // Locations component showing Diecimo and Lucca
 
 const locations = [
   {
-    name: 'Diecimo',
-    href: '/magazzino-edile/diecimo-borgo-a-mozzano/',
+    name: "Diecimo",
+    href: "/magazzino-edile/diecimo-borgo-a-mozzano/",
     image: locationDiecimoImage,
-    title: 'Visitaci a Diecimo!',
+    title: "Visitaci a Diecimo!",
   },
   {
-    name: 'Lucca',
-    href: '/magazzino-edile/lucca-capannori/',
+    name: "Lucca",
+    href: "/magazzino-edile/lucca-capannori/",
     image: locationLuccaImage,
-    title: 'Visitaci a Lucca!',
+    title: "Visitaci a Lucca!",
   },
 ];
 ---
@@ -27,12 +28,12 @@ const locations = [
     {
       locations.map((location) => (
         <div class="location-card">
-          <a href={location.href} title={location.title}>
+          <Link href={location.href} title={location.title}>
             <div class="location-image">
               <Image src={location.image} alt={`Immagine ${location.name}`} />
               <h3>{location.name}</h3>
             </div>
-          </a>
+          </Link>
         </div>
       ))
     }
@@ -74,7 +75,7 @@ const locations = [
   }
 
   .location-card > a::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

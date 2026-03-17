@@ -1,8 +1,9 @@
 ---
-import LandingLayout from '../layouts/LandingLayout.astro';
-import LogoWhite from '../assets/images/logo-white.png';
-import Fire from '../assets/landings/promo-camini/fuoco.jpg';
-import Image from '../components/Image.astro';
+import LandingLayout from "../layouts/LandingLayout.astro";
+import LogoWhite from "../assets/images/logo-white.png";
+import Fire from "../assets/landings/promo-camini/fuoco.jpg";
+import Image from "../components/Image.astro";
+import Link from "../components/Link.astro";
 ---
 
 <LandingLayout
@@ -11,9 +12,9 @@ import Image from '../components/Image.astro';
 >
   <div class="bg-container" style={`background-image:url('${Fire.src}')`}></div>
   <div class="header">
-    <a href="/">
+    <Link href="/">
       <Image src={LogoWhite} alt="Pieroni srl" />
-    </a>
+    </Link>
   </div>
 
   <div class="main">
@@ -271,19 +272,19 @@ import Image from '../components/Image.astro';
 
 <script is:inline>
   document
-    .getElementById('whatsapp-form')
-    .addEventListener('submit', function (e) {
+    .getElementById("whatsapp-form")
+    .addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const nome = document.getElementById('nome-cognome').value.trim();
-      const comune = document.getElementById('Comune').value;
-      const impianto = document.getElementById('tipo-impianto').value;
+      const nome = document.getElementById("nome-cognome").value.trim();
+      const comune = document.getElementById("Comune").value;
+      const impianto = document.getElementById("tipo-impianto").value;
 
-      const numeroWhatsApp = '390583838375';
+      const numeroWhatsApp = "390583838375";
 
       const messaggio = `Richiesta:%0A- Nome e cognome: ${nome}%0A- Comune: ${comune}%0A- Impianto: ${impianto}`;
 
       const url = `https://wa.me/${numeroWhatsApp}?text=${messaggio}`;
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     });
 </script>

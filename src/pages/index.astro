@@ -1,10 +1,11 @@
 ---
-import MenuLayout from '../layouts/MenuLayout.astro';
-import Locations from '../components/Locations.astro';
-import Professionals from '../components/Professionals.astro';
-import Image from '../components/Image.astro';
-import salaMostraImage from '../assets/images/salamostra.jpg';
-import heroFuocoImage from '../assets/images/hero-fuoco.jpg';
+import MenuLayout from "../layouts/MenuLayout.astro";
+import Locations from "../components/Locations.astro";
+import Professionals from "../components/Professionals.astro";
+import Image from "../components/Image.astro";
+import salaMostraImage from "../assets/images/salamostra.jpg";
+import heroFuocoImage from "../assets/images/hero-fuoco.jpg";
+import Link from "../components/Link.astro";
 ---
 
 <Fragment slot="page-specific-head">
@@ -28,38 +29,41 @@ import heroFuocoImage from '../assets/images/hero-fuoco.jpg';
     <h1 class="page-title">
       <span>Nuovi caminetti, stufe o generatori di calore a costo zero?</span>
     </h1>
-    <a class="button" href="/promo-camini/">Scopri subito!</a>
+    <Link class="button" href="/promo-camini/">Scopri subito!</Link>
   </header>
 
   <div class="link-sezioni">
     <div class="margin-container link-sezioni__container">
       <div>
-        <a href="/materiali-edili/" class="button button__link-sezioni"
-          >Edilizia</a
+        <Link href="/materiali-edili/" class="button button__link-sezioni"
+          >Edilizia</Link
         >
       </div>
       <div>
-        <a href="/arredo-bagno/" class="button button__link-sezioni">Bagno</a>
-      </div>
-      <div>
-        <a href="/ferramenta/" class="button button__link-sezioni">Ferramenta</a
+        <Link href="/arredo-bagno/" class="button button__link-sezioni"
+          >Bagno</Link
         >
       </div>
       <div>
-        <a
+        <Link href="/ferramenta/" class="button button__link-sezioni"
+          >Ferramenta</Link
+        >
+      </div>
+      <div>
+        <Link
           href="/piastrelle-rivestimenti-bagno/"
-          class="button button__link-sezioni">Mattonelle</a
+          class="button button__link-sezioni">Mattonelle</Link
         >
       </div>
       <div>
-        <a href="/stufe-caldaie-pellet/" class="button button__link-sezioni"
-          >Riscaldamento</a
+        <Link href="/stufe-caldaie-pellet/" class="button button__link-sezioni"
+          >Riscaldamento</Link
         >
       </div>
       <div>
-        <a
+        <Link
           href="/negozio/riscaldamento/pellet-prezzi-offerta/"
-          class="button button__link-sezioni">Pellet</a
+          class="button button__link-sezioni">Pellet</Link
         >
       </div>
     </div>
@@ -77,15 +81,15 @@ import heroFuocoImage from '../assets/images/hero-fuoco.jpg';
         <br />
         Il <strong>personale</strong> della nostra azienda è <strong
           >preparato e aggiornato</strong
-        >{' '}
+        >{" "}
         sulle novità dei diversi settori, sia in Sala Mostra che in Magazzino.
         <br />
         La nostra disponibilità e precisione seguono quello che è la nostra mission:{
-          ' '
+          " "
         }
         <strong>Qualità e Professionalità per la Tua Casa!</strong>
       </p>
-      <a class="button" href="/chi-siamo/"> SCOPRI LA NOSTRA STORIA </a>
+      <Link class="button" href="/chi-siamo/"> SCOPRI LA NOSTRA STORIA </Link>
     </div>
     <div class="about__img">
       <Image src={salaMostraImage} alt="Sala mostra Pieroni" />
@@ -100,37 +104,39 @@ import heroFuocoImage from '../assets/images/hero-fuoco.jpg';
         mettiamo nel nostro lavoro.
       </p>
       <p>
-        Offriamo ai nostri clienti un vastissimo assortimento di{' '}
-        <a href="/materiali-edili/">materiali edili ed utensileria</a>,{' '}
-        <a href="/ferramenta/">ferramenta per l'edilizia</a> e termoidraulica, con
-        un ampio magazzino edile in pronta consegna.
+        Offriamo ai nostri clienti un vastissimo assortimento di{" "}
+        <Link href="/materiali-edili/">materiali edili ed utensileria</Link>,{
+          " "
+        }
+        <Link href="/ferramenta/">ferramenta per l'edilizia</Link> e termoidraulica,
+        con un ampio magazzino edile in pronta consegna.
       </p>
       <p>
         Nelle nostre sale espositive di Barga, Diecimo e Lucca possiamo vantare
-        un ampissima gamma di <a href="/piastrelle-rivestimenti-bagno/"
-          >piastrelle, mattonelle, ceramiche e rivestimenti</a
-        >{' '}
+        un ampissima gamma di <Link href="/piastrelle-rivestimenti-bagno/"
+          >piastrelle, mattonelle, ceramiche e rivestimenti</Link
+        >{" "}
         per bagni e cucine, pavimentazioni di tutte le tipologie: dai pavimenti in
         legno parquet, al gres porcellanato per esterni ed interni, dal marmo fino
         al classico pavimento in cotto.
       </p>
       <p>
-        Nei nostri showroom potrete trovare tantissime tipologie di{' '}
-        <a href="/arredo-bagno/">mobili lavabo e arredo bagno</a>, dallo stile
-        moderno al più classico oltre ovviamente ad un ampia selezione di cabine
-        doccia, vasche da bagno idromassaggio, sanitari standard e sospesi e
-        tutti gli accessori: rubinetteria, miscelatori, specchi, ecc.
+        Nei nostri showroom potrete trovare tantissime tipologie di{" "}
+        <Link href="/arredo-bagno/">mobili lavabo e arredo bagno</Link>, dallo
+        stile moderno al più classico oltre ovviamente ad un ampia selezione di
+        cabine doccia, vasche da bagno idromassaggio, sanitari standard e
+        sospesi e tutti gli accessori: rubinetteria, miscelatori, specchi, ecc.
       </p>
       <p>
         Anche il settore del riscaldamento domestico è per noi molto importante,
-        con l'area delle nostre esposizioni dedicata alle{' '}
-        <a href="/stufe-caldaie-pellet/"
+        con l'area delle nostre esposizioni dedicata alle{" "}
+        <Link href="/stufe-caldaie-pellet/"
           >caldaie a pellet e legna, agli inserti per i caminetti, alle stufe a
-          pellet idro e aria</a
-        >, alla fornitura e consegna di{' '}
-        <a href="/negozio/riscaldamento/pellet-prezzi-offerta/"
-          >pellet di prima qualità austriaco</a
-        >{' '}
+          pellet idro e aria</Link
+        >, alla fornitura e consegna di{" "}
+        <Link href="/negozio/riscaldamento/pellet-prezzi-offerta/"
+          >pellet di prima qualità austriaco</Link
+        >{" "}
         di faggio a prezzi sempre competitivi.
       </p>
     </div>

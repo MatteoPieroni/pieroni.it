@@ -1,15 +1,16 @@
 ---
-import CategoryLayout from '../../layouts/CategoryLayout.astro';
-import Image from '../../components/Image.astro';
-import heroBannerImage from '../../assets/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza-banner.jpg';
-import upowerImage from '../../assets/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza.jpg';
+import CategoryLayout from "../../layouts/CategoryLayout.astro";
+import Image from "../../components/Image.astro";
+import heroBannerImage from "../../assets/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza-banner.jpg";
+import upowerImage from "../../assets/images/scarpe-antinfortunistiche-calzature-da-lavoro-upower-ferramenta-abbigliamento-sicurezza.jpg";
+import Link from "../../components/Link.astro";
 
-const title = 'Scarpe antinfortunistiche';
+const title = "Scarpe antinfortunistiche";
 const breadcrumbs = [
-  { label: 'Ferramenta, Utensileria e Abbigliamento', href: '/ferramenta/' },
+  { label: "Ferramenta, Utensileria e Abbigliamento", href: "/ferramenta/" },
   {
-    label: 'Scarpe antinfortunistiche',
-    href: '/ferramenta/scarpe-antinfortunistiche/',
+    label: "Scarpe antinfortunistiche",
+    href: "/ferramenta/scarpe-antinfortunistiche/",
   },
 ];
 const heroImage = heroBannerImage;
@@ -102,14 +103,14 @@ const description = `
         modelli di scarpe infortunistiche disponibili per ogni tua esigenza.
       </p>
       <p>
-        <a
+        <Link
           href="https://www.u-power.it/"
           target="_blank"
           rel="noreferrer noopener"
           class="button"
         >
           Vedi il sito di U-Power
-        </a>
+        </Link>
       </p>
     </div>
   </div>

@@ -1,9 +1,10 @@
 ---
-import Scripts from '../components/Footer/Scripts.astro';
-import LandingLayout from '../layouts/LandingLayout.astro';
-import LogoWhite from '../assets/images/logo-white.png';
-import PelletImg from '../assets/landings/pellet/pellets.jpg';
-import Image from '../components/Image.astro';
+import Scripts from "../components/Footer/Scripts.astro";
+import LandingLayout from "../layouts/LandingLayout.astro";
+import LogoWhite from "../assets/images/logo-white.png";
+import PelletImg from "../assets/landings/pellet/pellets.jpg";
+import Image from "../components/Image.astro";
+import Link from "../components/Link.astro";
 ---
 
 <LandingLayout
@@ -11,9 +12,9 @@ import Image from '../components/Image.astro';
   description="Ordina il tuo pellet via whatsapp"
 >
   <div class="header">
-    <a href="/">
+    <Link href="/">
       <Image src={LogoWhite} alt="Pieroni srl" />
-    </a>
+    </Link>
   </div>
 
   <div class="main">
@@ -183,20 +184,20 @@ import Image from '../components/Image.astro';
 
 <script is:inline>
   document
-    .getElementById('whatsapp-form')
-    .addEventListener('submit', function (e) {
+    .getElementById("whatsapp-form")
+    .addEventListener("submit", function (e) {
       e.preventDefault();
 
-      const quantita = document.getElementById('quantita').value.trim();
-      const luogo = document.getElementById('luogo').value.trim();
-      const impianto = document.getElementById('tipo-impianto').value;
-      const combustibile = document.getElementById('tipo-combustibile').value;
+      const quantita = document.getElementById("quantita").value.trim();
+      const luogo = document.getElementById("luogo").value.trim();
+      const impianto = document.getElementById("tipo-impianto").value;
+      const combustibile = document.getElementById("tipo-combustibile").value;
 
-      const numeroWhatsApp = '390583838375';
+      const numeroWhatsApp = "390583838375";
 
       const messaggio = `Richiesta pellet:%0A- Quantità: ${quantita}%0A- Luogo: ${luogo}%0A- Impianto: ${impianto}%0A- Tipo: ${combustibile}`;
 
       const url = `https://wa.me/${numeroWhatsApp}?text=${messaggio}`;
-      window.open(url, '_blank');
+      window.open(url, "_blank");
     });
 </script>

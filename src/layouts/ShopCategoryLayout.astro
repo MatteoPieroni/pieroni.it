@@ -2,7 +2,9 @@
 import MenuLayout from "./MenuLayout.astro";
 import Pagination from "../components/Pagination.astro";
 import Image from "../components/Image.astro";
+import { ensureTrailingSlash } from "../utils/slugs";
 import type { PageProps } from "./types";
+import Link from "../components/Link.astro";
 
 interface Product {
   fullSlug: string;
@@ -26,13 +28,26 @@ type Props = Omit<PageProps, "description"> & {
     start: number;
     end: number;
   };
-  pagination?: {
-    current: PaginationPage;
-    previous: PaginationPage;
-    next: PaginationPage;
-    first: PaginationPage;
-    last: PaginationPage;
-  };
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
 };
 
 type PaginationPage = {
@@ -82,9 +97,9 @@ const {
           <ul class="subcategories-list">
             {subcategories.map((subcat) => (
               <li>
-                <a href={`/negozio/${subcat.url}/`} class="button">
+                <Link href={`/negozio/${subcat.url}/`} class="button">
                   {subcat.name} ({subcat.count})
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -97,7 +112,7 @@ const {
         <div class="products-grid row">
           {products.map((product) => (
             <div class="product-card">
-              <a href={product.fullSlug}>
+              <Link href={`/negozio/${product.fullSlug}`}>
                 <div class="product-image">
                   <Image
                     src={product.featuredImage.url}
@@ -109,7 +124,7 @@ const {
                 <div class="product-info">
                   <h2>{product.name}</h2>
                 </div>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

@@ -1,12 +1,13 @@
 ---
-import Image from '../components/Image.astro';
-import LandingLayout from '../layouts/LandingLayout.astro';
-import Logo from '../assets/landings/chiusura-camini/PIERONI-LOGO.png';
-import Stars from '../assets/landings/chiusura-camini/PIERONI-5stelle.png';
-import EdilkaminLogo from '../assets/landings/chiusura-camini/PIERONI-edilkamin.png';
-import Fireplace from '../assets/landings/chiusura-camini/PIERONI-caminetti.jpg';
-import Header from '../assets/landings/chiusura-camini/PIERONI-header.jpg';
-import Scripts from '../components/Footer/Scripts.astro';
+import Image from "../components/Image.astro";
+import LandingLayout from "../layouts/LandingLayout.astro";
+import Logo from "../assets/landings/chiusura-camini/PIERONI-LOGO.png";
+import Stars from "../assets/landings/chiusura-camini/PIERONI-5stelle.png";
+import EdilkaminLogo from "../assets/landings/chiusura-camini/PIERONI-edilkamin.png";
+import Fireplace from "../assets/landings/chiusura-camini/PIERONI-caminetti.jpg";
+import Header from "../assets/landings/chiusura-camini/PIERONI-header.jpg";
+import Scripts from "../components/Footer/Scripts.astro";
+import Link from "../components/Link.astro";
 ---
 
 <LandingLayout
@@ -14,9 +15,9 @@ import Scripts from '../components/Footer/Scripts.astro';
   description="Contributo per la chiusura del tuo vecchio camino"
 >
   <div class="pre-header">
-    <a href="/" class="logo-link">
+    <Link href="/" class="logo-link">
       <Image src={Logo} alt="" class="logopieroni" />
-    </a>
+    </Link>
 
     <p>Un'offerta super!</p>
   </div>
