@@ -1,35 +1,37 @@
 ---
-import CategoryLayout from '../../layouts/CategoryLayout.astro';
-import heroImageAsset from '../../assets/images/pieroni-sala-mostra-pavimenti-rivestimenti-esterni-mattonelle-piastrelle-bagno-docce-vasche-accessori-mobili-riscaldamento-stufe-camini-caldaie.jpg';
-import productCategoriesData from '../../data/products/categories.json';
-import { getFlatCategories as getProductFlatCategories } from '../../data/products';
-import { swapImageUrlDomain } from '../../utils/remoteLinks';
+import CategoryLayout from "../../layouts/CategoryLayout.astro";
+import heroImageAsset from "../../assets/images/pieroni-sala-mostra-pavimenti-rivestimenti-esterni-mattonelle-piastrelle-bagno-docce-vasche-accessori-mobili-riscaldamento-stufe-camini-caldaie.jpg";
+import { getCategories } from "../../data/products/adapter";
 
-const title = 'Categorie del negozio';
+const title = "Categorie del negozio";
 const heroImage = heroImageAsset;
 
-const breadcrumbs = [{ label: 'Negozio', href: '/negozio/' }];
+const breadcrumbs = [{ label: "Negozio", href: "/negozio/" }];
 
-const flatProductCategories = getProductFlatCategories(productCategoriesData);
+const flatProductCategories = await getCategories();
 
-const mainCategories = Object.values(flatProductCategories).filter(
-  (cat: any) => cat.count && cat.count > 0,
+const mainCategories = flatProductCategories.filter(
+  (cat) => cat.count && cat.count > 0 && cat.featuredImage?.url,
 );
 
-const makeDescription = (cat: any) => {
+const makeDescription = (cat: { name: string }) => {
   const base = `Prodotti della categoria <strong>${cat.name}</strong> del negozio Pieroni srl, selezionati per rispondere alle esigenze di imprese, artigiani e privati.`;
 
   return `<p>${base}</p>`;
 };
 
-const gridItems = mainCategories.map((cat: any) => {
+const gridItems = mainCategories.map((cat) => {
+  if (!cat.featuredImage?.url) {
+    throw new Error("Typeguard");
+  }
+
   return {
-    image: swapImageUrlDomain(cat.image.src),
+    image: cat.featuredImage.url,
     remote: true as const,
-    imageAlt: cat.image.alt,
+    imageAlt: cat.featuredImage.alt,
     title: cat.name,
     description: makeDescription(cat),
-    linkHref: `/negozio/${cat.slug}/`,
+    linkHref: `/negozio/${cat.fullSlug}/`,
     linkText: `Vai a ${cat.name}`,
   };
 });
