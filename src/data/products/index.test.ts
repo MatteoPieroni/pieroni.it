@@ -71,7 +71,11 @@ const baseProduct = {
   categories: [mockCategories[0]],
   description: "test-description",
   formats: "test-format",
-  fullDescription: {},
+  fullDescription: "test-full-description",
+  featuredImage: {
+    alt: "",
+    url: "",
+  },
   images: [],
 };
 
@@ -79,6 +83,7 @@ const mockProduct = {
   id: 1,
   name: "test product",
   slug: "test-product",
+  fullSlug: "riscaldamento/test-product",
   mainCategory: mockCategories[0],
   ...baseProduct,
   categories: [mockCategories[0]],
@@ -113,6 +118,8 @@ test("generates the full payload", async () => {
           ...mockProduct,
           name: "test product 2",
           slug: "test-product-2",
+          fullSlug:
+            "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product-2",
           mainCategory: mockCategories[2],
           categories: [mockCategories[2], mockCategories[1], mockCategories[0]],
         },
@@ -380,39 +387,45 @@ test("generates the full payload", async () => {
         breadcrumbs: [],
       },
     ],
-    // productsPages: [
-    //   {
-    //     ...dummyProduct,
-    //     slug: "riscaldamento/test-product",
-    //   },
-    //   {
-    //     ...dummyProduct,
-    //     slug: "test-product",
-    //   },
-    //   {
-    //     ...secondDummyProduct,
-    //     slug: "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product-2",
-    //   },
-    //   {
-    //     ...secondDummyProduct,
-    //     slug: "riscaldamento/caldaie-a-pellet/test-product-2",
-    //   },
-    //   {
-    //     ...secondDummyProduct,
-    //     slug: "riscaldamento/test-product-2",
-    //   },
-    //   {
-    //     ...secondDummyProduct,
-    //     slug: "caldaie-a-pellet-caldaie-a-pellet/test-product-2",
-    //   },
-    //   {
-    //     ...secondDummyProduct,
-    //     slug: "caldaie-a-pellet/test-product-2",
-    //   },
-    //   {
-    //     ...secondDummyProduct,
-    //     slug: "test-product-2",
-    //   },
-    // ],
+    productsPages: [
+      {
+        ...dummyProduct,
+        slug: "riscaldamento/test-product",
+      },
+      {
+        ...dummyProduct,
+        slug: "test-product",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "riscaldamento/caldaie-a-pellet/caldaie-a-pellet-caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "riscaldamento/caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        breadcrumbs: [
+          {
+            label: "Riscaldamento",
+            url: "riscaldamento",
+          },
+        ],
+        slug: "riscaldamento/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "caldaie-a-pellet-caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "caldaie-a-pellet/test-product-2",
+      },
+      {
+        ...secondDummyProduct,
+        slug: "test-product-2",
+      },
+    ],
   });
 });

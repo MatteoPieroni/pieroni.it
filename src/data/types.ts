@@ -17,7 +17,7 @@ export type DbCategory = {
   id: number;
   name: string;
   slug: string;
-  featured_image?: Media | null;
+  featuredImage?: Media | null;
   count: number;
   fullSlug: string;
   breadcrumbs: (Breadcrumb | null)[];
@@ -25,7 +25,10 @@ export type DbCategory = {
   products: DbCategoryProduct[];
 };
 
-type DbProductCategory = Pick<DbCategory, "breadcrumbs" | "slug" | "name">;
+type DbProductCategory = Pick<
+  DbCategory,
+  "breadcrumbs" | "fullSlug" | "name" | "slug"
+>;
 export type DbProduct = {
   id: number;
   name: string;
@@ -95,6 +98,7 @@ export type ProductPageData = {
   title: string;
   slug: string;
   fullSlug: string;
+  featuredImage: Media;
   images: Media[] | null;
   description: string;
   fullDescription: {};

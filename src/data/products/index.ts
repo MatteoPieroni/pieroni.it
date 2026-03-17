@@ -19,10 +19,10 @@ export const getAllCategories = async (
   fetchProducts = getProducts,
 ) => {
   const categoriesPages = await getCategoriesPages(fetchCategories);
-  // const productsPages = await getProductsPages(fetchProducts);
+  const productsPages = await getProductsPages(fetchProducts);
 
   return {
     categories: categoriesPages,
-    productsPages: [],
+    productsPages,
   };
 };
