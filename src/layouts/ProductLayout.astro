@@ -1,7 +1,6 @@
 ---
 import MenuLayout from "./MenuLayout.astro";
 import Image from "../components/Image.astro";
-import { getMetaDescriptionFromHtmlDescription } from "../utils/seo";
 import type { PageProps } from "./types";
 import Link from "../components/Link.astro";
 
@@ -42,14 +41,12 @@ const {
   ctaText = "Sei interessato? Prendi un appuntamento!",
   ctaLink = "/appuntamento-sala-mostra/",
 } = Astro.props;
-
-const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 ---
 
 <MenuLayout
   breadcrumbs={breadcrumbs}
   title={title}
-  description={parsedDescription}
+  description={description}
   canonicalUrl={fullSlug}
 >
   <div class="margin-container product-page">
@@ -88,7 +85,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
       {
         description && (
           <div class="product-description">
-            <p set:html={description} />
+            <p>{description}</p>
           </div>
         )
       }
