@@ -1,17 +1,17 @@
-import { getPostsInCategory } from './adapter';
-import blogCategoriesData from '../blog/categories.json';
+import { getPostsInCategory } from "./adapter";
+import blogCategoriesData from "../blog/categories.json";
 import {
   createSlugsCollection,
   getCategoryPaths,
   getFlatCategories,
   getProductsPaths,
-} from '../products';
+} from "./utils";
 
 export type FlatCategory = Omit<
   (typeof blogCategoriesData)[number],
-  'children'
+  "children"
 > & {
-  subCategories?: Omit<(typeof blogCategoriesData)[number], 'children'>[];
+  subCategories?: Omit<(typeof blogCategoriesData)[number], "children">[];
 };
 type CategoryCollection = Record<number, FlatCategory>;
 

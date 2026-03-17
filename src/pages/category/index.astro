@@ -1,13 +1,13 @@
 ---
-import CategoryLayout from '../../layouts/CategoryLayout.astro';
-import heroImageAsset from '../../assets/images/hero-fuoco.jpg';
-import blogCategoriesData from '../../data/blog/categories.json';
-import { getFlatCategories } from '../../data/products';
+import CategoryLayout from "../../layouts/CategoryLayout.astro";
+import heroImageAsset from "../../assets/images/hero-fuoco.jpg";
+import blogCategoriesData from "../../data/blog/categories.json";
+import { getFlatCategories } from "../../data/blog/utils";
 
-const title = 'Categorie del blog';
+const title = "Categorie del blog";
 const heroImage = heroImageAsset;
 
-const breadcrumbs = [{ label: 'Blog', href: '/category/' }];
+const breadcrumbs = [{ label: "Blog", href: "/category/" }];
 
 const flatCategoriesMap = getFlatCategories(blogCategoriesData);
 const flatCategories = Object.values(flatCategoriesMap).filter(
