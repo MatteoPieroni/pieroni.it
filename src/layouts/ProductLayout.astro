@@ -1,32 +1,27 @@
 ---
-import MenuLayout from './MenuLayout.astro';
-import Image from '../components/Image.astro';
-import { getMetaDescriptionFromHtmlDescription } from '../utils/seo';
-import type { PageProps } from './types';
+import MenuLayout from "./MenuLayout.astro";
+import Image from "../components/Image.astro";
+import type { PageProps } from "./types";
+import Link from "../components/Link.astro";
 
 interface ProductImage {
-  src: string;
+  url: string;
   alt?: string;
-}
-
-interface ProductAttribute {
-  name: string;
-  slug?: string;
-  options: string[];
-  visible?: boolean;
 }
 
 interface ProductCategory {
   name: string;
-  slug?: string;
+  url?: string;
 }
 
 type Props = PageProps & {
+  featuredImage: ProductImage;
   images?: ProductImage[];
   description?: string;
-  permalink?: string;
+  fullSlug: string;
   fullDescription?: string;
-  attributes?: ProductAttribute[];
+  brand?: string | null;
+  formats?: string | null;
   categories?: ProductCategory[];
   ctaText?: string;
   ctaLink?: string;
@@ -35,81 +30,83 @@ type Props = PageProps & {
 const {
   title,
   breadcrumbs,
+  featuredImage,
   images,
   description,
-  permalink,
+  fullSlug,
   fullDescription,
-  attributes,
+  brand,
+  formats,
   categories,
-  ctaText = 'Sei interessato? Prendi un appuntamento!',
-  ctaLink = '/appuntamento-sala-mostra/',
+  ctaText = "Sei interessato? Prendi un appuntamento!",
+  ctaLink = "/appuntamento-sala-mostra/",
 } = Astro.props;
-
-const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 ---
 
 <MenuLayout
   breadcrumbs={breadcrumbs}
   title={title}
-  description={parsedDescription}
-  canonicalUrl={permalink}
+  description={description}
+  canonicalUrl={fullSlug}
 >
   <div class="margin-container product-page">
-    {
-      images && images.length > 0 && (
-        <div class="product-gallery">
-          <div class="featured-image">
-            <a href={images[0].src} data-fslightbox data-type="image">
-              <Image
-                src={images[0].src}
-                alt={images[0].alt || title}
-                loading="lazy"
-                remote
-              />
-            </a>
-          </div>
+    <div class="product-gallery">
+      <div class="featured-image">
+        <Link href={featuredImage.url} data-fslightbox data-type="image">
+          <Image
+            src={featuredImage.url}
+            alt={featuredImage.alt || title}
+            loading="lazy"
+            remote
+          />
+        </Link>
+      </div>
+      {
+        images && images.length > 0 && (
           <div class="gallery-images">
-            {images.slice(1).map((image) => (
-              <a href={image.src} data-fslightbox data-type="image">
+            {images.map((image) => (
+              <Link href={image.url} data-fslightbox data-type="image">
                 <Image
-                  src={image.src}
+                  src={image.url}
                   alt={image.alt || title}
                   loading="lazy"
                   remote
                 />
-              </a>
+              </Link>
             ))}
           </div>
-        </div>
-      )
-    }
+        )
+      }
+    </div>
 
     <div class="product-info row">
       <h1>{title}</h1>
 
       {
         description && (
-          <div class="product-description" set:html={description} />
+          <div class="product-description">
+            <p>{description}</p>
+          </div>
         )
       }
       <div class="product-cta row">
         <p>
           <strong>{ctaText}</strong>
         </p>
-        <a href={ctaLink} class="button"> Prendi un appuntamento </a>
+        <Link href={ctaLink} class="button">Prendi un appuntamento</Link>
       </div>
 
       {
         categories && categories.length > 0 && (
           <p>
-            <strong>Categorie:</strong>{' '}
+            <strong>Categorie:</strong>{" "}
             {categories.map((cat, index) => (
               <>
-                {index > 0 && ', '}
-                {cat.slug ? (
-                  <a href={`/negozio/${cat.slug}/`}>{cat.name}</a>
+                {index > 0 && ", "}
+                {cat.url ? (
+                  <Link href={`/negozio/${cat.url}/`}>{cat.name}</Link>
                 ) : (
-                  <p>{cat.name}</p>
+                  <span>{cat.name}</span>
                 )}
               </>
             ))}
@@ -129,28 +126,23 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
       }
 
       {
-        attributes && attributes.length > 0 && (
+        (brand || formats) && (
           <div class="product-attributes row">
             <h2>Informazioni aggiuntive</h2>
             <table>
               <tbody>
-                {attributes
-                  .filter((attr) => attr.visible !== false)
-                  .map((attr) => (
-                    <tr>
-                      <td>{attr.name}</td>
-                      <td>
-                        {attr.options.map((option: string, index: number) => {
-                          return (
-                            <>
-                              {index > 0 && ', '}
-                              {option}
-                            </>
-                          );
-                        })}
-                      </td>
-                    </tr>
-                  ))}
+                {brand && (
+                  <tr>
+                    <td>Marca</td>
+                    <td>{brand}</td>
+                  </tr>
+                )}
+                {formats && (
+                  <tr>
+                    <td>Formati</td>
+                    <td>{formats}</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -165,15 +157,15 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
     display: grid;
     grid-template-columns: 1fr;
     grid-template-areas:
-      'image'
-      'info'
-      'description';
+      "image"
+      "info"
+      "description";
     gap: 2rem;
 
     @media (min-width: 960px) {
       grid-template-areas:
-        'image info'
-        'description description';
+        "image info"
+        "description description";
       grid-template-columns: 1fr 1fr;
       gap: 3rem;
     }
@@ -257,5 +249,5 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 </style>
 
 <script>
-  import 'fslightbox';
+  import "fslightbox";
 </script>

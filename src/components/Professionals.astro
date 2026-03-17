@@ -1,17 +1,18 @@
 ---
-import Image from './Image.astro';
-import professionalsImage from '../assets/images/professionals.jpg';
+import Image from "./Image.astro";
+import professionalsImage from "../assets/images/professionals.jpg";
+import Link from "./Link.astro";
 
 const professionalData = {
-  title: 'Sei un professionista?',
+  title: "Sei un professionista?",
   description:
-    'Se sei un professionista ci sono molte ragioni per servirsi da noi.',
-  highlight: 'Scoprile subito!',
-  buttonText: 'Scopri cosa ti abbiamo riservato',
-  href: '/professionisti-edilizia/',
+    "Se sei un professionista ci sono molte ragioni per servirsi da noi.",
+  highlight: "Scoprile subito!",
+  buttonText: "Scopri cosa ti abbiamo riservato",
+  href: "/professionisti-edilizia/",
   image: professionalsImage,
   imageAlt:
-    'Uomo con barba brizzolata e camicia disegna un progetto ad un tavolo di legno',
+    "Uomo con barba brizzolata e camicia disegna un progetto ad un tavolo di legno",
 };
 ---
 
@@ -19,9 +20,9 @@ const professionalData = {
   <div class="col-full">
     <div class="professionals-card">
       <div class="professionals-image">
-        <a href={professionalData.href} title={professionalData.buttonText}>
+        <Link href={professionalData.href} title={professionalData.buttonText}>
           <Image src={professionalData.image} alt={professionalData.imageAlt} />
-        </a>
+        </Link>
       </div>
       <div class="professionals-content">
         <h2>{professionalData.title}</h2>
@@ -30,9 +31,9 @@ const professionalData = {
           <br />
           <span>{professionalData.highlight}</span>
         </p>
-        <a href={professionalData.href} class="button">
+        <Link href={professionalData.href} class="button">
           {professionalData.buttonText}
-        </a>
+        </Link>
       </div>
     </div>
   </div>
@@ -55,7 +56,7 @@ const professionalData = {
   }
 
   .professionals-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

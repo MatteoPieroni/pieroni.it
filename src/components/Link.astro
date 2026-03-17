@@ -1,0 +1,12 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import { ensureTrailingSlash } from "../utils/slugs";
+
+type Props = HTMLAttributes<"a">;
+
+const { href, ...props } = Astro.props;
+---
+
+<a href={typeof href === "string" ? ensureTrailingSlash(href) : href} {...props}
+  ><slot /></a
+>

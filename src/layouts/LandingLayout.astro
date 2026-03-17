@@ -1,15 +1,22 @@
 ---
-import '../styles/global.css';
-import Head from '../components/Head/Head.astro';
-import type { PageProps } from './types';
+import "../styles/global.css";
+import Head from "../components/Head/Head.astro";
+import type { PageProps } from "./types";
+import { ensureTrailingSlash } from "../utils/slugs";
 
-type Props = Omit<PageProps, 'breadcrumbs'>;
+type Props = Omit<PageProps, "breadcrumbs">;
 
 const { title, description, canonicalUrl } = Astro.props;
 ---
 
 <html lang="it">
-  <Head title={title} description={description} canonicalUrl={canonicalUrl} />
+  <Head
+    title={title}
+    description={description}
+    canonicalUrl={typeof canonicalUrl === "string"
+      ? ensureTrailingSlash(canonicalUrl)
+      : canonicalUrl}
+  />
 
   <body>
     <main id="content">

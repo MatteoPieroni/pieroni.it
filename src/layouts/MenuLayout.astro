@@ -1,16 +1,17 @@
 ---
-import Menu from '../components/Menu.astro';
-import Footer from '../components/Footer/Footer.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import '../styles/global.css';
-import Head from '../components/Head/Head.astro';
-import type { PageProps } from './types';
+import Menu from "../components/Menu.astro";
+import Footer from "../components/Footer/Footer.astro";
+import Breadcrumbs from "../components/Breadcrumbs.astro";
+import "../styles/global.css";
+import Head from "../components/Head/Head.astro";
+import type { PageProps } from "./types";
+import { ensureTrailingSlash } from "../utils/slugs";
 
-type Props = ({ isHome: true } & Omit<PageProps, 'breadcrumbs'>) | PageProps;
+type Props = ({ isHome: true } & Omit<PageProps, "breadcrumbs">) | PageProps;
 
 const { title, description, canonicalUrl, ...props } = Astro.props;
-const breadcrumbs = 'breadcrumbs' in props ? props.breadcrumbs : undefined;
-const isHome = 'isHome' in props ? props.isHome : undefined;
+const breadcrumbs = "breadcrumbs" in props ? props.breadcrumbs : undefined;
+const isHome = "isHome" in props ? props.isHome : undefined;
 ---
 
 <html lang="it">
@@ -19,7 +20,9 @@ const isHome = 'isHome' in props ? props.isHome : undefined;
     breadcrumbs={breadcrumbs}
     description={description}
     isHome={isHome}
-    canonicalUrl={canonicalUrl}
+    canonicalUrl={typeof canonicalUrl === "string"
+      ? ensureTrailingSlash(canonicalUrl)
+      : canonicalUrl}
   />
 
   <body>

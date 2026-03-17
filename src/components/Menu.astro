@@ -3,6 +3,7 @@ import { Icon } from 'astro-icon/components';
 import SearchBox from './SearchBox.astro';
 import Image from './Image.astro';
 import logoImage from '../assets/images/logo-pieroni-srl-edilizia-sala-mostra.png'
+import Link from './Link.astro';
 
 type MenuItem = {
   label: string;
@@ -154,7 +155,7 @@ const addActiveAttributes = (href: string) => {
           {
             secondaryMenu.map((item) => (
               <li class="menu-item">
-                <a href={item.href} {...addActiveAttributes(item.href)}>{item.label}</a>
+                <Link href={item.href} {...addActiveAttributes(item.href)}>{item.label}</Link>
               </li>
             ))
           }
@@ -166,13 +167,13 @@ const addActiveAttributes = (href: string) => {
   <div class="larger-margin-container">
     <div class="cont-head">
       <div class="site-branding">
-        <a href="/" class="custom-logo-link" rel="home" aria-current="page">
+        <Link href="/" class="custom-logo-link" rel="home" aria-current="page">
           <Image
             src={logoImage}
             class="custom-logo"
             alt="Pieroni srl Logo"
           />
-        </a>
+        </Link>
       </div>
 
       <nav
@@ -196,10 +197,10 @@ const addActiveAttributes = (href: string) => {
                 const renderMenu = (items: MenuItem[], isSubLevel = false) =>
                   items.map((item) => (
                     <li class={`menu-item ${item.extraClass || ''}`}>
-                      <a href={item.href} {...addActiveAttributes(item.href)}>
+                      <Link href={item.href} {...addActiveAttributes(item.href)}>
                         {item.label}{' '}
                         {item.children && <Icon name={`tabler:chevron-${isSubLevel ? 'right' : 'down'}`}` />}
-                      </a>
+                      </Link>
                       {item.children && <ul>{renderMenu(item.children, true)}</ul>}
                     </li>
                   ));
@@ -215,7 +216,7 @@ const addActiveAttributes = (href: string) => {
             {
               mobileMenu.map((item) => (
                 <li class={`menu-item ${item.extraClass || ''}`}>
-                  <a href={item.href} {...addActiveAttributes(item.href)}>{item.label}</a>
+                  <Link href={item.href} {...addActiveAttributes(item.href)}>{item.label}</Link>
                 </li>
               ))
             }
@@ -233,9 +234,9 @@ const addActiveAttributes = (href: string) => {
 
   <div class="menu__featured--container">
     <nav class="menu__featured" aria-label="Scorciatoie">
-      <a href="/sala-mostra/" {...addActiveAttributes('/sala-mostra/')}>Sala Mostra</a>
-      <a href="/materiali-edili/" {...addActiveAttributes('/materiali-edili/')}>Edilizia</a>
-      <a href="/professionisti-edilizia/" {...addActiveAttributes('/professionisti-edilizia/')}>Professionisti</a>
+      <Link href="/sala-mostra/" {...addActiveAttributes('/sala-mostra/')}>Sala Mostra</Link>
+      <Link href="/materiali-edili/" {...addActiveAttributes('/materiali-edili/')}>Edilizia</Link>
+      <Link href="/professionisti-edilizia/" {...addActiveAttributes('/professionisti-edilizia/')}>Professionisti</Link>
     </nav>
   </div>
 </header>
@@ -392,7 +393,7 @@ const addActiveAttributes = (href: string) => {
     font-size: 0.875rem;
     padding-block: 0.75rem;
   }
-  
+
   .menu .menu-item a.active {
     text-decoration: underline;
     text-decoration-thickness: 3px;
@@ -559,7 +560,7 @@ const addActiveAttributes = (href: string) => {
       border-inline-end: none;
     }
   }
-  
+
   .menu__featured a.active {
     text-decoration: underline;
     text-decoration-thickness: 3px;
@@ -575,19 +576,19 @@ const addActiveAttributes = (href: string) => {
   const hookMenu = () => {
     const header = document.getElementById('masthead');
     if (!header) return;
-    
+
     const toggle = header.querySelector('.menu-toggle');
     const handheldNav = header.querySelector('.handheld-navigation');
     if (!toggle || !handheldNav) return;
-    
+
     const openClass = 'is-open';
-    
+
     const setOpen = (open: boolean) => {
       handheldNav.classList.toggle(openClass, open);
       toggle.classList.toggle(openClass, open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     };
-    
+
     toggle.addEventListener('click', () => {
       const isOpen = handheldNav.classList.contains(openClass);
       setOpen(!isOpen);

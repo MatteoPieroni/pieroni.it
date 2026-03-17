@@ -1,7 +1,8 @@
 ---
-import MenuLayout from './MenuLayout.astro';
-import Image from '../components/Image.astro';
-import { getMetaDescriptionFromHtmlDescription } from '../utils/seo';
+import MenuLayout from "./MenuLayout.astro";
+import Image from "../components/Image.astro";
+import { getMetaDescriptionFromHtmlDescription } from "../utils/seo";
+import Link from "../components/Link.astro";
 
 interface Props {
   title: string;
@@ -50,10 +51,10 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
       <div class="blog-post-meta">
         <time datetime={date}>
           {
-            new Date(date).toLocaleDateString('it-IT', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
+            new Date(date).toLocaleDateString("it-IT", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
             })
           }
         </time>
@@ -62,8 +63,8 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
             <div class="blog-post-categories">
               {categories.map((cat, index) => (
                 <>
-                  {index > 0 && ', '}
-                  <a href={`/category/${cat.slug}/`}>{cat.name}</a>
+                  {index > 0 && ", "}
+                  <Link href={`/category/${cat.slug}/`}>{cat.name}</Link>
                 </>
               ))}
             </div>

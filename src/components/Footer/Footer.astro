@@ -1,7 +1,8 @@
 ---
-import Image from '../Image.astro';
-import logoWhiteImage from '../../assets/images/logo-white.png';
-import Scripts from './Scripts.astro';
+import Image from "../Image.astro";
+import logoWhiteImage from "../../assets/images/logo-white.png";
+import Scripts from "./Scripts.astro";
+import Link from "../Link.astro";
 
 type FooterMenuItem = {
   label: string;
@@ -12,123 +13,123 @@ type FooterMenuItem = {
 const catalogoMenu: FooterMenuItem[] = [
   {
     label: "Materiali Edili e Attrezzature per l'Edilizia",
-    href: '/materiali-edili/',
+    href: "/materiali-edili/",
   },
   {
-    label: 'Bagno',
-    href: '/arredo-bagno/',
+    label: "Bagno",
+    href: "/arredo-bagno/",
     children: [
       {
-        label: 'Cabine e Piatti Doccia',
-        href: '/negozio/bagno/piatti-doccia/',
+        label: "Cabine e Piatti Doccia",
+        href: "/negozio/bagno/piatti-doccia/",
       },
       {
-        label: 'Vasche da bagno e idromassaggi',
-        href: '/negozio/bagno/vasche-da-bagno/',
+        label: "Vasche da bagno e idromassaggi",
+        href: "/negozio/bagno/vasche-da-bagno/",
       },
       {
-        label: 'Sanitari e mobili da bagno',
-        href: '/negozio/bagno/mobili-bagno/',
+        label: "Sanitari e mobili da bagno",
+        href: "/negozio/bagno/mobili-bagno/",
       },
       {
-        label: 'Accessori bagno e rubinetterie',
-        href: '/negozio/bagno/accessori-bagno/',
+        label: "Accessori bagno e rubinetterie",
+        href: "/negozio/bagno/accessori-bagno/",
       },
     ],
   },
   {
-    label: 'Mattonelle e Rivestimenti',
-    href: '/piastrelle-rivestimenti-bagno/',
+    label: "Mattonelle e Rivestimenti",
+    href: "/piastrelle-rivestimenti-bagno/",
     children: [
       {
-        label: 'Pavimenti, Cotto, Gres porcellanato, Parquet',
-        href: '/negozio/piastrelle/pavimenti/',
+        label: "Pavimenti, Cotto, Gres porcellanato, Parquet",
+        href: "/negozio/piastrelle/pavimenti/",
       },
       {
-        label: 'Rivestimenti, Piastrelle',
-        href: '/negozio/piastrelle/rivestimenti-bagno/',
+        label: "Rivestimenti, Piastrelle",
+        href: "/negozio/piastrelle/rivestimenti-bagno/",
       },
       {
-        label: 'Pavimenti e rivestimenti per esterni',
-        href: '/negozio/piastrelle/piastrelle-per-esterno/',
+        label: "Pavimenti e rivestimenti per esterni",
+        href: "/negozio/piastrelle/piastrelle-per-esterno/",
       },
     ],
   },
   {
-    label: 'Riscaldamento',
-    href: '/stufe-caldaie-pellet/',
+    label: "Riscaldamento",
+    href: "/stufe-caldaie-pellet/",
     children: [
       {
-        label: 'Stufe e termostufe',
-        href: '/negozio/riscaldamento/stufe-a-pellet-e-legna/',
+        label: "Stufe e termostufe",
+        href: "/negozio/riscaldamento/stufe-a-pellet-e-legna/",
       },
       {
-        label: 'Camini, inserti e termocamini',
-        href: '/negozio/riscaldamento/camini-inserti/',
+        label: "Camini, inserti e termocamini",
+        href: "/negozio/riscaldamento/camini-inserti/",
       },
       {
-        label: 'Caldaie a pellet e legna',
-        href: '/negozio/riscaldamento/caldaie-a-pellet/',
+        label: "Caldaie a pellet e legna",
+        href: "/negozio/riscaldamento/caldaie-a-pellet/",
       },
       {
-        label: 'Offerte e prezzi pellet',
-        href: '/negozio/riscaldamento/pellet-prezzi-offerta/',
+        label: "Offerte e prezzi pellet",
+        href: "/negozio/riscaldamento/pellet-prezzi-offerta/",
       },
     ],
   },
   {
-    label: 'Ferramenta, Utensileria e Abbigliamento',
-    href: '/ferramenta/',
+    label: "Ferramenta, Utensileria e Abbigliamento",
+    href: "/ferramenta/",
     children: [
       {
-        label: 'Scarpe antinfortunistiche',
-        href: '/ferramenta/scarpe-antinfortunistiche/',
+        label: "Scarpe antinfortunistiche",
+        href: "/ferramenta/scarpe-antinfortunistiche/",
       },
     ],
   },
 ];
 
 const negozioMenu: FooterMenuItem[] = [
-  { label: 'Negozio', href: '/negozio/' },
-  { label: 'Appuntamento Sala Mostra', href: '/appuntamento-sala-mostra/' },
-  { label: 'Appuntamento Riscaldamento', href: '/appuntamento-riscaldamento/' },
-  { label: 'Appuntamento superbonus', href: '/appuntamento-superbonus/' },
+  { label: "Negozio", href: "/negozio/" },
+  { label: "Appuntamento Sala Mostra", href: "/appuntamento-sala-mostra/" },
+  { label: "Appuntamento Riscaldamento", href: "/appuntamento-riscaldamento/" },
+  { label: "Appuntamento superbonus", href: "/appuntamento-superbonus/" },
   {
-    label: 'Professionisti Edilizia, Sala Mostra, Riscaldamento',
-    href: '/professionisti-edilizia/',
+    label: "Professionisti Edilizia, Sala Mostra, Riscaldamento",
+    href: "/professionisti-edilizia/",
   },
   {
-    label: 'Appuntamento Rappresentante',
-    href: '/appuntamento-rappresentante/',
+    label: "Appuntamento Rappresentante",
+    href: "/appuntamento-rappresentante/",
   },
-  { label: 'Outlet', href: 'https://outlet.pieroni.it/' },
+  { label: "Outlet", href: "https://outlet.pieroni.it/" },
 ];
 
 const socialLinks = [
   {
-    name: 'Facebook',
-    href: 'https://www.facebook.com/pieronisrlofficial/',
-    icon: 'icon__fb',
+    name: "Facebook",
+    href: "https://www.facebook.com/pieronisrlofficial/",
+    icon: "icon__fb",
   },
   {
-    name: 'Instagram',
-    href: 'https://www.instagram.com/pieronisrl/',
-    icon: 'icon__ig',
+    name: "Instagram",
+    href: "https://www.instagram.com/pieronisrl/",
+    icon: "icon__ig",
   },
   {
-    name: 'Pinterest',
-    href: 'https://www.pinterest.it/pieronisrl/',
-    icon: 'icon__pi',
+    name: "Pinterest",
+    href: "https://www.pinterest.it/pieronisrl/",
+    icon: "icon__pi",
   },
   {
-    name: 'Youtube',
-    href: 'https://www.youtube.com/negozio/PieroniIt',
-    icon: 'icon__yt',
+    name: "Youtube",
+    href: "https://www.youtube.com/negozio/PieroniIt",
+    icon: "icon__yt",
   },
   {
-    name: 'Linkedin',
-    href: 'https://www.linkedin.com/company/pieroni-construction/',
-    icon: 'icon__in',
+    name: "Linkedin",
+    href: "https://www.linkedin.com/company/pieroni-construction/",
+    icon: "icon__in",
   },
 ];
 
@@ -139,17 +140,17 @@ const addActiveAttributes = (href: string) => {
   }
 
   return {
-    class: 'active',
-    'aria-current': 'page' as const,
+    class: "active",
+    "aria-current": "page" as const,
   };
 };
 ---
 
 <footer class="site-footer">
   <div class="larger-margin-container">
-    <a href="/" class="footer-logo">
+    <Link href="/" class="footer-logo">
       <Image src={logoWhiteImage} alt="Pieroni srl Logo" />
-    </a>
+    </Link>
     <div class="footer-grid">
       <div class="footer-column catalogue">
         <h2>Catalogo</h2>
@@ -159,10 +160,13 @@ const addActiveAttributes = (href: string) => {
               (() => {
                 const renderMenu = (items: FooterMenuItem[]) =>
                   items.map((item) => (
-                    <li class={item.children ? 'has-children' : undefined}>
-                      <a href={item.href} {...addActiveAttributes(item.href)}>
+                    <li class={item.children ? "has-children" : undefined}>
+                      <Link
+                        href={item.href}
+                        {...addActiveAttributes(item.href)}
+                      >
                         {item.label}
-                      </a>
+                      </Link>
                       {item.children && (
                         <ul class="sub-menu">{renderMenu(item.children)}</ul>
                       )}
@@ -182,9 +186,9 @@ const addActiveAttributes = (href: string) => {
             {
               negozioMenu.map((item) => (
                 <li>
-                  <a href={item.href} {...addActiveAttributes(item.href)}>
+                  <Link href={item.href} {...addActiveAttributes(item.href)}>
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))
             }
@@ -198,15 +202,15 @@ const addActiveAttributes = (href: string) => {
           <p>Pieroni srl</p>
           <p>Loc. Pastino 67, Diecimo (LU) – Via della Canovetta 341, Lucca</p>
           <p>
-            Tel. <a href="tel:0583838375">0583-838375</a> – Mail.{' '}
+            Tel. <a href="tel:0583838375">0583-838375</a> – Mail.{" "}
             <a href="mailto:info@pieroni.it">info@pieroni.it</a>
           </p>
           <p>P.I. 01798100465</p>
           <p>
-            <a
+            <Link
               href="/privacy-e-cookie-policy/"
-              {...addActiveAttributes('/privacy-e-cookie-policy/')}
-              >Privacy e Cookie Policy</a
+              {...addActiveAttributes("/privacy-e-cookie-policy/")}
+              >Privacy e Cookie Policy</Link
             >
           </p>
         </div>
@@ -270,14 +274,14 @@ const addActiveAttributes = (href: string) => {
   .footer-grid {
     display: grid;
     grid-template-areas:
-      'catalogue'
-      'shop'
-      'contact';
+      "catalogue"
+      "shop"
+      "contact";
     grid-template-columns: 1;
     gap: 1rem;
 
     @media (min-width: 960px) {
-      grid-template-areas: 'catalogue shop contact';
+      grid-template-areas: "catalogue shop contact";
       grid-template-columns: repeat(3, 1fr);
     }
   }

@@ -1,8 +1,9 @@
 ---
-import MenuLayout from './MenuLayout.astro';
-import Pagination from '../components/Pagination.astro';
-import Image from '../components/Image.astro';
-import { Icon } from 'astro-icon/components';
+import MenuLayout from "./MenuLayout.astro";
+import Pagination from "../components/Pagination.astro";
+import Image from "../components/Image.astro";
+import { Icon } from "astro-icon/components";
+import Link from "../components/Link.astro";
 
 interface BlogPost {
   id: number;
@@ -78,7 +79,7 @@ const {
         posts && posts.length > 0 && (
           <div class="archive-toolbar">
             <p class="result-count">
-              Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
+              Visualizzazione di {count.start}–{count.end} di {count.total}{" "}
               risultati
             </p>
           </div>
@@ -95,9 +96,9 @@ const {
               <ul class="subcategories-list">
                 {subcategories.map((subcat) => (
                   <li>
-                    <a href={`/category/${subcat.slug}/`} class="button">
+                    <Link href={`/category/${subcat.slug}/`} class="button">
                       {subcat.name} ({subcat.count})
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -112,40 +113,40 @@ const {
               {posts.map((post) => (
                 <article class="blog-post">
                   <time class="blog-post-date" datetime={post.date}>
-                    {new Date(post.date).toLocaleDateString('it-IT', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
+                    {new Date(post.date).toLocaleDateString("it-IT", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
                     })}
                   </time>
 
                   {post.featuredImage && (
                     <div class="blog-post-image">
-                      <a href={`/category${post.permalink}`}>
+                      <Link href={`/category${post.permalink}`}>
                         <Image
                           src={post.featuredImage.src}
                           alt={post.featuredImage.alt || post.title}
                           loading="lazy"
                           remote
                         />
-                      </a>
+                      </Link>
                     </div>
                   )}
 
-                  <a
+                  <Link
                     href={`/category${post.permalink}`}
                     class="post-title-link"
                   >
                     <h2>{post.title}</h2>
-                  </a>
+                  </Link>
                   {post.excerpt && (
                     <div class="blog-post-excerpt">
                       <div set:html={post.excerpt} />
 
-                      <a href={`/category${post.permalink}`}>
+                      <Link href={`/category${post.permalink}`}>
                         Continua a leggere
                         <span class="screen-reader-text"> {post.title}</span>
-                      </a>
+                      </Link>
                     </div>
                   )}
                 </article>
@@ -169,7 +170,7 @@ const {
               allCategories.map((cat) => (
                 <li>
                   <Icon name="tabler:folder" />
-                  <a href={cat.href}>{cat.title}</a>
+                  <Link href={cat.href}>{cat.title}</Link>
                 </li>
               ))
             }

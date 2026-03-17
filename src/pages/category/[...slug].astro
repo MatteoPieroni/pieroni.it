@@ -3,12 +3,12 @@ import {
   getAllBlogCategories,
   getCategoriesFromId,
   getCategoriesFromSlug,
-} from '../../data/blog';
-import BlogCategoryLayout from '../../layouts/BlogCategoryLayout.astro';
-import BlogPostLayout from '../../layouts/BlogPostLayout.astro';
-import { remoteToLocalUrl, swapImageUrlDomain } from '../../utils/remoteLinks';
-import blogCategoriesData from '../../data/blog/categories.json';
-import { getFlatCategories } from '../../data/products';
+} from "../../data/blog";
+import BlogCategoryLayout from "../../layouts/BlogCategoryLayout.astro";
+import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
+import { remoteToLocalUrl, swapImageUrlDomain } from "../../utils/remoteLinks";
+import blogCategoriesData from "../../data/blog/categories.json";
+import { getFlatCategories } from "../../data/blog/utils";
 
 export async function getStaticPaths() {
   const { categories, postsPages } = await getAllBlogCategories();
@@ -77,24 +77,24 @@ const isPostPage = post;
 // Initialize variables for both page types
 let formattedPosts: any[] = [];
 let formattedSubcategories: any[] = [];
-let title = '';
-let permalink = '';
-let date = '';
-let content = '';
-let excerpt = '';
+let title = "";
+let permalink = "";
+let date = "";
+let content = "";
+let excerpt = "";
 let categories: any[] = [];
 let featuredImage = undefined;
 let allCategories: { href: string; title: string }[] = [];
 
 // remove the numbered pages
-const cleanSlug = slug.replace(/\/page\/.*/, '');
+const cleanSlug = slug.replace(/\/page\/.*/, "");
 const categoriesForBreadcrumbs = getCategoriesFromSlug(
-  cleanSlug.split('/'),
+  cleanSlug.split("/"),
   blogCategoriesData,
 );
 
 const breadcrumbs = [
-  { label: 'Blog', href: '/category/' },
+  { label: "Blog", href: "/category/" },
   ...categoriesForBreadcrumbs.reduce<{ label: string; href: string }[]>(
     (acc, currentCategory) => {
       const lastElementInAcc = acc.at(-1);
@@ -147,8 +147,8 @@ if (isCategoryPage) {
   date = post.date;
 
   // Fetch featured image
-  if (post?._embedded?.['wp:featuredmedia']?.[0]) {
-    const embeddedMedia = post._embedded['wp:featuredmedia']?.[0];
+  if (post?._embedded?.["wp:featuredmedia"]?.[0]) {
+    const embeddedMedia = post._embedded["wp:featuredmedia"]?.[0];
 
     featuredImage = {
       src: swapImageUrlDomain(embeddedMedia.source_url),
@@ -173,8 +173,8 @@ if (isCategoryPage) {
 {
   isCategoryPage ? (
     <BlogCategoryLayout
-      title={catTitle || 'Categoria'}
-      baseSlug={baseSlug || ''}
+      title={catTitle || "Categoria"}
+      baseSlug={baseSlug || ""}
       breadcrumbs={breadcrumbs}
       subcategories={formattedSubcategories}
       pagination={pagination}

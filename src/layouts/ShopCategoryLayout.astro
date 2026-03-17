@@ -1,26 +1,26 @@
 ---
-import MenuLayout from './MenuLayout.astro';
-import Pagination from '../components/Pagination.astro';
-import Image from '../components/Image.astro';
-import type { PageProps } from './types';
+import MenuLayout from "./MenuLayout.astro";
+import Pagination from "../components/Pagination.astro";
+import Image from "../components/Image.astro";
+import { ensureTrailingSlash } from "../utils/slugs";
+import type { PageProps } from "./types";
+import Link from "../components/Link.astro";
 
 interface Product {
-  id: number;
-  name: string;
-  slug: string;
-  permalink: string;
-  images: Array<{
-    src: string;
+  fullSlug: string;
+  featuredImage: {
     alt: string;
-  }>;
+    url: string;
+  };
+  name: string;
 }
 
-type Props = Omit<PageProps, 'description'> & {
+type Props = Omit<PageProps, "description"> & {
   products: Product[];
-  baseSlug: string;
+  fullSlug: string;
   subcategories?: Array<{
     name: string;
-    slug: string;
+    url: string;
     count: number;
   }>;
   count: {
@@ -28,13 +28,26 @@ type Props = Omit<PageProps, 'description'> & {
     start: number;
     end: number;
   };
-  pagination?: {
-    current: PaginationPage;
-    previous: PaginationPage;
-    next: PaginationPage;
-    first: PaginationPage;
-    last: PaginationPage;
-  };
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
 };
 
 type PaginationPage = {
@@ -44,7 +57,7 @@ type PaginationPage = {
 
 const {
   title,
-  baseSlug,
+  fullSlug,
   breadcrumbs,
   products,
   subcategories,
@@ -57,7 +70,7 @@ const {
   breadcrumbs={breadcrumbs}
   title={title}
   description={`Vedi tutti i prodotti nella categoria ${title} di Pieroni srl`}
-  canonicalUrl={`/negozio/${baseSlug}`}
+  canonicalUrl={`/negozio/${fullSlug}`}
 >
   <div class="margin-container">
     <header class="row-small">
@@ -67,7 +80,7 @@ const {
         products && products.length > 0 && (
           <div class="archive-toolbar">
             <p class="result-count">
-              Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
+              Visualizzazione di {count.start}–{count.end} di {count.total}{" "}
               risultati
             </p>
 
@@ -84,9 +97,9 @@ const {
           <ul class="subcategories-list">
             {subcategories.map((subcat) => (
               <li>
-                <a href={`/negozio/${subcat.slug}/`} class="button">
+                <Link href={`/negozio/${subcat.url}/`} class="button">
                   {subcat.name} ({subcat.count})
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -99,21 +112,19 @@ const {
         <div class="products-grid row">
           {products.map((product) => (
             <div class="product-card">
-              <a href={product.permalink}>
-                {product.images && product.images.length > 0 && (
-                  <div class="product-image">
-                    <Image
-                      src={product.images[0].src}
-                      alt={product.images[0].alt || product.name}
-                      loading="lazy"
-                      remote
-                    />
-                  </div>
-                )}
+              <Link href={`/negozio/${product.fullSlug}`}>
+                <div class="product-image">
+                  <Image
+                    src={product.featuredImage.url}
+                    alt={product.featuredImage.alt}
+                    loading="lazy"
+                    remote
+                  />
+                </div>
                 <div class="product-info">
                   <h2>{product.name}</h2>
                 </div>
-              </a>
+              </Link>
             </div>
           ))}
         </div>
@@ -130,7 +141,7 @@ const {
       products && products.length > 0 && (
         <div class="row archive-toolbar">
           <p class="result-count">
-            Visualizzazione di {count.start}–{count.end} di {count.total}{' '}
+            Visualizzazione di {count.start}–{count.end} di {count.total}{" "}
             risultati
           </p>
 
@@ -203,7 +214,7 @@ const {
     text-align: center;
 
     &:after {
-      content: '';
+      content: "";
       background: #ee8900;
       visibility: hidden;
       width: 20%;

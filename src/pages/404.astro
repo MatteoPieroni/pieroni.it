@@ -1,5 +1,6 @@
 ---
-import MenuLayout from '../layouts/MenuLayout.astro';
+import Link from "../components/Link.astro";
+import MenuLayout from "../layouts/MenuLayout.astro";
 ---
 
 <MenuLayout
@@ -7,8 +8,8 @@ import MenuLayout from '../layouts/MenuLayout.astro';
   title="Ops, sembra esserci stato un problema"
   breadcrumbs={[
     {
-      href: '404',
-      label: '404',
+      href: "404",
+      label: "404",
     },
   ]}
 >
@@ -19,6 +20,6 @@ import MenuLayout from '../layouts/MenuLayout.astro';
       Non siamo riusciti a trovare la pagina che stavi cercando, potrebbe essere
       stata spostata o rimossa.
     </p>
-    <p><a href="/" class="button">Torna alla home</a></p>
+    <p><Link href="/" class="button">Torna alla home</Link></p>
   </div>
 </MenuLayout>

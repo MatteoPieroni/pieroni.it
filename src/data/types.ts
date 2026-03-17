@@ -1,36 +1,112 @@
-export type Category = {
+type Media = {
+  alt: string;
+  url: string;
+};
+
+type Breadcrumb = {
+  url: string;
+  label: string;
+};
+
+export type DbCategoryProduct = {
+  name: string;
+  fullSlug: string;
+  featuredImage: Media;
+};
+export type DbCategory = {
   id: number;
   name: string;
   slug: string;
+  featuredImage?: Media | null;
   count: number;
-  children: Category[];
+  fullSlug: string;
+  breadcrumbs: (Breadcrumb | null)[];
+  parent?: number | null;
+  products: DbCategoryProduct[];
 };
 
-interface ProductImage {
-  src: string;
-  alt?: string;
-}
-
-interface ProductAttribute {
+type DbProductCategory = Pick<
+  DbCategory,
+  "breadcrumbs" | "fullSlug" | "name" | "slug"
+>;
+export type DbProduct = {
+  id: number;
   name: string;
-  slug?: string;
-  options: string[];
-  visible?: boolean;
-}
+  slug: string;
+  fullSlug: string;
+  description: string;
+  fullDescription: string;
+  featuredImage: Media;
+  images: Media[] | null;
+  mainCategory: DbProductCategory;
+  categories: DbProductCategory[];
+  formats: string | null;
+  brand: string | null;
+};
 
-interface ProductCategory {
+export type SubCategory = {
+  url: string;
   name: string;
-  slug?: string;
-}
+  count: number;
+};
 
-export interface Product {
+export type Category = Exclude<DbCategory, "parent"> & {
+  subCategories?: SubCategory[];
+};
+
+export type CategoryPageData = {
+  slug: string;
+  fullSlug: string;
   title: string;
-  images?: {
-    featured?: ProductImage;
-    gallery?: ProductImage[];
+  products: DbCategoryProduct[];
+  subCategories?: SubCategory[];
+  breadcrumbs: Breadcrumb[];
+
+  count: {
+    total: number;
+    start: number;
+    end: number;
   };
-  description?: string;
-  fullDescription?: string;
-  attributes?: ProductAttribute[];
-  categories?: ProductCategory[];
-}
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
+};
+
+type PaginationPage = {
+  number: number;
+  href: string;
+};
+
+export type ProductPageData = {
+  title: string;
+  slug: string;
+  fullSlug: string;
+  featuredImage: Media;
+  images: Media[] | null;
+  description: string;
+  fullDescription: string;
+  formats: string | null;
+  brand: string | null;
+  breadcrumbs: Breadcrumb[];
+  categories: {
+    name: string;
+    url: string;
+  }[];
+};
