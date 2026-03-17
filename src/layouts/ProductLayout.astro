@@ -87,7 +87,9 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(description);
 
       {
         description && (
-          <div class="product-description" set:html={description} />
+          <div class="product-description">
+            <p set:html={description} />
+          </div>
         )
       }
       <div class="product-cta row">

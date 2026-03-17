@@ -101,7 +101,7 @@ export type ProductPageData = {
   featuredImage: Media;
   images: Media[] | null;
   description: string;
-  fullDescription: {};
+  fullDescription: string;
   formats: string | null;
   brand: string | null;
   breadcrumbs: Breadcrumb[];

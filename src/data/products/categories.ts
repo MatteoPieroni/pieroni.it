@@ -20,7 +20,7 @@ export const getSubcategories: (
   return categories.map((category) => {
     const subCategories = categories
       .filter((cat) => {
-        return cat.parent === category.id;
+        return cat.parent === category.id && cat.count > 0;
       })
       .map(({ name, count, fullSlug }) => ({
         name,
@@ -158,7 +158,12 @@ export const getCategoryPaths = (
 
   const hasPagination = products.length > limit;
 
-  const splitProducts = splitProductsIntoPages(products, limit);
+  const splitProducts =
+    products.length === 0
+      ? // this is a little hack for empty product pages, we pass
+        // an empty array, so the products will still be populated
+        [[]]
+      : splitProductsIntoPages(products, limit);
   const fullSlugPagesWithProduct = splitProducts.map((products, index) => {
     const pageFullSlug = `${fullSlug}/page`;
     const index1Base = index + 1;

@@ -80,7 +80,7 @@ type ProductPageProps = {
   featuredImage: Image;
   images?: Image[] | null;
   description: string;
-  fullDescription: {};
+  fullDescription: string;
   formats: string | null;
   brand: string | null;
   categories: {
@@ -153,7 +153,7 @@ const formattedBreadcrumbs = [
       featuredImage={props.featuredImage}
       images={props.images ?? undefined}
       description={props.description}
-      fullDescription={props.description}
+      fullDescription={props.fullDescription}
       formats={props.formats}
       categories={props.categories}
       brand={props.brand}
