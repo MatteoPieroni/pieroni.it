@@ -61,7 +61,7 @@ const ProductSchema = z.object({
 
 export const getCategories = async () => {
   const API_KEY = import.meta.env.API_KEY;
-  const BE_URL = "https://be.pieroni.it/website";
+  const BE_URL = import.meta.env.BE_URL;
 
   const categories: DbCategory[] = [];
 
@@ -101,7 +101,7 @@ export const getCategories = async () => {
 
 export const getProducts = async (page = 1) => {
   const API_KEY = import.meta.env.API_KEY;
-  const BE_URL = "https://be.pieroni.it/website";
+  const BE_URL = import.meta.env.BE_URL;
 
   const products: z.infer<typeof ProductSchema>[] = [];
 
