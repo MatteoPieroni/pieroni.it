@@ -65,38 +65,43 @@ export const getCategories = async () => {
 
   const categories: DbCategory[] = [];
 
-  const response = await fetch(`${BE_URL}/shop-categories`, {
-    headers: {
-      Authorization: `users API-Key ${API_KEY}`,
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    const response = await fetch(`${BE_URL}/shop-categories`, {
+      headers: {
+        Authorization: `users API-Key ${API_KEY}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error("");
-  }
-
-  const categoriesResponse = await response.json();
-  if (categoriesResponse.data.categories.length === 0) {
-    throw new Error("");
-  }
-
-  const fetchedCategories = categoriesResponse.data.categories;
-
-  for (const fetchedCategory of fetchedCategories) {
-    try {
-      categories.push(CategorySchema.parse(fetchedCategory));
-    } catch (e) {
-      console.error({ e, id: fetchedCategory.id });
-      continue;
+    if (!response.ok) {
+      throw new Error("response not ok");
     }
-  }
 
-  if (categories.length === 0) {
-    throw new Error("Error fetching categories");
-  }
+    const categoriesResponse = await response.json();
+    if (categoriesResponse.data.categories.length === 0) {
+      throw new Error("no categories");
+    }
 
-  return categories;
+    const fetchedCategories = categoriesResponse.data.categories;
+
+    for (const fetchedCategory of fetchedCategories) {
+      try {
+        categories.push(CategorySchema.parse(fetchedCategory));
+      } catch (e) {
+        console.error({ e, id: fetchedCategory.id });
+        continue;
+      }
+    }
+
+    if (categories.length === 0) {
+      throw new Error("no categories mapped");
+    }
+
+    return categories;
+  } catch (e) {
+    console.error("Error while fetching categories " + e);
+    throw new Error();
+  }
 };
 
 export const getProducts = async (page = 1) => {
