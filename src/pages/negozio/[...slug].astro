@@ -18,7 +18,10 @@ export async function getStaticPaths() {
     },
   }));
 
-  const usableProductPages = productsPages.map(({ slug, ...product }) => ({
+  const usableProductPages: {
+    params: { slug: string };
+    props: ProductPageProps;
+  }[] = productsPages.map(({ slug, ...product }) => ({
     params: {
       slug,
     },
@@ -27,8 +30,7 @@ export async function getStaticPaths() {
     },
   }));
 
-  // return [...categoryPages, ...usableProductPages];
-  return [...categoryPages];
+  return [...categoryPages, ...usableProductPages];
 }
 
 type Image = {
@@ -39,7 +41,7 @@ type Image = {
 type CategoryPageProps = {
   products: {
     fullSlug: string;
-    image?: Image | null;
+    featuredImage: Image;
     name: string;
   }[];
   subCategories?: {
@@ -75,7 +77,8 @@ type CategoryPageProps = {
 };
 
 type ProductPageProps = {
-  images: Image[] | null;
+  featuredImage: Image;
+  images?: Image[] | null;
   description: string;
   fullDescription: {};
   formats: string | null;
@@ -97,7 +100,9 @@ type PaginationPage = {
   href: string;
 };
 
-const { title, fullSlug, breadcrumbs, ...passedProps } = Astro.props;
+const { title, fullSlug: passedFullSlug, breadcrumbs, ...props } = Astro.props;
+
+const fullSlug = `/negozio/${passedFullSlug}/`;
 
 const checkIsCategoryPage = (
   props: CategoryPageProps | ProductPageProps,
@@ -110,62 +115,48 @@ const checkIsCategoryPage = (
 };
 
 // Determine if this is a category page or product page
-const isCategoryPage = checkIsCategoryPage(passedProps);
+const isCategoryPage = checkIsCategoryPage(props);
 
 const formattedBreadcrumbs = [
   { label: "Negozio", href: "/negozio/" },
-  ...breadcrumbs.map((crumb) => ({
-    ...crumb,
-    href: `/negozio${crumb.url}/`,
+  ...breadcrumbs.map(({ url, label }) => ({
+    label,
+    href: `/negozio${url}/`,
   })),
+  ...(!isCategoryPage
+    ? [
+        {
+          label: title,
+          href: fullSlug,
+        },
+      ]
+    : []),
 ];
-
-// const renderedComponent = isCategoryPage ? (
-//   <ShopCategoryLayout
-//     title={title}
-//     breadcrumbs={formattedBreadcrumbs}
-//     fullSlug={fullSlug}
-//     products={passedProps.products}
-//     subcategories={passedProps.subCategories}
-//     pagination={passedProps.pagination}
-//     count={passedProps.count}
-//   />
-// ) : (
-//   <ProductLayout
-//     title={title}
-//     breadcrumbs={formattedBreadcrumbs}
-//     fullSlug={fullSlug}
-//     images={passedProps.images || []}
-//     description={passedProps.description}
-//     fullDescription={passedProps.description}
-//     formats={passedProps.formats}
-//     categories={passedProps.categories}
-//     brand={passedProps.brand}
-//   />
-// );
-
-const Component = isCategoryPage ? ShopCategoryLayout : ProductLayout;
-const props = isCategoryPage
-  ? {
-      title: title,
-      breadcrumbs: formattedBreadcrumbs,
-      fullSlug: fullSlug,
-      products: passedProps.products,
-      subcategories: passedProps.subCategories,
-      pagination: passedProps.pagination,
-      count: passedProps.count,
-    }
-  : {
-      title: title,
-      breadcrumbs: formattedBreadcrumbs,
-      fullSlug: fullSlug,
-      images: passedProps.images || [],
-      description: passedProps.description,
-      fullDescription: passedProps.description,
-      formats: passedProps.formats,
-      categories: passedProps.categories,
-      brand: passedProps.brand,
-    };
 ---
 
-<Component {...props} />
+{
+  isCategoryPage ? (
+    <ShopCategoryLayout
+      title={title}
+      breadcrumbs={formattedBreadcrumbs}
+      fullSlug={fullSlug}
+      products={props.products}
+      subcategories={props.subCategories}
+      pagination={props.pagination}
+      count={props.count}
+    />
+  ) : (
+    <ProductLayout
+      title={title}
+      breadcrumbs={formattedBreadcrumbs}
+      fullSlug={fullSlug}
+      featuredImage={props.featuredImage}
+      images={props.images ?? undefined}
+      description={props.description}
+      fullDescription={props.description}
+      formats={props.formats}
+      categories={props.categories}
+      brand={props.brand}
+    />
+  )
+}
