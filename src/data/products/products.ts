@@ -13,9 +13,10 @@ export const getProductPaths = ({
   mainCategory,
   slug,
   categories,
+  name,
+  fullSlug,
   ...product
 }: DbProduct) => {
-  const fullSlug = `${mainCategory.fullSlug}/${slug}`;
   const breadcrumbs = mainCategory.breadcrumbs.filter(
     (breadcrumb) => breadcrumb !== null,
   );
@@ -25,6 +26,7 @@ export const getProductPaths = ({
   }));
 
   const base = {
+    title: name,
     breadcrumbs,
     fullSlug,
     ...product,
@@ -36,19 +38,21 @@ export const getProductPaths = ({
     ...base,
   };
 
-  const allCategoriesPages: ProductPageData[] = categories.map((cat) => ({
+  const fullSlugCategoriesPages: ProductPageData[] = categories.map((cat) => ({
     ...base,
+    breadcrumbs: cat.breadcrumbs.filter((breadcrumb) => breadcrumb !== null),
     slug: `${cat.fullSlug}/${slug}`,
   }));
 
   const baseCategoriesPages: ProductPageData[] = categories.map((cat) => ({
     ...base,
+    breadcrumbs: cat.breadcrumbs.filter((breadcrumb) => breadcrumb !== null),
     slug: `${cat.slug}/${slug}`,
   }));
 
   const categoriesSet = new Set();
   const dedupeCategories = [
-    ...allCategoriesPages,
+    ...fullSlugCategoriesPages,
     ...baseCategoriesPages,
   ].filter((page) => {
     const isDupe = categoriesSet.has(page.slug);

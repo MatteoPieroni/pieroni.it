@@ -7,17 +7,17 @@ const dummyDbProduct = {
   id: 1,
   name: "test product",
   slug: "test-product",
+  fullSlug: "riscaldamento/test-product",
   brand: "test-brand",
+  featuredImage: {
+    alt: "",
+    url: "",
+  },
   categories: [
     {
-      id: 24,
       name: "Riscaldamento",
       slug: "riscaldamento",
-      count: 73,
-      parent: null,
-      featured_image: null,
       fullSlug: "riscaldamento",
-      level: 0,
       breadcrumbs: [
         {
           label: "Riscaldamento",
@@ -28,17 +28,12 @@ const dummyDbProduct = {
   ],
   description: "test-description",
   formats: "test-format",
-  fullDescription: {},
+  fullDescription: "test-full-description",
   images: [],
   mainCategory: {
-    id: 24,
     name: "Riscaldamento",
     slug: "riscaldamento",
-    count: 73,
-    parent: null,
-    featured_image: null,
     fullSlug: "riscaldamento",
-    level: 0,
     breadcrumbs: [
       {
         label: "Riscaldamento",
@@ -49,7 +44,7 @@ const dummyDbProduct = {
 } satisfies DbProduct;
 
 const dummyProduct = {
-  name: "test product",
+  title: "test product",
   slug: "test-product",
   brand: "test-brand",
   categories: [
@@ -60,7 +55,11 @@ const dummyProduct = {
   ],
   description: "test-description",
   formats: "test-format",
-  fullDescription: {},
+  fullDescription: "test-full-description",
+  featuredImage: {
+    alt: "",
+    url: "",
+  },
   images: [],
   breadcrumbs: [
     {
@@ -97,16 +96,12 @@ describe("generates product pages", () => {
   test("generates full category product page, main category page and product page", () => {
     const generatedProductPages = getProductPaths({
       ...dummyDbProduct,
+      fullSlug: "riscaldamento/caldaie-a-pellet/test-product",
       categories: [
         {
-          id: 24,
           name: "Riscaldamento",
           slug: "riscaldamento",
-          count: 73,
-          parent: null,
-          featured_image: null,
           fullSlug: "riscaldamento",
-          level: 0,
           breadcrumbs: [
             {
               label: "Riscaldamento",
@@ -115,13 +110,8 @@ describe("generates product pages", () => {
           ],
         },
         {
-          id: 35,
           name: "Caldaie",
           slug: "caldaie-a-pellet",
-          count: 9,
-          parent: 24,
-          featured_image: null,
-          level: 1,
           fullSlug: "riscaldamento/caldaie-a-pellet",
           breadcrumbs: [
             {
@@ -136,13 +126,8 @@ describe("generates product pages", () => {
         },
       ],
       mainCategory: {
-        id: 35,
         name: "Caldaie",
         slug: "caldaie-a-pellet",
-        count: 9,
-        parent: 24,
-        featured_image: null,
-        level: 1,
         fullSlug: "riscaldamento/caldaie-a-pellet",
         breadcrumbs: [
           {
@@ -185,6 +170,12 @@ describe("generates product pages", () => {
     expect(generatedProductPages).toStrictEqual([
       {
         ...deepDummyProduct,
+        breadcrumbs: [
+          {
+            label: "Riscaldamento",
+            url: "riscaldamento",
+          },
+        ],
         slug: "riscaldamento/test-product",
       },
       {

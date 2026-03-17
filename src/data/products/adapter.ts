@@ -18,7 +18,7 @@ const CategorySchema = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
-  featured_image: z.optional(z.nullable(MediaSchema)),
+  featuredImage: z.optional(z.nullable(MediaSchema)),
   count: z.number(),
   fullSlug: z.string(),
   breadcrumbs: z.array(
@@ -34,6 +34,7 @@ const CategorySchema = z.object({
 });
 
 const ProductCategorySchema = z.object({
+  slug: z.string(),
   name: z.string(),
   fullSlug: z.string(),
   breadcrumbs: z.array(
