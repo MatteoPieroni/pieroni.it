@@ -52,27 +52,27 @@ const {
   <div class="margin-container product-page">
     <div class="product-gallery">
       <div class="featured-image">
-        <Link href={featuredImage.url} data-fslightbox data-type="image">
+        <a href={featuredImage.url} data-fslightbox data-type="image">
           <Image
             src={featuredImage.url}
             alt={featuredImage.alt || title}
             loading="lazy"
             remote
           />
-        </Link>
+        </a>
       </div>
       {
         images && images.length > 0 && (
           <div class="gallery-images">
             {images.map((image) => (
-              <Link href={image.url} data-fslightbox data-type="image">
+              <a href={image.url} data-fslightbox data-type="image">
                 <Image
                   src={image.url}
                   alt={image.alt || title}
                   loading="lazy"
                   remote
                 />
-              </Link>
+              </a>
             ))}
           </div>
         )

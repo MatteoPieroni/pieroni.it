@@ -86,7 +86,7 @@ const getBlogCategories = async () => {
     const filePath = join(dataDir, "categories.json");
     await writeFile(filePath, JSON.stringify(categoryTree, null, 2), "utf-8");
   } catch (error) {
-    console.error("Failed updating shop categories");
+    console.error("Failed updating blog categories");
     throw error;
   }
 };
