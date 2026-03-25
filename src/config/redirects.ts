@@ -62,22 +62,22 @@ export const redirects = {
     "https://www.pieroni.it/negozio/riscaldamento/pellet-prezzi-offerta/",
   "/magazzino-edile/fornaci-di-barga/":
     "https://www.pieroni.it/category/blog/pieroni-srl/nuovi-progetti-per-il-futuro/",
-  "/tv/": "https://www.pieroni.it/",
-  "/eventi/": "https://www.pieroni.it/professionisti-edilizia/",
-  "/primo-maggio/": "https://www.pieroni.it",
+  "/tv*": "https://www.pieroni.it/",
+  "/eventi*": "https://www.pieroni.it/professionisti-edilizia/",
+  "/primo-maggio*": "https://www.pieroni.it",
 
   // old articles
-  "/category/blog/tanti-auguri/": "https://www.pieroni.it/category/blog/",
-  "/category/tanti-auguri/": "https://www.pieroni.it/category/blog/",
-  "/category/blog/siamo-alla-ricerca-di-nuovi-collaboratori/":
+  "/category/blog/tanti-auguri*": "https://www.pieroni.it/category/blog/",
+  "/category/tanti-auguri*": "https://www.pieroni.it/category/blog/",
+  "/category/blog/siamo-alla-ricerca-di-nuovi-collaboratori*":
     "https://www.pieroni.it/category/blog/",
-  "/category/siamo-alla-ricerca-di-nuovi-collaboratori/":
+  "/category/siamo-alla-ricerca-di-nuovi-collaboratori*":
     "https://www.pieroni.it/category/blog/",
-  "/category/blog/iris/": "https://www.pieroni.it/category/blog/",
-  "/category/iris/": "https://www.pieroni.it/category/blog/",
-  "/category/blog/wemo-controlla-la-tua-casa-con-lo-smartphone/":
+  "/category/blog/iris*": "https://www.pieroni.it/category/blog/",
+  "/category/iris*": "https://www.pieroni.it/category/blog/",
+  "/category/blog/wemo-controlla-la-tua-casa-con-lo-smartphone*":
     "https://www.pieroni.it/category/blog/",
-  "/category/wemo-controlla-la-tua-casa-con-lo-smartphone/":
+  "/category/wemo-controlla-la-tua-casa-con-lo-smartphone*":
     "https://www.pieroni.it/category/blog/",
 };
 

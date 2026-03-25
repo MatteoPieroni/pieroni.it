@@ -15,7 +15,7 @@ export default defineConfig({
   trailingSlash: "always",
   integrations: [
     // this is a temporary fix while waiting for https://github.com/withastro/astro/pull/16034 to be merged
-    redirectFixed,
+    // redirectFixed,
     icon(),
     pagefind(),
     sitemap(),
