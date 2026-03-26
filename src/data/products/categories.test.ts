@@ -1,7 +1,9 @@
 import { describe, expect, test } from "vitest";
 
-import { getCategoryPaths, type CategoryWithSubcategories } from "./categories";
-import type { Category, DbCategoryProduct, SubCategory } from "../types";
+import { getCategoryPaths } from "./categories";
+import type { Category } from "./types";
+import type { DbCategoryProduct } from "./db/types";
+import type { SubCategory } from "../shared-types";
 
 const dummyProductForCategory = {
   name: "test product",

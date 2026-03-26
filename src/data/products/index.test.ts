@@ -1,12 +1,7 @@
 import { expect, test } from "vitest";
 
-import type {
-  Category,
-  DbProduct,
-  DbCategoryProduct,
-  ProductPageData,
-  DbCategory,
-} from "../types";
+import type { DbProduct, DbCategoryProduct, DbCategory } from "./db/types";
+import type { ProductPageData } from "./types";
 import { getAllCategories } from ".";
 
 const dummyProductForCategory = {

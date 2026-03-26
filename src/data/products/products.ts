@@ -1,5 +1,6 @@
-import type { DbProduct, ProductPageData } from "../types";
-import { getProducts } from "./adapter";
+import type { DbProduct } from "./db/types";
+import type { ProductPageData } from "./types";
+import { getProducts } from "./db/adapter";
 
 /**
  * for a category

@@ -1,11 +1,5 @@
-import type { Breadcrumb, Media } from "../shared-types";
+import type { Breadcrumb, Media, SubCategory } from "../shared-types";
 import type { DbCategory, DbCategoryProduct } from "./db/types";
-
-export type SubCategory = {
-  url: string;
-  name: string;
-  count: number;
-};
 
 export type Category = Exclude<DbCategory, "parent"> & {
   subCategories?: SubCategory[];
