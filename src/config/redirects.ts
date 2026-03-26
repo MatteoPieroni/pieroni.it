@@ -1,3 +1,6 @@
+import type { AstroIntegration } from "astro";
+import { readFile, writeFile } from "fs/promises";
+
 export const redirects = {
   "/materiali-edili-attrezzature/": "https://www.pieroni.it/materiali-edili/",
   "/sala-mostra-bagno/cabine-piatti-doccia":
@@ -59,21 +62,41 @@ export const redirects = {
     "https://www.pieroni.it/negozio/riscaldamento/pellet-prezzi-offerta/",
   "/magazzino-edile/fornaci-di-barga/":
     "https://www.pieroni.it/category/blog/pieroni-srl/nuovi-progetti-per-il-futuro/",
-  "/tv/": "https://www.pieroni.it/",
-  "/eventi/": "https://www.pieroni.it/professionisti-edilizia/",
-  "/primo-maggio/": "https://www.pieroni.it",
+  "/tv*": "https://www.pieroni.it/",
+  "/eventi*": "https://www.pieroni.it/professionisti-edilizia/",
+  "/primo-maggio*": "https://www.pieroni.it",
 
   // old articles
-  "/category/blog/tanti-auguri/": "https://www.pieroni.it/category/blog/",
-  "/category/tanti-auguri/": "https://www.pieroni.it/category/blog/",
-  "/category/blog/siamo-alla-ricerca-di-nuovi-collaboratori/":
+  "/category/blog/tanti-auguri*": "https://www.pieroni.it/category/blog/",
+  "/category/tanti-auguri*": "https://www.pieroni.it/category/blog/",
+  "/category/blog/siamo-alla-ricerca-di-nuovi-collaboratori*":
     "https://www.pieroni.it/category/blog/",
-  "/category/siamo-alla-ricerca-di-nuovi-collaboratori/":
+  "/category/siamo-alla-ricerca-di-nuovi-collaboratori*":
     "https://www.pieroni.it/category/blog/",
-  "/category/blog/iris/": "https://www.pieroni.it/category/blog/",
-  "/category/iris/": "https://www.pieroni.it/category/blog/",
-  "/category/blog/wemo-controlla-la-tua-casa-con-lo-smartphone/":
+  "/category/blog/iris*": "https://www.pieroni.it/category/blog/",
+  "/category/iris*": "https://www.pieroni.it/category/blog/",
+  "/category/blog/wemo-controlla-la-tua-casa-con-lo-smartphone*":
     "https://www.pieroni.it/category/blog/",
-  "/category/wemo-controlla-la-tua-casa-con-lo-smartphone/":
+  "/category/wemo-controlla-la-tua-casa-con-lo-smartphone*":
     "https://www.pieroni.it/category/blog/",
+};
+
+export const redirectFixed: AstroIntegration = {
+  name: "getJson",
+  hooks: {
+    "astro:build:done": async ({ dir, logger }) => {
+      logger.info("Reading redirects file");
+      const file = await readFile(dir.pathname + "_redirects", {
+        encoding: "utf-8",
+      });
+      logger.info("Replacing");
+      const replaced = file.replaceAll(/([^ ]+)([ ]+https)/gm, "$1/$2");
+
+      logger.info("Writing redirects file");
+      await writeFile(dir.pathname + "_redirects", replaced, {
+        encoding: "utf-8",
+      });
+      logger.info("Redirects file written");
+    },
+  },
 };

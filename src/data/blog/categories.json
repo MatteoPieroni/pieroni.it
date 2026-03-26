@@ -3,7 +3,7 @@
     "id": 42,
     "name": "Blog",
     "slug": "blog",
-    "count": 16,
+    "count": 12,
     "description": "",
     "children": [
       {
@@ -18,7 +18,7 @@
         "id": 117,
         "name": "Internet delle cose",
         "slug": "internet-delle-cose",
-        "count": 2,
+        "count": 0,
         "description": "",
         "children": []
       },
@@ -26,7 +26,7 @@
         "id": 103,
         "name": "Pieroni srl",
         "slug": "pieroni-srl",
-        "count": 8,
+        "count": 6,
         "description": "",
         "children": []
       },
