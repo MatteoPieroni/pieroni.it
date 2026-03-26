@@ -1,4 +1,4 @@
-import { getPostsInCategory } from "./adapter";
+import { getPostsInCategory } from "../products/db/adapter";
 import categoriesData from "./categories.json";
 
 type Category = {

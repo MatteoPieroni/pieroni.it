@@ -1,4 +1,4 @@
-import { getPostsInCategory } from "./adapter";
+import { getPostsInCategory } from "../products/db/adapter";
 import blogCategoriesData from "../blog/categories.json";
 import {
   createSlugsCollection,
