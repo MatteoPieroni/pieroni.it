@@ -80,23 +80,3 @@ export const redirects = {
   "/category/wemo-controlla-la-tua-casa-con-lo-smartphone*":
     "https://www.pieroni.it/category/blog/",
 };
-
-export const redirectFixed: AstroIntegration = {
-  name: "getJson",
-  hooks: {
-    "astro:build:done": async ({ dir, logger }) => {
-      logger.info("Reading redirects file");
-      const file = await readFile(dir.pathname + "_redirects", {
-        encoding: "utf-8",
-      });
-      logger.info("Replacing");
-      const replaced = file.replaceAll(/([^ ]+)([ ]+https)/gm, "$1/$2");
-
-      logger.info("Writing redirects file");
-      await writeFile(dir.pathname + "_redirects", replaced, {
-        encoding: "utf-8",
-      });
-      logger.info("Redirects file written");
-    },
-  },
-};
