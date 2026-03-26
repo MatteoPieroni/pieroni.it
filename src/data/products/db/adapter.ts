@@ -1,5 +1,5 @@
 import * as z from "zod";
-import type { DbCategory } from "../types";
+import type { DbCategory } from "./types";
 
 const MediaSchema = z.object({
   alt: z.string(),
