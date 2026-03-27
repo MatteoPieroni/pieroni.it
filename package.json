@@ -23,7 +23,7 @@
     "astro-seo": "^1.1.0",
     "fslightbox": "3.7.4",
     "pagefind": "^1.4.0",
-    "zod": "^3.25.76"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@playform/compress": "0.2.1",
