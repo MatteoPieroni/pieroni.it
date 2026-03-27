@@ -1,8 +1,14 @@
 ---
+import {
+  RichText,
+  AstroConvertersFunction,
+} from "@payload-bites/astro-richtext-renderer";
+
 import MenuLayout from "./MenuLayout.astro";
 import Image from "../components/Image.astro";
 import Link from "../components/Link.astro";
 import type { PageProps } from "./types";
+import Gallery from "../components/Blocks/Gallery.astro";
 
 interface ProductImage {
   url: string;
@@ -35,6 +41,13 @@ const {
   createdAt,
   updatedAt,
 } = Astro.props;
+
+const astroConverters: AstroConvertersFunction = ({ defaultConverters }) => ({
+  ...defaultConverters,
+  blocks: {
+    gallery: Gallery,
+  },
+});
 ---
 
 <MenuLayout
@@ -100,7 +113,7 @@ const {
       )
     }
 
-    <div class="blog-post-content" set:html={content} />
+    <RichText data={content} converters={astroConverters} />
   </article>
 </MenuLayout>
 

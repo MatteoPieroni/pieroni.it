@@ -1,4 +1,3 @@
-import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import type { Breadcrumb, Media } from "../../shared-types";
 
 export type DbCategoryArticle = {

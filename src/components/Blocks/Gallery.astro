@@ -1,0 +1,61 @@
+---
+import Image from "../Image.astro";
+type Props = {
+  node: {
+    fields: {
+      id: string;
+      blockType: "gallery";
+      images: {
+        id: number;
+        image: {
+          alt: string;
+          url: string;
+        };
+      }[];
+    };
+  };
+};
+
+const {
+  node: {
+    fields: { images },
+  },
+} = Astro.props;
+
+const mappedImages = images.map((image) => image.image);
+---
+
+<div class="gallery-images">
+  {
+    mappedImages.map((image) => (
+      <a href={image.url} data-fslightbox data-type="image">
+        <Image src={image.url} alt={image.alt} loading="lazy" remote />
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .gallery-images {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+  }
+
+  .gallery-images img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+    transition: opacity 0.2s;
+    aspect-ratio: 1;
+  }
+
+  .gallery-images img:hover,
+  .gallery-images img:focus {
+    opacity: 0.8;
+  }
+</style>
+
+<script>
+  import "fslightbox";
+</script>

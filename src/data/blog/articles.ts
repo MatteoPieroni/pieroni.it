@@ -1,7 +1,6 @@
 import type { DbArticle } from "./db/types";
 import type { ArticlePageData } from "./types";
 import { getArticles } from "./db/adapter";
-import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 
 /**
  * for a category
@@ -15,7 +14,7 @@ export const getArticlePaths = ({
   mainCategory,
   slug,
   categories,
-  content: rawContent,
+  content,
   fullSlug,
   ...article
 }: DbArticle) => {
@@ -26,11 +25,6 @@ export const getArticlePaths = ({
     name: cat.name,
     url: cat.fullSlug,
   }));
-  const content = convertLexicalToHTML({
-    // @ts-expect-error - rawContent is not a valid SerializedEditorState, but convertLexicalToHTML expects it
-    // we know it is valid, but TypeScript doesn't
-    data: rawContent,
-  });
 
   const base = {
     breadcrumbs,
