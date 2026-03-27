@@ -20,7 +20,8 @@ type Props = PageProps & {
   categories?: ProductCategory[];
   content: string;
   excerpt?: string;
-  date: string;
+  createdAt: string;
+  updatedAt?: string;
 };
 
 const {
@@ -28,10 +29,11 @@ const {
   fullSlug,
   breadcrumbs,
   content,
-  date,
   featuredImage,
   categories,
   description,
+  createdAt,
+  updatedAt,
 } = Astro.props;
 ---
 
@@ -46,15 +48,29 @@ const {
       <h1>{title}</h1>
 
       <div class="blog-post-meta">
-        <time datetime={date}>
+        Articolo creato il <time datetime={createdAt}>
           {
-            new Date(date).toLocaleDateString("it-IT", {
+            new Date(createdAt).toLocaleDateString("it-IT", {
               year: "numeric",
               month: "long",
               day: "numeric",
             })
           }
         </time>
+        {
+          updatedAt && (
+            <>
+              e aggiornato il
+              <time datetime={updatedAt}>
+                {new Date(updatedAt).toLocaleDateString("it-IT", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+            </>
+          )
+        }
         {
           categories && categories.length > 0 && (
             <div class="blog-post-categories">

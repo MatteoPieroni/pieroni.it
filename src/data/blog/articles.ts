@@ -27,6 +27,8 @@ export const getArticlePaths = ({
     url: cat.fullSlug,
   }));
   const content = convertLexicalToHTML({
+    // @ts-expect-error - rawContent is not a valid SerializedEditorState, but convertLexicalToHTML expects it
+    // we know it is valid, but TypeScript doesn't
     data: rawContent,
   });
 

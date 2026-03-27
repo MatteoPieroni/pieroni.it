@@ -33,7 +33,7 @@ export default defineConfig({
     compressor(),
   ],
   image: {
-    domains: ["https://images.pieroni.it", "https://be.pieroni.it"],
+    domains: ["images.pieroni.it", "pmnadcmtjyfsqpolnomd.storage.supabase.co"],
   },
   adapter: cloudflare({
     imageService: "compile",

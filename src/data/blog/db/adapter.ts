@@ -15,6 +15,8 @@ const CategoryArticleSchema = z.object({
   title: z.string(),
   fullSlug: z.string(),
   featuredImage: MediaSchema,
+  excerpt: z.string(),
+  updatedAt: z.string(),
 });
 const CategorySchema = z.object({
   id: z.number(),
@@ -39,7 +41,7 @@ const ArticleSchema = z.object({
   slug: z.string(),
   fullSlug: z.string(),
   excerpt: z.string(),
-  content: z.object({ root: z.any() }),
+  content: z.object({ root: z.looseObject({}) }),
   featuredImage: MediaSchema,
   mainCategory: ArticleCategorySchema,
   categories: z.array(ArticleCategorySchema),

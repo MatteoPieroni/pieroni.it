@@ -44,6 +44,8 @@ type CategoryPageProps = {
     fullSlug: string;
     featuredImage: Image;
     title: string;
+    excerpt: string;
+    updatedAt: string;
   }[];
   subCategories?: {
     url: string;
@@ -158,7 +160,8 @@ const formattedBreadcrumbs = [
       featuredImage={props.featuredImage}
       categories={props.categories}
       content={props.content}
-      date={props.createdAt}
+      createdAt={props.createdAt}
+      updatedAt={props.updatedAt}
       excerpt={props.excerpt}
       description={props.excerpt}
     />

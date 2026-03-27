@@ -13,6 +13,8 @@ interface Article {
     url: string;
   };
   title: string;
+  excerpt: string;
+  updatedAt: string;
 }
 
 type Props = Omit<PageProps, "description"> & {
@@ -118,13 +120,13 @@ const {
               <h2>Articoli</h2>
               {articles.map((article) => (
                 <article class="blog-post">
-                  <!-- <time class="blog-post-date" datetime={ar.date}>
-                    {new Date(article.createdAt).toLocaleDateString("it-IT", {
+                  <time class="blog-post-date" datetime={article.updatedAt}>
+                    {new Date(article.updatedAt).toLocaleDateString("it-IT", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
                     })}
-                  </time> -->
+                  </time>
 
                   {article.featuredImage && (
                     <div class="blog-post-image">
@@ -145,16 +147,16 @@ const {
                   >
                     <h2>{article.title}</h2>
                   </Link>
-                  <!-- {article.excerpt && (
+                  {article.excerpt && (
                     <div class="blog-post-excerpt">
-                      <div set:html={article.} />
+                      <p>{article.excerpt}</p>
 
                       <Link href={`/category${article.fullSlug}`}>
                         Continua a leggere
                         <span class="screen-reader-text"> {article.title}</span>
                       </Link>
                     </div>
-                  )} -->
+                  )}
                 </article>
               ))}
             </div>
@@ -281,10 +283,6 @@ const {
   .blog-post-excerpt {
     margin-block-end: 1rem;
     font-size: 0.9rem;
-  }
-
-  .blog-post-excerpt p {
-    margin: 0;
   }
 
   .blog-post-date {

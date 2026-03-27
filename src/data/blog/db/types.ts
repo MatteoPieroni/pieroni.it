@@ -5,6 +5,8 @@ export type DbCategoryArticle = {
   title: string;
   fullSlug: string;
   featuredImage: Media;
+  excerpt: string;
+  updatedAt: string;
 };
 export type DbCategory = {
   id: number;
@@ -26,7 +28,7 @@ export type DbArticle = {
   title: string;
   slug: string;
   excerpt: string;
-  content: SerializedEditorState;
+  content: { root: Record<string, unknown> };
   featuredImage: Media;
   mainCategory: DbArticleCategory;
   categories: DbArticleCategory[];
