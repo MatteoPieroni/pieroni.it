@@ -1,3 +1,4 @@
+import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import type { Breadcrumb, Media } from "../../shared-types";
 
 export type DbCategoryArticle = {
@@ -25,7 +26,7 @@ export type DbArticle = {
   title: string;
   slug: string;
   excerpt: string;
-  content: Record<string, unknown>;
+  content: SerializedEditorState;
   featuredImage: Media;
   mainCategory: DbArticleCategory;
   categories: DbArticleCategory[];

@@ -49,7 +49,7 @@ export type ArticlePageData = {
   title: string;
   slug: string;
   excerpt: string;
-  content: Record<string, unknown>;
+  content: string;
   featuredImage: Media;
   fullSlug: string;
   updatedAt: string;
