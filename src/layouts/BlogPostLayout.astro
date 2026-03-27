@@ -1,48 +1,45 @@
 ---
 import MenuLayout from "./MenuLayout.astro";
 import Image from "../components/Image.astro";
-import { getMetaDescriptionFromHtmlDescription } from "../utils/seo";
 import Link from "../components/Link.astro";
+import type { PageProps } from "./types";
 
-interface Props {
-  title: string;
-  permalink: string;
-  breadcrumbs: Array<{
-    label: string;
-    href: string;
-  }>;
+interface ProductImage {
+  url: string;
+  alt?: string;
+}
+
+interface ProductCategory {
+  name: string;
+  url?: string;
+}
+
+type Props = PageProps & {
+  featuredImage: ProductImage;
+  fullSlug: string;
+  categories?: ProductCategory[];
   content: string;
   excerpt?: string;
   date: string;
-  featuredImage?: {
-    src: string;
-    alt: string;
-  };
-  categories?: Array<{
-    name: string;
-    slug: string;
-  }>;
-}
+};
 
 const {
   title,
-  permalink,
+  fullSlug,
   breadcrumbs,
   content,
-  excerpt,
   date,
   featuredImage,
   categories,
+  description,
 } = Astro.props;
-
-const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
 ---
 
 <MenuLayout
   breadcrumbs={breadcrumbs}
   title={title}
-  description={parsedDescription}
-  canonicalUrl={`/category/${permalink}`}
+  description={description}
+  canonicalUrl={`/category/${fullSlug}`}
 >
   <article class="margin-container blog-post">
     <header class="blog-post-header">
@@ -64,7 +61,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
               {categories.map((cat, index) => (
                 <>
                   {index > 0 && ", "}
-                  <Link href={`/category/${cat.slug}/`}>{cat.name}</Link>
+                  <Link href={`/category/${cat.url}/`}>{cat.name}</Link>
                 </>
               ))}
             </div>
@@ -77,7 +74,7 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
       featuredImage && (
         <div class="blog-post-featured-image">
           <Image
-            src={featuredImage.src}
+            src={featuredImage.url}
             alt={featuredImage.alt || title}
             loading="eager"
             remote
@@ -86,8 +83,6 @@ const parsedDescription = getMetaDescriptionFromHtmlDescription(excerpt);
         </div>
       )
     }
-
-    {excerpt && <div class="blog-post-excerpt" set:html={excerpt} />}
 
     <div class="blog-post-content" set:html={content} />
   </article>

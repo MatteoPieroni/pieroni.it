@@ -1,197 +1,166 @@
 ---
-import {
-  getAllBlogCategories,
-  getCategoriesFromId,
-  getCategoriesFromSlug,
-} from "../../data/blog";
+import { getAllCategories } from "../../data/blog";
 import BlogCategoryLayout from "../../layouts/BlogCategoryLayout.astro";
 import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
-import { remoteToLocalUrl, swapImageUrlDomain } from "../../utils/remoteLinks";
-import blogCategoriesData from "../../data/blog/categories.json";
-import { getFlatCategories } from "../../data/blog/utils";
 
 export async function getStaticPaths() {
-  const { categories, postsPages } = await getAllBlogCategories();
+  const { categories, articlesPages, allCategories } = await getAllCategories();
 
-  const categoryPages = categories.map(({ slug, ...category }) => ({
+  const categoryPages: {
+    params: { slug: string };
+    props: CategoryPageProps;
+  }[] = categories.map(({ slug, ...category }) => ({
     params: {
       slug,
     },
     props: {
       ...category,
+      allCategories,
     },
   }));
 
-  const usableProductPages = postsPages.map((page) => ({
+  const usableArticlePages: {
+    params: { slug: string };
+    props: ArticlePageProps;
+  }[] = articlesPages.map(({ slug, ...article }) => ({
     params: {
-      slug: page.slug,
+      slug,
     },
     props: {
-      post: page.product,
+      ...article,
     },
   }));
 
-  return [...categoryPages, ...usableProductPages];
+  return [...categoryPages, ...usableArticlePages];
 }
 
-interface Props {
-  post?: any;
-  products?: any[];
-  subCategories?: any[];
-  title?: string;
-  baseSlug?: string;
-  count?: {
+type Image = {
+  alt: string;
+  url: string;
+};
+
+type CategoryPageProps = {
+  articles: {
+    fullSlug: string;
+    featuredImage: Image;
+    title: string;
+  }[];
+  subCategories?: {
+    url: string;
+    name: string;
+    count: number;
+  }[];
+  count: {
     total: number;
     start: number;
     end: number;
   };
-  pagination?: {
-    current: PaginationPage;
-    previous: PaginationPage;
-    next: PaginationPage;
-    first: PaginationPage;
-    last: PaginationPage;
-  };
-}
+  allCategories: {
+    href: string;
+    title: string;
+  }[];
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
+};
+
+type ArticlePageProps = {
+  excerpt: string;
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+  featuredImage: Image;
+  categories: {
+    name: string;
+    url: string;
+  }[];
+};
+
+type Props = {
+  title: string;
+  fullSlug: string;
+  breadcrumbs: { label: string; url: string }[];
+} & (CategoryPageProps | ArticlePageProps);
 
 type PaginationPage = {
   number: number;
   href: string;
 };
 
-const {
-  post,
-  products,
-  subCategories,
-  title: catTitle,
-  baseSlug,
-  pagination,
-  count,
-} = Astro.props;
-const { slug } = Astro.params;
+const { title, fullSlug: passedFullSlug, breadcrumbs, ...props } = Astro.props;
 
-// Determine if this is a category page or product page
-const isCategoryPage = products && catTitle && count;
-const isPostPage = post;
+const fullSlug = `/category/${passedFullSlug}/`;
 
-// Initialize variables for both page types
-let formattedPosts: any[] = [];
-let formattedSubcategories: any[] = [];
-let title = "";
-let permalink = "";
-let date = "";
-let content = "";
-let excerpt = "";
-let categories: any[] = [];
-let featuredImage = undefined;
-let allCategories: { href: string; title: string }[] = [];
-
-// remove the numbered pages
-const cleanSlug = slug.replace(/\/page\/.*/, "");
-const categoriesForBreadcrumbs = getCategoriesFromSlug(
-  cleanSlug.split("/"),
-  blogCategoriesData,
-);
-
-const breadcrumbs = [
-  { label: "Blog", href: "/category/" },
-  ...categoriesForBreadcrumbs.reduce<{ label: string; href: string }[]>(
-    (acc, currentCategory) => {
-      const lastElementInAcc = acc.at(-1);
-
-      return [
-        ...acc,
-        {
-          label: currentCategory.name,
-          href: lastElementInAcc
-            ? `${lastElementInAcc.href}/${currentCategory.slug}`
-            : `/category/${currentCategory.slug}`,
-        },
-      ];
-    },
-    [],
-  ),
-];
-
-if (isCategoryPage) {
-  formattedPosts = (products || []).map((p: any) => ({
-    title: p.title.rendered,
-    excerpt: p.excerpt.rendered,
-    date: p.date,
-    // featuredImage?: {
-    //   src: string;
-    //   alt: string;
-    // };
-    id: p.id,
-    slug: p.slug,
-    permalink: remoteToLocalUrl(p.link),
-  }));
-
-  // Format subcategories
-  formattedSubcategories = (subCategories || []).map((subcat: any) => ({
-    name: subcat.name,
-    slug: `${cleanSlug}/${subcat.slug}`,
-    count: subcat.count || 0,
-  }));
-
-  allCategories = Object.values(getFlatCategories(blogCategoriesData))
-    .filter((cat) => cat.count > 0)
-    .map((cat) => ({
-      href: `/category/${cat.slug}`,
-      title: cat.name,
-    }));
-} else if (isPostPage) {
-  title = post.title.rendered;
-  permalink = remoteToLocalUrl(post.link);
-
-  date = post.date;
-
-  // Fetch featured image
-  if (post?._embedded?.["wp:featuredmedia"]?.[0]) {
-    const embeddedMedia = post._embedded["wp:featuredmedia"]?.[0];
-
-    featuredImage = {
-      src: swapImageUrlDomain(embeddedMedia.source_url),
-      alt: embeddedMedia?.alt_text || title,
-    };
+const checkIsCategoryPage = (
+  props: CategoryPageProps | ArticlePageProps,
+): props is CategoryPageProps => {
+  if ("articles" in props) {
+    return true;
   }
 
-  breadcrumbs.push({
-    label: title,
-    href: post.slug,
-  });
+  return false;
+};
 
-  // Prepare description
-  content = post.content.rendered;
-  excerpt = post.excerpt.rendered;
+// Determine if this is a category page or product page
+const isCategoryPage = checkIsCategoryPage(props);
 
-  // Prepare categories
-  categories = getCategoriesFromId(post?.categories || []);
-}
+const formattedBreadcrumbs = [
+  { label: "Blog", href: "/category/" },
+  ...breadcrumbs.map(({ url, label }) => ({
+    label,
+    href: `/category${url}/`,
+  })),
+  ...(!isCategoryPage
+    ? [
+        {
+          label: title,
+          href: fullSlug,
+        },
+      ]
+    : []),
+];
 ---
 
 {
   isCategoryPage ? (
     <BlogCategoryLayout
-      title={catTitle || "Categoria"}
-      baseSlug={baseSlug || ""}
-      breadcrumbs={breadcrumbs}
-      subcategories={formattedSubcategories}
-      pagination={pagination}
-      count={count}
-      posts={formattedPosts}
-      allCategories={allCategories}
-    />
-  ) : isPostPage ? (
-    <BlogPostLayout
-      content={content}
-      categories={categories}
       title={title}
-      permalink={permalink}
-      date={date}
-      breadcrumbs={breadcrumbs}
-      featuredImage={featuredImage}
-      excerpt={excerpt}
+      breadcrumbs={formattedBreadcrumbs}
+      fullSlug={fullSlug}
+      subcategories={props.subCategories}
+      pagination={props.pagination}
+      count={props.count}
+      articles={props.articles}
+      allCategories={props.allCategories}
     />
-  ) : null
+  ) : (
+    <BlogPostLayout
+      title={title}
+      breadcrumbs={formattedBreadcrumbs}
+      fullSlug={fullSlug}
+      featuredImage={props.featuredImage}
+      categories={props.categories}
+      content={props.content}
+      date={props.createdAt}
+      excerpt={props.excerpt}
+      description={props.excerpt}
+    />
+  )
 }

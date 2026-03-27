@@ -39,7 +39,7 @@ const ArticleSchema = z.object({
   slug: z.string(),
   fullSlug: z.string(),
   excerpt: z.string(),
-  content: z.object({}),
+  content: z.object({ root: z.any() }),
   featuredImage: MediaSchema,
   mainCategory: ArticleCategorySchema,
   categories: z.array(ArticleCategorySchema),

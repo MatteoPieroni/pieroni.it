@@ -20,9 +20,17 @@ export const getAllCategories = async (
 ) => {
   const categoriesPages = await getCategoriesPages(fetchCategories);
   const articlesPages = await getArticlesPages(fetchArticles);
+  const allCategoriesList = await fetchCategories();
+  const allCategories = allCategoriesList
+    .filter((cat) => cat.count > 0)
+    .map((cat) => ({
+      href: `/category/${cat.fullSlug}`,
+      title: cat.name,
+    }));
 
   return {
     categories: categoriesPages,
     articlesPages,
+    allCategories,
   };
 };
