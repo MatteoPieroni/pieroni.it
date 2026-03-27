@@ -8,7 +8,6 @@ type CategoryLike = {
   name: string;
 };
 type SubEntityLike = {
-  name: string;
   fullSlug: string;
   featuredImage: Media;
 };
@@ -38,15 +37,18 @@ export const getSubcategories: <CategoryType extends CategoryLike>(
   });
 };
 
-export const splitEntityIntoPages = (array: SubEntityLike[], limit: number) => {
-  const splitProducts = [];
+export const splitEntityIntoPages = <T extends SubEntityLike>(
+  array: T[],
+  limit: number,
+) => {
+  const splitEntities = [];
 
   for (let index = 0; index < array.length; index += limit) {
-    const pageProducts = array.slice(index, index + limit);
-    splitProducts.push(pageProducts);
+    const pageEntities = array.slice(index, index + limit);
+    splitEntities.push(pageEntities);
   }
 
-  return splitProducts;
+  return splitEntities;
 };
 
 export const getCount = (
