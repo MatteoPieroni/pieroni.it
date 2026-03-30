@@ -1,54 +1,5 @@
-type Media = {
-  alt: string;
-  url: string;
-};
-
-type Breadcrumb = {
-  url: string;
-  label: string;
-};
-
-export type DbCategoryProduct = {
-  name: string;
-  fullSlug: string;
-  featuredImage: Media;
-};
-export type DbCategory = {
-  id: number;
-  name: string;
-  slug: string;
-  featuredImage?: Media | null;
-  count: number;
-  fullSlug: string;
-  breadcrumbs: (Breadcrumb | null)[];
-  parent?: number | null;
-  products: DbCategoryProduct[];
-};
-
-type DbProductCategory = Pick<
-  DbCategory,
-  "breadcrumbs" | "fullSlug" | "name" | "slug"
->;
-export type DbProduct = {
-  id: number;
-  name: string;
-  slug: string;
-  fullSlug: string;
-  description: string;
-  fullDescription: string;
-  featuredImage: Media;
-  images: Media[] | null;
-  mainCategory: DbProductCategory;
-  categories: DbProductCategory[];
-  formats: string | null;
-  brand: string | null;
-};
-
-export type SubCategory = {
-  url: string;
-  name: string;
-  count: number;
-};
+import type { Breadcrumb, Media, SubCategory } from "../shared-types";
+import type { DbCategory, DbCategoryProduct } from "./db/types";
 
 export type Category = Exclude<DbCategory, "parent"> & {
   subCategories?: SubCategory[];

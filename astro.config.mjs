@@ -7,15 +7,13 @@ import sitemap from "@astrojs/sitemap";
 import compress from "@playform/compress";
 import compressor from "astro-compressor";
 
-import { redirectFixed, redirects } from "./src/config/redirects";
+import { redirects } from "./src/config/redirects";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.pieroni.it",
   trailingSlash: "always",
   integrations: [
-    // this is a temporary fix while waiting for https://github.com/withastro/astro/pull/16034 to be merged
-    // redirectFixed,
     icon(),
     pagefind(),
     sitemap(),
@@ -35,7 +33,7 @@ export default defineConfig({
     compressor(),
   ],
   image: {
-    domains: ["https://images.pieroni.it", "https://be.pieroni.it"],
+    domains: ["images.pieroni.it", "pmnadcmtjyfsqpolnomd.storage.supabase.co"],
   },
   adapter: cloudflare({
     imageService: "compile",

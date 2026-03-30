@@ -1,62 +1,52 @@
 import * as z from "zod";
-import type { DbCategory } from "../types";
+import type { DbArticle, DbCategory } from "./types";
 
 const MediaSchema = z.object({
   alt: z.string(),
   url: z.string(),
 });
 
-const CategoryProductSchema = z.object({
-  name: z.string(),
+const BreadcrumbSchema = z.object({
+  url: z.string(),
+  label: z.string(),
+});
+
+const CategoryArticleSchema = z.object({
+  title: z.string(),
   fullSlug: z.string(),
-  featuredImage: z.object({
-    url: z.string(),
-    alt: z.string(),
-  }),
+  featuredImage: MediaSchema,
+  excerpt: z.string(),
+  updatedAt: z.string(),
 });
 const CategorySchema = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
-  featuredImage: z.optional(z.nullable(MediaSchema)),
   count: z.number(),
   fullSlug: z.string(),
-  breadcrumbs: z.array(
-    z.nullable(
-      z.object({
-        url: z.string(),
-        label: z.string(),
-      }),
-    ),
-  ),
-  products: z.array(CategoryProductSchema),
+  breadcrumbs: z.array(BreadcrumbSchema),
+  articles: z.array(CategoryArticleSchema),
   parent: z.optional(z.number()),
 });
 
-const ProductCategorySchema = z.object({
+const ArticleCategorySchema = z.object({
   slug: z.string(),
   name: z.string(),
   fullSlug: z.string(),
-  breadcrumbs: z.array(
-    z.object({
-      url: z.string(),
-      label: z.string(),
-    }),
-  ),
+  breadcrumbs: z.array(BreadcrumbSchema),
 });
-const ProductSchema = z.object({
+const ArticleSchema = z.object({
   id: z.number(),
-  name: z.string(),
+  title: z.string(),
   slug: z.string(),
   fullSlug: z.string(),
-  description: z.string(),
-  fullDescription: z.string(),
+  excerpt: z.string(),
+  content: z.object({ root: z.looseObject({}) }),
   featuredImage: MediaSchema,
-  images: z.nullable(z.array(MediaSchema)),
-  mainCategory: ProductCategorySchema,
-  categories: z.array(ProductCategorySchema),
-  formats: z.nullable(z.string()),
-  brand: z.nullable(z.string()),
+  mainCategory: ArticleCategorySchema,
+  categories: z.array(ArticleCategorySchema),
+  createdAt: z.string(),
+  updatedAt: z.string(),
 });
 
 export const getCategories = async () => {
@@ -66,7 +56,7 @@ export const getCategories = async () => {
   const categories: DbCategory[] = [];
 
   try {
-    const response = await fetch(`${BE_URL}/shop-categories`, {
+    const response = await fetch(`${BE_URL}/blog/categories`, {
       headers: {
         Authorization: `users API-Key ${API_KEY}`,
         "Content-Type": "application/json",
@@ -104,14 +94,14 @@ export const getCategories = async () => {
   }
 };
 
-export const getProducts = async (page = 1) => {
+export const getArticles = async (page = 1) => {
   const API_KEY = import.meta.env.API_KEY;
   const BE_URL = import.meta.env.BE_URL;
 
-  const products: z.infer<typeof ProductSchema>[] = [];
+  const articles: DbArticle[] = [];
 
   while (true) {
-    const response = await fetch(`${BE_URL}/shop-products?page=${page}`, {
+    const response = await fetch(`${BE_URL}/blog/articles?page=${page}`, {
       headers: {
         Authorization: `users API-Key ${API_KEY}`,
         "Content-Type": "application/json",
@@ -122,21 +112,21 @@ export const getProducts = async (page = 1) => {
       break;
     }
 
-    const productsResponse = await response.json();
-    if (productsResponse.data.products.length === 0) {
+    const articlesResponse = await response.json();
+    if (articlesResponse.data.articles.length === 0) {
       break;
     }
 
-    for (const pageProduct of productsResponse.data.products) {
-      products.push(ProductSchema.parse(pageProduct));
+    for (const pageArticle of articlesResponse.data.articles) {
+      articles.push(ArticleSchema.parse(pageArticle));
     }
 
-    if (!productsResponse.data.hasNextPage) {
+    if (!articlesResponse.data.hasNextPage) {
       break;
     }
 
     page++;
   }
 
-  return products;
+  return articles;
 };

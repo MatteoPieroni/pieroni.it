@@ -15,6 +15,7 @@
     "@astrojs/sitemap": "^3.7.0",
     "@fontsource/source-sans-pro": "^5.2.5",
     "@iconify-json/tabler": "^1.2.26",
+    "@payload-bites/astro-richtext-renderer": "^2.2.0",
     "@unpic/astro": "^1.0.2",
     "astro": "^5.16.11",
     "astro-icon": "^1.1.5",
@@ -22,7 +23,7 @@
     "astro-seo": "^1.1.0",
     "fslightbox": "3.7.4",
     "pagefind": "^1.4.0",
-    "zod": "^3.25.76"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@playform/compress": "0.2.1",

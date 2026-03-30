@@ -1,7 +1,8 @@
 import { describe, expect, test } from "vitest";
 
 import { getProductPaths } from "./products";
-import type { DbProduct, ProductPageData } from "../types";
+import type { DbProduct } from "./db/types";
+import type { ProductPageData } from "./types";
 
 const dummyDbProduct = {
   id: 1,

@@ -21,7 +21,7 @@ export const getCategoryPaths = (
     slug,
     breadcrumbs: catBreadcrumbs,
     count,
-    products: originalProducts,
+    articles: originalArticles,
     subCategories,
   }: Category,
   limit: number,
@@ -29,15 +29,15 @@ export const getCategoryPaths = (
   const title = name;
   const breadcrumbs = catBreadcrumbs.filter((crumb) => crumb !== null);
 
-  const hasPagination = originalProducts.length > limit;
+  const hasPagination = originalArticles.length > limit;
 
-  const splitProducts =
-    originalProducts.length === 0
-      ? // this is a little hack for empty product pages, we pass
-        // an empty array, so the products will still be populated
+  const splitArticles =
+    originalArticles.length === 0
+      ? // this is a little hack for empty articles pages, we pass
+        // an empty array, so the articles will still be populated
         [[]]
-      : splitEntityIntoPages(originalProducts, limit);
-  const fullSlugPagesWithProduct = splitProducts.map((products, index) => {
+      : splitEntityIntoPages(originalArticles, limit);
+  const fullSlugPagesWithArticles = splitArticles.map((articles, index) => {
     const pageFullSlug = `${fullSlug}/page`;
     const index1Base = index + 1;
     const pagedSlug = `${pageFullSlug}/${index1Base}`;
@@ -49,12 +49,12 @@ export const getCategoryPaths = (
       slug: pagedSlug,
       fullSlug: index === 0 ? fullSlug : pagedFullSlug,
       count: getCount(count, index1Base, limit),
-      products,
+      articles,
       ...(hasPagination && {
         pagination: getPagination(
           pagedSlug,
           index1Base,
-          splitProducts.length,
+          splitArticles.length,
           pageFullSlug,
         ),
       }),
@@ -71,7 +71,7 @@ export const getCategoryPaths = (
             pagination: getPagination(
               fullSlug,
               index1Base,
-              splitProducts.length,
+              splitArticles.length,
               pageFullSlug,
             ),
           }),
@@ -85,10 +85,10 @@ export const getCategoryPaths = (
 
   // in this case we are at a category without parents
   if (slug === fullSlug) {
-    return fullSlugPagesWithProduct.flat();
+    return fullSlugPagesWithArticles.flat();
   }
 
-  const slugPagesWithProduct = splitProducts.map((products, index) => {
+  const slugPagesWithArticles = splitArticles.map((articles, index) => {
     const pageBaseSlug = `${slug}/page`;
     const index1Base = index + 1;
     const pagedSlug = `${pageBaseSlug}/${index1Base}`;
@@ -99,13 +99,13 @@ export const getCategoryPaths = (
       breadcrumbs,
       slug: pagedSlug,
       fullSlug: index === 0 ? fullSlug : pagedFullSlug,
-      products,
+      articles,
       count: getCount(count, index1Base, limit),
       ...(hasPagination && {
         pagination: getPagination(
           pagedSlug,
           index1Base,
-          splitProducts.length,
+          splitArticles.length,
           pageBaseSlug,
         ),
       }),
@@ -122,7 +122,7 @@ export const getCategoryPaths = (
             pagination: getPagination(
               slug,
               index1Base,
-              splitProducts.length,
+              splitArticles.length,
               pageBaseSlug,
             ),
           }),
@@ -134,7 +134,7 @@ export const getCategoryPaths = (
     return page;
   });
 
-  return [...fullSlugPagesWithProduct.flat(), ...slugPagesWithProduct.flat()];
+  return [...fullSlugPagesWithArticles.flat(), ...slugPagesWithArticles.flat()];
 };
 
 export const getCategoriesPages = async (

@@ -3,31 +3,26 @@ import MenuLayout from "./MenuLayout.astro";
 import Pagination from "../components/Pagination.astro";
 import Image from "../components/Image.astro";
 import { Icon } from "astro-icon/components";
+import type { PageProps } from "./types";
 import Link from "../components/Link.astro";
 
-interface BlogPost {
-  id: number;
-  title: string;
-  permalink: string;
-  excerpt: string;
-  date: string;
-  featuredImage?: {
-    src: string;
+interface Article {
+  fullSlug: string;
+  featuredImage: {
     alt: string;
+    url: string;
   };
+  title: string;
+  excerpt: string;
+  updatedAt: string;
 }
 
-interface Props {
-  title: string;
-  baseSlug: string;
-  breadcrumbs: Array<{
-    label: string;
-    href: string;
-  }>;
-  posts: BlogPost[];
+type Props = Omit<PageProps, "description"> & {
+  articles: Article[];
+  fullSlug: string;
   subcategories?: Array<{
     name: string;
-    slug: string;
+    url: string;
     count: number;
   }>;
   count: {
@@ -35,18 +30,31 @@ interface Props {
     start: number;
     end: number;
   };
-  pagination?: {
-    current: PaginationPage;
-    previous: PaginationPage;
-    next: PaginationPage;
-    first: PaginationPage;
-    last: PaginationPage;
-  };
   allCategories: {
     href: string;
     title: string;
   }[];
-}
+  pagination?:
+    | {
+        current: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      }
+    | {
+        current: PaginationPage;
+        previous: PaginationPage;
+        next: PaginationPage;
+        first: PaginationPage;
+        last: PaginationPage;
+      };
+};
 
 type PaginationPage = {
   number: number;
@@ -55,9 +63,9 @@ type PaginationPage = {
 
 const {
   title,
-  baseSlug,
+  fullSlug,
   breadcrumbs,
-  posts,
+  articles,
   subcategories,
   count,
   pagination,
@@ -69,14 +77,14 @@ const {
   breadcrumbs={breadcrumbs}
   title={title}
   description={`Vedi tutti i post nella categoria ${title} del blog di Pieroni srl`}
-  canonicalUrl={`/category/${baseSlug}`}
+  canonicalUrl={`/category/${fullSlug}`}
 >
   <div class="margin-container">
     <header class="row-small">
       <h1>Categoria: {title}</h1>
 
       {
-        posts && posts.length > 0 && (
+        articles && articles.length > 0 && (
           <div class="archive-toolbar">
             <p class="result-count">
               Visualizzazione di {count.start}–{count.end} di {count.total}{" "}
@@ -96,7 +104,7 @@ const {
               <ul class="subcategories-list">
                 {subcategories.map((subcat) => (
                   <li>
-                    <Link href={`/category/${subcat.slug}/`} class="button">
+                    <Link href={`/category/${subcat.url}/`} class="button">
                       {subcat.name} ({subcat.count})
                     </Link>
                   </li>
@@ -107,25 +115,25 @@ const {
         }
 
         {
-          posts && posts.length > 0 && (
+          articles && articles.length > 0 && (
             <div class="row">
               <h2>Articoli</h2>
-              {posts.map((post) => (
+              {articles.map((article) => (
                 <article class="blog-post">
-                  <time class="blog-post-date" datetime={post.date}>
-                    {new Date(post.date).toLocaleDateString("it-IT", {
+                  <time class="blog-post-date" datetime={article.updatedAt}>
+                    {new Date(article.updatedAt).toLocaleDateString("it-IT", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
                     })}
                   </time>
 
-                  {post.featuredImage && (
+                  {article.featuredImage && (
                     <div class="blog-post-image">
-                      <Link href={`/category${post.permalink}`}>
+                      <Link href={`/category/${article.fullSlug}`}>
                         <Image
-                          src={post.featuredImage.src}
-                          alt={post.featuredImage.alt || post.title}
+                          src={article.featuredImage.url}
+                          alt={article.featuredImage.alt || article.title}
                           loading="lazy"
                           remote
                         />
@@ -134,18 +142,18 @@ const {
                   )}
 
                   <Link
-                    href={`/category${post.permalink}`}
+                    href={`/category/${article.fullSlug}`}
                     class="post-title-link"
                   >
-                    <h2>{post.title}</h2>
+                    <h2>{article.title}</h2>
                   </Link>
-                  {post.excerpt && (
+                  {article.excerpt && (
                     <div class="blog-post-excerpt">
-                      <div set:html={post.excerpt} />
+                      <p>{article.excerpt}</p>
 
-                      <Link href={`/category${post.permalink}`}>
+                      <Link href={`/category${article.fullSlug}`}>
                         Continua a leggere
-                        <span class="screen-reader-text"> {post.title}</span>
+                        <span class="screen-reader-text"> {article.title}</span>
                       </Link>
                     </div>
                   )}
@@ -156,7 +164,7 @@ const {
         }
 
         {
-          (!posts || posts.length === 0) && (
+          (!articles || articles.length === 0) && (
             <p>Nessun articolo trovato in questa categoria.</p>
           )
         }
@@ -180,7 +188,7 @@ const {
     </div>
 
     {
-      posts && posts.length > 0 && pagination && (
+      articles && articles.length > 0 && pagination && (
         <div class="row archive-toolbar">
           <Pagination pagination={pagination} basePath="/category" />
         </div>
@@ -275,10 +283,6 @@ const {
   .blog-post-excerpt {
     margin-block-end: 1rem;
     font-size: 0.9rem;
-  }
-
-  .blog-post-excerpt p {
-    margin: 0;
   }
 
   .blog-post-date {

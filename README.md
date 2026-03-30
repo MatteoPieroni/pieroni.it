@@ -12,6 +12,7 @@ This repository contains the code for Pieroni srl website.
 ### Back End
 
 - Wordpress
+- Payload CMS
 
 ### Styles
 
@@ -27,12 +28,27 @@ This repository contains the code for Pieroni srl website.
 
 ## TODO
 
+- mobile menu revamp
+- old articles disclaimer
+- cta block
+
+### Articles
+
+### SEO
+
+- better schema data
+- redirect old articles
+- new content
+  - cornerstone articles
+  - spruce up
+- workers?
+- trailing slash redirects (https://github.com/withastro/astro/pull/16034)
+
 ### Perf
 
-- caching of html
-- caching of assets
+- caching of images
+- homepage image
 
 ### Architecture
 
-- tighten product types
 - tighten post types

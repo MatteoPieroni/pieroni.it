@@ -1,4 +1,4 @@
-import { getCategories, getProducts } from "./adapter";
+import { getCategories, getProducts } from "./db/adapter";
 import { getCategoriesPages } from "./categories";
 import { getProductsPages } from "./products";
 
