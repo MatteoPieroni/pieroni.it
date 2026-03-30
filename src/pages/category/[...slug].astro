@@ -1,4 +1,5 @@
 ---
+import type { CategoryPageProps as BaseCategoryPageProps } from "../../layouts/types";
 import { getAllCategories } from "../../data/blog";
 import BlogCategoryLayout from "../../layouts/BlogCategoryLayout.astro";
 import BlogPostLayout from "../../layouts/BlogPostLayout.astro";
@@ -39,54 +40,25 @@ type Image = {
   url: string;
 };
 
-type CategoryPageProps = {
+type CategoryPageProps = BaseCategoryPageProps & {
   articles: {
     fullSlug: string;
     featuredImage: Image;
     title: string;
     excerpt: string;
-    updatedAt: string;
+    createdAt: string;
+    contentUpdatedAt: string;
   }[];
-  subCategories?: {
-    url: string;
-    name: string;
-    count: number;
-  }[];
-  count: {
-    total: number;
-    start: number;
-    end: number;
-  };
   allCategories: {
     href: string;
     title: string;
   }[];
-  pagination?:
-    | {
-        current: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      };
 };
 
 type ArticlePageProps = {
   excerpt: string;
-  content: string;
-  updatedAt: string;
+  content: Record<string, unknown>;
+  contentUpdatedAt: string;
   createdAt: string;
   featuredImage: Image;
   categories: {
@@ -146,7 +118,7 @@ const formattedBreadcrumbs = [
       title={title}
       breadcrumbs={formattedBreadcrumbs}
       fullSlug={fullSlug}
-      subcategories={props.subCategories}
+      subCategories={props.subCategories}
       pagination={props.pagination}
       count={props.count}
       articles={props.articles}
@@ -161,7 +133,7 @@ const formattedBreadcrumbs = [
       categories={props.categories}
       content={props.content}
       createdAt={props.createdAt}
-      updatedAt={props.updatedAt}
+      contentUpdatedAt={props.contentUpdatedAt}
       excerpt={props.excerpt}
       description={props.excerpt}
     />

@@ -5,7 +5,8 @@ export type DbCategoryArticle = {
   fullSlug: string;
   featuredImage: Media;
   excerpt: string;
-  updatedAt: string;
+  createdAt: string;
+  contentUpdatedAt: string;
 };
 export type DbCategory = {
   id: number;
@@ -32,6 +33,6 @@ export type DbArticle = {
   mainCategory: DbArticleCategory;
   categories: DbArticleCategory[];
   fullSlug: string;
-  updatedAt: string;
   createdAt: string;
+  contentUpdatedAt: string;
 };

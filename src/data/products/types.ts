@@ -25,6 +25,7 @@ export type ProductPageData = {
   formats: string | null;
   brand: string | null;
   breadcrumbs: Breadcrumb[];
+  contentUpdatedAt?: string | null;
   categories: {
     name: string;
     url: string;

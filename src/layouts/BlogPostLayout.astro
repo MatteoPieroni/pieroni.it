@@ -24,10 +24,10 @@ type Props = PageProps & {
   featuredImage: ProductImage;
   fullSlug: string;
   categories?: ProductCategory[];
-  content: string;
+  content: Record<string, unknown>;
   excerpt?: string;
   createdAt: string;
-  updatedAt?: string;
+  contentUpdatedAt: string;
 };
 
 const {
@@ -39,7 +39,7 @@ const {
   categories,
   description,
   createdAt,
-  updatedAt,
+  contentUpdatedAt,
 } = Astro.props;
 
 const astroConverters: AstroConvertersFunction = ({ defaultConverters }) => ({
@@ -72,11 +72,11 @@ const astroConverters: AstroConvertersFunction = ({ defaultConverters }) => ({
             }
           </time>
           {
-            updatedAt && (
+            contentUpdatedAt && (
               <>
                 e aggiornato il
-                <time datetime={updatedAt}>
-                  {new Date(updatedAt).toLocaleDateString("it-IT", {
+                <time datetime={contentUpdatedAt}>
+                  {new Date(contentUpdatedAt).toLocaleDateString("it-IT", {
                     year: "numeric",
                     month: "long",
                     day: "numeric",
@@ -115,6 +115,7 @@ const astroConverters: AstroConvertersFunction = ({ defaultConverters }) => ({
       )
     }
 
+    {/** @ts-expect-error we do not have access to payload types */}
     <RichText data={content} converters={astroConverters} />
   </article>
 </MenuLayout>

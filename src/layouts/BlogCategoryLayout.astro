@@ -14,7 +14,8 @@ interface Article {
   };
   title: string;
   excerpt: string;
-  updatedAt: string;
+  createdAt: string;
+  contentUpdatedAt: string;
 }
 
 type Props = Omit<PageProps, "description"> &
@@ -41,7 +42,6 @@ const {
   count,
   pagination,
   allCategories,
-  ...props
 } = Astro.props;
 ---
 
@@ -92,12 +92,18 @@ const {
               <h2>Articoli</h2>
               {articles.map((article) => (
                 <article class="blog-post">
-                  <time class="blog-post-date" datetime={article.updatedAt}>
-                    {new Date(article.updatedAt).toLocaleDateString("it-IT", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
+                  <time
+                    class="blog-post-date"
+                    datetime={article.contentUpdatedAt}
+                  >
+                    {new Date(article.contentUpdatedAt).toLocaleDateString(
+                      "it-IT",
+                      {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      },
+                    )}
                   </time>
 
                   {article.featuredImage && (

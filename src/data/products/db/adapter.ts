@@ -66,7 +66,7 @@ export const getCategories = async () => {
   const categories: DbCategory[] = [];
 
   try {
-    const response = await fetch(`${BE_URL}/shop-categories`, {
+    const response = await fetch(`${BE_URL}/shop/categories`, {
       headers: {
         Authorization: `users API-Key ${API_KEY}`,
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ export const getProducts = async (page = 1) => {
   const products: DbProduct[] = [];
 
   while (true) {
-    const response = await fetch(`${BE_URL}/shop-products?page=${page}`, {
+    const response = await fetch(`${BE_URL}/shop/products?page=${page}`, {
       headers: {
         Authorization: `users API-Key ${API_KEY}`,
         "Content-Type": "application/json",

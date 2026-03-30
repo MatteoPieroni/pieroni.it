@@ -16,7 +16,8 @@ const CategoryArticleSchema = z.object({
   fullSlug: z.string(),
   featuredImage: MediaSchema,
   excerpt: z.string(),
-  updatedAt: z.string(),
+  createdAt: z.string(),
+  contentUpdatedAt: z.optional(z.nullable(z.string())),
 });
 const CategorySchema = z.object({
   id: z.number(),
@@ -46,7 +47,7 @@ const ArticleSchema = z.object({
   mainCategory: ArticleCategorySchema,
   categories: z.array(ArticleCategorySchema),
   createdAt: z.string(),
-  updatedAt: z.string(),
+  contentUpdatedAt: z.string(),
 });
 
 export const getCategories = async () => {

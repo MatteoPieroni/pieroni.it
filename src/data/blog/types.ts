@@ -21,8 +21,8 @@ export type ArticlePageData = {
   content: Record<string, unknown>;
   featuredImage: Media;
   fullSlug: string;
-  updatedAt: string;
   createdAt: string;
+  contentUpdatedAt: string;
   breadcrumbs: Breadcrumb[];
   categories: {
     name: string;

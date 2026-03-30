@@ -34,4 +34,5 @@ export type DbProduct = {
   categories: DbProductCategory[];
   formats: string | null;
   brand: string | null;
+  contentUpdatedAt?: string | null;
 };
