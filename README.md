@@ -30,15 +30,9 @@ This repository contains the code for Pieroni srl website.
 
 - mobile menu revamp
 - old articles disclaimer
-- gallery
+- cta block
 
 ### Articles
-
-- gmagic, does it still exist? Anything to substitute it with? (redirect a trasformare-la-vasca-in-doccia-i-materiali-giusti-per-un-cambio-volto-rapido-e-senza-stress)
-- mirage evo 2e (redirect a pavimenti-da-esterni-come-scegliere-la-superficie-perfetta-per-il-tuo-outdoor)
-- tagina woodays compact (redirect a ilcottotagina-il-fascino-del-cotto-la-forza-del-gres)
-- solarfocus therminator 2 (redirect a caldaia-a-pellet-prisma-h-di-edilkamin-efficienza-e-incentivi-per-la-tua-casa)
-- barbecue e griglie (redirect a forni-da-esterno)
 
 ### SEO
 

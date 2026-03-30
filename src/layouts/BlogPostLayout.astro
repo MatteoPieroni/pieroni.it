@@ -61,29 +61,31 @@ const astroConverters: AstroConvertersFunction = ({ defaultConverters }) => ({
       <h1>{title}</h1>
 
       <div class="blog-post-meta">
-        Articolo creato il <time datetime={createdAt}>
+        <span>
+          Articolo creato il <time datetime={createdAt}>
+            {
+              new Date(createdAt).toLocaleDateString("it-IT", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })
+            }
+          </time>
           {
-            new Date(createdAt).toLocaleDateString("it-IT", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })
+            updatedAt && (
+              <>
+                e aggiornato il
+                <time datetime={updatedAt}>
+                  {new Date(updatedAt).toLocaleDateString("it-IT", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </>
+            )
           }
-        </time>
-        {
-          updatedAt && (
-            <>
-              e aggiornato il
-              <time datetime={updatedAt}>
-                {new Date(updatedAt).toLocaleDateString("it-IT", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-            </>
-          )
-        }
+        </span>
         {
           categories && categories.length > 0 && (
             <div class="blog-post-categories">

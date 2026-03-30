@@ -18,7 +18,7 @@ type Props = {
 
 const {
   node: {
-    fields: { images },
+    fields: { id, images },
   },
 } = Astro.props;
 
@@ -28,7 +28,13 @@ const mappedImages = images.map((image) => image.image);
 <div class="gallery-images">
   {
     mappedImages.map((image) => (
-      <a href={image.url} data-fslightbox data-type="image">
+      <a
+        href={image.url}
+        data-fslightbox={id}
+        data-alt={image.alt}
+        data-type="image"
+        aria-label={`Apri galleria su immagine: ${image.alt}`}
+      >
         <Image src={image.url} alt={image.alt} loading="lazy" remote />
       </a>
     ))
