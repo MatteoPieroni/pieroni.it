@@ -117,8 +117,26 @@ const retiredArticles = {
     "https://www.pieroni.it/category/gli-speciali/forni-e-barbecue/forni-da-esterno/",
 };
 
+const movedArticles = {
+  "/category/blog/pieroni-srl/come-proteggere-la-nostra-casa-dai-batteri*":
+    "https://www.pieroni.it/category/gli-speciali/tecnologie-e-materiali/come-proteggere-la-nostra-casa-dai-batteri/",
+  "/category/pieroni-srl/come-proteggere-la-nostra-casa-dai-batteri*":
+    "https://www.pieroni.it/category/gli-speciali/tecnologie-e-materiali/come-proteggere-la-nostra-casa-dai-batteri/",
+
+  "/category/blog/pieroni-srl/progetto-fuoco-2014*":
+    "https://www.pieroni.it/category/blog/progetto-fuoco-2014/",
+  "/category/pieroni-srl/progetto-fuoco-2014*":
+    "https://www.pieroni.it/category/blog/progetto-fuoco-2014/",
+
+  "/category/blog/pieroni-srl/quanto-spendi-per-riscaldare-la-tua-casa*":
+    "https://www.pieroni.it/category/blog/quanto-spendi-per-riscaldare-la-tua-casa/",
+  "/category/pieroni-srl/quanto-spendi-per-riscaldare-la-tua-casa*":
+    "https://www.pieroni.it/category/blog/quanto-spendi-per-riscaldare-la-tua-casa/",
+};
+
 export const redirects = {
   ...oldSiteRedirects,
   ...retiredArticles,
   ...retiredLandings,
+  ...movedArticles,
 };
