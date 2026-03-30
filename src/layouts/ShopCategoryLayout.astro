@@ -2,7 +2,7 @@
 import MenuLayout from "./MenuLayout.astro";
 import Pagination from "../components/Pagination.astro";
 import Image from "../components/Image.astro";
-import type { PageProps } from "./types";
+import type { CategoryPageProps, PageProps } from "./types";
 import Link from "../components/Link.astro";
 
 interface Product {
@@ -14,40 +14,11 @@ interface Product {
   name: string;
 }
 
-type Props = Omit<PageProps, "description"> & {
-  products: Product[];
-  fullSlug: string;
-  subcategories?: Array<{
-    name: string;
-    url: string;
-    count: number;
-  }>;
-  count: {
-    total: number;
-    start: number;
-    end: number;
+type Props = Omit<PageProps, "description"> &
+  CategoryPageProps & {
+    products: Product[];
+    fullSlug: string;
   };
-  pagination?:
-    | {
-        current: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      };
-};
 
 type PaginationPage = {
   number: number;
@@ -59,7 +30,7 @@ const {
   fullSlug,
   breadcrumbs,
   products,
-  subcategories,
+  subCategories,
   count,
   pagination,
 } = Astro.props;
@@ -90,11 +61,11 @@ const {
     </header>
 
     {
-      subcategories && subcategories.length > 0 && (
+      subCategories && subCategories.length > 0 && (
         <div class="row">
           <h2>Sottocategorie</h2>
           <ul class="subcategories-list">
-            {subcategories.map((subcat) => (
+            {subCategories.map((subcat) => (
               <li>
                 <Link href={`/negozio/${subcat.url}/`} class="button">
                   {subcat.name} ({subcat.count})

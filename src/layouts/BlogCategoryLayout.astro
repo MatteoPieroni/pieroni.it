@@ -3,7 +3,7 @@ import MenuLayout from "./MenuLayout.astro";
 import Pagination from "../components/Pagination.astro";
 import Image from "../components/Image.astro";
 import { Icon } from "astro-icon/components";
-import type { PageProps } from "./types";
+import type { CategoryPageProps, PageProps } from "./types";
 import Link from "../components/Link.astro";
 
 interface Article {
@@ -17,44 +17,15 @@ interface Article {
   updatedAt: string;
 }
 
-type Props = Omit<PageProps, "description"> & {
-  articles: Article[];
-  fullSlug: string;
-  subcategories?: Array<{
-    name: string;
-    url: string;
-    count: number;
-  }>;
-  count: {
-    total: number;
-    start: number;
-    end: number;
+type Props = Omit<PageProps, "description"> &
+  CategoryPageProps & {
+    articles: Article[];
+    fullSlug: string;
+    allCategories: {
+      href: string;
+      title: string;
+    }[];
   };
-  allCategories: {
-    href: string;
-    title: string;
-  }[];
-  pagination?:
-    | {
-        current: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      };
-};
 
 type PaginationPage = {
   number: number;
@@ -66,10 +37,11 @@ const {
   fullSlug,
   breadcrumbs,
   articles,
-  subcategories,
+  subCategories,
   count,
   pagination,
   allCategories,
+  ...props
 } = Astro.props;
 ---
 
@@ -98,11 +70,11 @@ const {
     <div class="category-wrapper">
       <div>
         {
-          subcategories && subcategories.length > 0 && (
+          subCategories && subCategories.length > 0 && (
             <div class="row">
               <h2>Sottocategorie</h2>
               <ul class="subcategories-list">
-                {subcategories.map((subcat) => (
+                {subCategories.map((subcat) => (
                   <li>
                     <Link href={`/category/${subcat.url}/`} class="button">
                       {subcat.name} ({subcat.count})

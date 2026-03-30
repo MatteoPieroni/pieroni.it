@@ -1,3 +1,4 @@
+import type { CategoryPageProps } from "../../layouts/types";
 import type { Breadcrumb, Media, SubCategory } from "../shared-types";
 import type { DbCategory, DbCategoryArticle } from "./db/types";
 
@@ -10,40 +11,8 @@ export type CategoryPageData = {
   fullSlug: string;
   title: string;
   articles: DbCategoryArticle[];
-  subCategories?: SubCategory[];
   breadcrumbs: Breadcrumb[];
-
-  count: {
-    total: number;
-    start: number;
-    end: number;
-  };
-  pagination?:
-    | {
-        current: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      }
-    | {
-        current: PaginationPage;
-        previous: PaginationPage;
-        next: PaginationPage;
-        first: PaginationPage;
-        last: PaginationPage;
-      };
-};
-
-type PaginationPage = {
-  number: number;
-  href: string;
-};
+} & CategoryPageProps;
 
 export type ArticlePageData = {
   title: string;
