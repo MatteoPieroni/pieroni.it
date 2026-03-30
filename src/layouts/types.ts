@@ -11,7 +11,20 @@ type PropsWithBreadcrumbs = {
   }>;
 };
 
-export type PageProps = PropsWithBreadcrumbs & PropsWithSEO;
+type PropsWithArticle = {
+  article?: {
+    title: string;
+    description: string;
+    url: string;
+    canonicalUrl: string;
+    image: string;
+    categories: Array<{ name: string }>;
+    createdAt: string;
+    contentUpdatedAt: string;
+  };
+};
+
+export type PageProps = PropsWithBreadcrumbs & PropsWithSEO & PropsWithArticle;
 
 type SubCategory = {
   url: string;

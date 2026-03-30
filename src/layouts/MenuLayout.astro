@@ -9,7 +9,7 @@ import { ensureTrailingSlash } from "../utils/slugs";
 
 type Props = ({ isHome: true } & Omit<PageProps, "breadcrumbs">) | PageProps;
 
-const { title, description, canonicalUrl, ...props } = Astro.props;
+const { title, description, canonicalUrl, article, ...props } = Astro.props;
 const breadcrumbs = "breadcrumbs" in props ? props.breadcrumbs : undefined;
 const isHome = "isHome" in props ? props.isHome : undefined;
 ---
@@ -23,6 +23,7 @@ const isHome = "isHome" in props ? props.isHome : undefined;
     canonicalUrl={typeof canonicalUrl === "string"
       ? ensureTrailingSlash(canonicalUrl)
       : canonicalUrl}
+    article={article}
   />
 
   <body>

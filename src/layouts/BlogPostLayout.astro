@@ -21,6 +21,7 @@ interface ProductCategory {
 }
 
 type Props = PageProps & {
+  currentUrl: string;
   featuredImage: ProductImage;
   fullSlug: string;
   categories?: ProductCategory[];
@@ -31,6 +32,7 @@ type Props = PageProps & {
 };
 
 const {
+  currentUrl,
   title,
   fullSlug,
   breadcrumbs,
@@ -54,7 +56,17 @@ const astroConverters: AstroConvertersFunction = ({ defaultConverters }) => ({
   breadcrumbs={breadcrumbs}
   title={title}
   description={description}
-  canonicalUrl={`/category/${fullSlug}`}
+  canonicalUrl={`/category${fullSlug}`}
+  article={{
+    title,
+    description,
+    url: currentUrl,
+    canonicalUrl: `/category${fullSlug}`,
+    image: featuredImage.url,
+    categories: categories?.map((cat) => ({ name: cat.name })) || [],
+    createdAt,
+    contentUpdatedAt,
+  }}
 >
   <article class="margin-container blog-post">
     <header class="blog-post-header">

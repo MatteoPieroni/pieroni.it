@@ -17,7 +17,7 @@ const CategoryArticleSchema = z.object({
   featuredImage: MediaSchema,
   excerpt: z.string(),
   createdAt: z.string(),
-  contentUpdatedAt: z.optional(z.nullable(z.string())),
+  contentUpdatedAt: z.string(),
 });
 const CategorySchema = z.object({
   id: z.number(),

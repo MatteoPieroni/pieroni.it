@@ -73,12 +73,8 @@ type Props = {
   breadcrumbs: { label: string; url: string }[];
 } & (CategoryPageProps | ArticlePageProps);
 
-type PaginationPage = {
-  number: number;
-  href: string;
-};
-
 const { title, fullSlug: passedFullSlug, breadcrumbs, ...props } = Astro.props;
+const { slug } = Astro.params;
 
 const fullSlug = `/category/${passedFullSlug}/`;
 
@@ -126,6 +122,7 @@ const formattedBreadcrumbs = [
     />
   ) : (
     <BlogPostLayout
+      currentUrl={slug}
       title={title}
       breadcrumbs={formattedBreadcrumbs}
       fullSlug={fullSlug}

@@ -1,9 +1,9 @@
 ---
-import { Font } from 'astro:assets';
-import { SEO } from 'astro-seo';
-import Favicons from './Favicons.astro';
-import Schema from './Schema.astro';
-import type { PropsWithSEO } from '../../layouts/types';
+import { Font } from "astro:assets";
+import { SEO } from "astro-seo";
+import Favicons from "./Favicons.astro";
+import Schema from "./Schema.astro";
+import type { PropsWithSEO } from "../../layouts/types";
 
 type Props = PropsWithSEO & {
   breadcrumbs?: Array<{
@@ -11,11 +11,22 @@ type Props = PropsWithSEO & {
     href: string;
   }>;
   isHome?: true;
+  article?: {
+    title: string;
+    description: string;
+    url: string;
+    canonicalUrl: string;
+    image: string;
+    categories: Array<{ name: string }>;
+    createdAt: string;
+    contentUpdatedAt: string;
+  };
 };
 
-const { description, title, breadcrumbs, isHome, canonicalUrl } = Astro.props;
+const { description, title, breadcrumbs, isHome, canonicalUrl, article } =
+  Astro.props;
 
-const basePath = 'https://www.pieroni.it';
+const basePath = "https://www.pieroni.it";
 ---
 
 <head>
@@ -33,16 +44,16 @@ const basePath = 'https://www.pieroni.it';
       banner: {
         acceptButtonDisplay: true,
         customizeButtonDisplay: true,
-        acceptButtonColor: '#0073CE',
-        acceptButtonCaptionColor: 'white',
-        customizeButtonColor: '#DADADA',
-        customizeButtonCaptionColor: '#4D4D4D',
+        acceptButtonColor: "#0073CE",
+        acceptButtonCaptionColor: "white",
+        customizeButtonColor: "#DADADA",
+        customizeButtonCaptionColor: "#4D4D4D",
         rejectButtonDisplay: true,
-        rejectButtonColor: '#0073CE',
-        rejectButtonCaptionColor: 'white',
-        position: 'float-top-center',
-        textColor: 'black',
-        backgroundColor: 'white',
+        rejectButtonColor: "#0073CE",
+        rejectButtonCaptionColor: "white",
+        position: "float-top-center",
+        textColor: "black",
+        backgroundColor: "white",
         prependOnBody: false,
       },
     };
@@ -65,7 +76,7 @@ const basePath = 'https://www.pieroni.it';
 
   <meta charset="utf-8" />
 
-  <Font cssVariable="--font-sourceSansPro" preload={[{ weight: '300' }]} />
+  <Font cssVariable="--font-sourceSansPro" preload={[{ weight: "300" }]} />
 
   <slot name="page-specific-head" />
 
@@ -78,7 +89,11 @@ const basePath = 'https://www.pieroni.it';
     description={description}
     canonical={canonicalUrl ? `${basePath}${canonicalUrl}` : undefined}
   />
-  <Schema breadcrumbs={breadcrumbs} description={description} />
+  <Schema
+    breadcrumbs={breadcrumbs}
+    description={description}
+    article={article}
+  />
   <Favicons />
   <link rel="sitemap" href="/sitemap-index.xml" />
 </head>
