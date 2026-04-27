@@ -1,13 +1,14 @@
 ---
-import CategoryLayout from '../layouts/CategoryLayout.astro';
-import heroImageAsset from '../assets/images/pieroni-sala-mostra-riscaldamento-stufe-caldaie-camini-pellet-legna.jpg';
-import stufeImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-logo-sezioni.jpg';
-import caminiImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-edilkamin-sezioni.jpg';
-import caldaieImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-energy-plus-sezione.jpg';
-import pelletImage from '../assets/images/sala-mostra-riscaldamento-pellet-legna-combustibili-sezioni.jpg';
+import CategoryLayout from "../layouts/CategoryLayout.astro";
+import heroImageAsset from "../assets/images/pieroni-sala-mostra-riscaldamento-stufe-caldaie-camini-pellet-legna.jpg";
+import stufeImage from "../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-logo-sezioni.jpg";
+import caminiImage from "../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-edilkamin-sezioni.jpg";
+import caldaieImage from "../assets/images/sala-mostra-riscaldamento-pellet-legna-stufa-caldaia-camino-energy-plus-sezione.jpg";
+import pelletImage from "../assets/images/sala-mostra-riscaldamento-pellet-legna-combustibili-sezioni.jpg";
+import Featured from "../components/Featured.astro";
 
-const title = 'Riscaldamento, Stufe, Camini e Caldaie';
-const breadcrumbs = [{ label: title, href: '/stufe-caldaie-pellet/' }];
+const title = "Riscaldamento, Stufe, Camini e Caldaie";
+const breadcrumbs = [{ label: title, href: "/stufe-caldaie-pellet/" }];
 const heroImage = heroImageAsset;
 const description = `
   <p>Una <strong>stufa a pellet o a legna</strong> può cambiare la maniera di riscaldare le vostre stanze, e anche l'ambiente stesso.<br /> Vi offriamo una varietà di scelta che vi garantisce la migliore soluzione di funzionalità ed estetica, senza dimenticare il risparmio di queste fonti di calore rinnovabili.</p>
@@ -16,44 +17,44 @@ const description = `
 const gridItems = [
   {
     image: stufeImage,
-    imageAlt: 'Stufe',
-    title: 'Stufe',
+    imageAlt: "Stufe",
+    title: "Stufe",
     description: `
       <p>Una <strong>stufa a pellet o a legna</strong> può cambiare la maniera di riscaldare le vostre stanze, e anche l'ambiente stesso.<br /> Vi offriamo una varietà di scelta che vi garantisce la migliore soluzione di funzionalità ed estetica, senza dimenticare il risparmio di queste fonti di calore rinnovabili.</p>
     `,
-    linkHref: '/negozio/riscaldamento/stufe-a-pellet-e-legna/',
-    linkText: 'Scopri le nostre Stufe',
+    linkHref: "/negozio/riscaldamento/stufe-a-pellet-e-legna/",
+    linkText: "Scopri le nostre Stufe",
   },
   {
     image: caminiImage,
-    imageAlt: 'Camini',
-    title: 'Camini',
+    imageAlt: "Camini",
+    title: "Camini",
     description: `
       <p>Il camino ci evoca ricordi di infanzia, di calore e famiglia. Per questo è importante essere sicuri della qualità e della durata del nostro.<br /> La nostra consulenza vi garantisce la professionalità di esperti nel settore e la qualità delle migliori marche.</p>
     `,
-    linkHref: '/negozio/riscaldamento/camini-inserti/',
-    linkText: 'Scopri i nostri Camini',
+    linkHref: "/negozio/riscaldamento/camini-inserti/",
+    linkText: "Scopri i nostri Camini",
   },
   {
     image: caldaieImage,
-    imageAlt: 'Caldaie',
-    title: 'Caldaie',
+    imageAlt: "Caldaie",
+    title: "Caldaie",
     description: `
       <p>Una <strong>caldaia a pellet o a legna</strong> è la scelta migliore per il risparmio.<br /> Possiamo dirvi noi quale è la migliore per la vostra casa. Cosa state aspettando?</p>
     `,
-    linkHref: '/negozio/riscaldamento/caldaie-a-pellet/',
-    linkText: 'Scopri le nostre Caldaie',
+    linkHref: "/negozio/riscaldamento/caldaie-a-pellet/",
+    linkText: "Scopri le nostre Caldaie",
   },
   {
     image: pelletImage,
-    imageAlt: 'Pellet',
-    title: 'Pellet',
+    imageAlt: "Pellet",
+    title: "Pellet",
     description: `
       <p>Il pellet è un combustibile utilizzato per il riscaldamento, è molto economico, ecologico e di facile gestione.<br /> Gli elementi più importanti da considerare quando si parla di pellet sono la composizione, la certificazione, la provenienza, il potere calorico e la quantità di ceneri.</p>
       <p>Fra le migliori tipologie possiamo sicuramente considerare il pellet <strong>Norica</strong>, il pellet <strong>austriaco</strong> più in generale, il pellet di <strong>abete bianco</strong>…</p>
     `,
-    linkHref: '/negozio/riscaldamento/pellet-prezzi-offerta/',
-    linkText: 'Offerte e Prezzi Pellet',
+    linkHref: "/negozio/riscaldamento/pellet-prezzi-offerta/",
+    linkText: "Offerte e Prezzi Pellet",
   },
 ];
 ---
@@ -66,5 +67,11 @@ const gridItems = [
   seoTitle="Stufe, Camini e Caldaie a Pellet e Legna"
   description="Showroom di Stufe a Pellet, Inserti e Camini e Legna e Pellet, Caldaie Multi Combustibile. Le Migliori Marche come Edilkamin, Italiana Camini e Solarfocus"
 >
-  <Fragment slot="description" set:html={description} />
+  <div slot="description">
+    <div class="row">
+      <Fragment set:html={description} />
+    </div>
+
+    <Featured />
+  </div>
 </CategoryLayout>

@@ -4,7 +4,7 @@ import Locations from "../components/Locations.astro";
 import Professionals from "../components/Professionals.astro";
 import Image from "../components/Image.astro";
 import salaMostraImage from "../assets/images/salamostra.jpg";
-import heroFuocoImage from "../assets/images/hero-fuoco.jpg";
+import heroFuocoImage from "../assets/images/prestagionale-pellet-home.jpg";
 import Link from "../components/Link.astro";
 ---
 
@@ -22,14 +22,12 @@ import Link from "../components/Link.astro";
   description="Pieroni srl è il punto di riferimento per materiali edili, showroom e soluzioni per costruzioni e ristrutturazioni. Qualità, esperienza e consulenza professionale"
   isHome
 >
-  <header
-    class="home__header"
-    style={`background-image:url('${heroFuocoImage.src}')`}
-  >
-    <h1 class="page-title">
-      <span>Nuovi caminetti, stufe o generatori di calore a costo zero?</span>
-    </h1>
-    <Link class="button" href="/promo-camini/">Scopri subito!</Link>
+  <header class="home__header">
+    <Image src={heroFuocoImage} alt="" class="home__header__image" />
+    <div class="margin-container home__header__content">
+      <h1 class="page-title">Risparmia con il pellet prestagionale 2026</h1>
+      <Link class="button" href="/pellet/">Scopri subito!</Link>
+    </div>
   </header>
 
   <div class="link-sezioni">
@@ -153,7 +151,8 @@ import Link from "../components/Link.astro";
 
 <style>
   .home__header {
-    min-height: 70vh;
+    position: relative;
+    min-height: 500px;
     background-position: center;
     background-size: cover;
     padding: 0;
@@ -161,22 +160,54 @@ import Link from "../components/Link.astro";
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 3rem 1.5rem;
-  }
 
-  .home__header .page-title {
-    font-size: 2.5em;
-    color: var(--text-contrast);
-    margin-bottom: 2rem;
-    text-align: center;
-
-    @media (min-width: 960px) {
-      font-size: 4.5em;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.75);
+      z-index: 0;
     }
   }
 
-  .home__header .button {
-    padding: 1rem 2rem;
+  .home__header__content {
+    padding: 3rem 1.5rem;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+
+    .page-title {
+      margin-block-end: 0;
+      font-size: 2.5em;
+      line-height: 1.1em;
+      font-weight: bold;
+      color: var(--text-contrast);
+      text-align: center;
+
+      @media (min-width: 960px) {
+        font-size: 4.5em;
+      }
+    }
+
+    .button {
+      padding: 1rem 2rem;
+      margin: 0 auto;
+    }
+  }
+
+  .home__header__image {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
   }
 
   h2 {

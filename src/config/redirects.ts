@@ -55,10 +55,11 @@ const retiredLandings = {
   "/tv*": "https://www.pieroni.it/",
   "/eventi*": "https://www.pieroni.it/professionisti-edilizia/",
   "/primo-maggio*": "https://www.pieroni.it",
-  "/offerta-pellet-prestagionale-prezzi/":
+  "/offerta-pellet-prestagionale-prezzi*":
     "https://www.pieroni.it/negozio/riscaldamento/pellet-prezzi-offerta/",
-  "/stufa-pellet-tutto-compreso-989-euro/":
+  "/stufa-pellet-tutto-compreso-989-euro*":
     "https://www.pieroni.it/negozio/riscaldamento/stufe-a-pellet-e-legna/",
+  "/chiusura-camini*": "https://www.pieroni.it/stufe-caldaie-pellet/",
 };
 
 const retiredArticles = {

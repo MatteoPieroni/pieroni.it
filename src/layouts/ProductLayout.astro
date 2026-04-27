@@ -3,6 +3,7 @@ import MenuLayout from "./MenuLayout.astro";
 import Image from "../components/Image.astro";
 import type { PageProps } from "./types";
 import Link from "../components/Link.astro";
+import Featured from "../components/Featured.astro";
 
 interface ProductImage {
   url: string;
@@ -41,6 +42,8 @@ const {
   ctaText = "Sei interessato? Prendi un appuntamento!",
   ctaLink = "/appuntamento-sala-mostra/",
 } = Astro.props;
+
+const featured = fullSlug.includes("pellet-prezzi-offerta");
 ---
 
 <MenuLayout
@@ -49,6 +52,16 @@ const {
   description={description}
   canonicalUrl={fullSlug}
 >
+  {
+    featured && (
+      <div class="margin-container">
+        <div class="row-small">
+          <Featured />
+        </div>
+      </div>
+    )
+  }
+
   <div class="margin-container product-page">
     <div class="product-gallery">
       <div class="featured-image">
