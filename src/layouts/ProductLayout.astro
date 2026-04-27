@@ -52,14 +52,17 @@ const featured = fullSlug.includes("pellet-prezzi-offerta");
   description={description}
   canonicalUrl={fullSlug}
 >
-  <div class="margin-container product-page">
-    {
-      featured && (
+  {
+    featured && (
+      <div class="margin-container">
         <div class="row-small">
           <Featured />
         </div>
-      )
-    }
+      </div>
+    )
+  }
+
+  <div class="margin-container product-page">
     <div class="product-gallery">
       <div class="featured-image">
         <a href={featuredImage.url} data-fslightbox data-type="image">
