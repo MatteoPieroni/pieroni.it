@@ -2,7 +2,7 @@
 import Scripts from "../components/Footer/Scripts.astro";
 import LandingLayout from "../layouts/LandingLayout.astro";
 import LogoWhite from "../assets/images/logo-white.png";
-import PelletImg from "../assets/landings/pellet/pellets.jpg";
+import PelletImg from "../assets/images/prestagionale-pellet-landing-pianta.jpg";
 import Image from "../components/Image.astro";
 import Link from "../components/Link.astro";
 ---
@@ -18,14 +18,10 @@ import Link from "../components/Link.astro";
   </div>
 
   <div class="main">
-    <div
-      class="bg-container"
-      style={`background-image:url('${PelletImg.src}')`}
-    >
-    </div>
+    <Image src={PelletImg} alt="" class="bg-container" />
     <form id="whatsapp-form">
       <h1 style="text-align: center">
-        Richiedi informazioni pellet via WhatsApp
+        Richiedi informazioni sul prestagionale del pellet 2026 via WhatsApp
       </h1>
 
       <label>Quanto pellet ti serve?</label>
@@ -140,18 +136,23 @@ import Link from "../components/Link.astro";
     left: 0;
     height: 100%;
     right: 0;
-    background-repeat: no-repeat;
-    background-size: cover;
+    object-fit: cover;
   }
 
   form {
     z-index: 1;
     max-width: 500px;
+    margin: 1rem;
     background-color: #f9f9f9;
     padding: 2em;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    @media (min-width: 960px) {
+      margin: 0;
+    }
   }
+
   input,
   select,
   button {
