@@ -2,6 +2,8 @@
 import LandingLayout from "../layouts/LandingLayout.astro";
 import PelletImg from "../assets/images/prestagionale-pellet-landing-pianta.jpg";
 import Image from "../components/Image.astro";
+import pellet from "../assets/images/prestagionale-pellet-home.jpg";
+import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.png";
 ---
 
 <LandingLayout
@@ -10,116 +12,135 @@ import Image from "../components/Image.astro";
 >
   <div class="container">
     <div class="hero-wrapper">
-      <Image src={PelletImg} alt="" class="bg-container" />
       <div class="hero margin-container">
-        <h1>Prenota il tuo pellet ora, risparmia per tutto l'inverno</h1>
-        <p class="subtitle">
-          L'offerta prestagionale 2026 di Pieroni è aperta. Prezzi bloccati,
-          qualità certificata, consegna quando vuoi tu.
-        </p>
-        <form id="whatsapp-form">
-          <p style="text-align: center">Richiedi informazioni su WhatsApp</p>
+        <div class="left">
+          <h1>Prenota il tuo pellet ora, risparmia per tutto l'inverno</h1>
+          <p class="subtitle">
+            L'offerta prestagionale 2026 di Pieroni è aperta. Prezzi bloccati,
+            qualità certificata, consegna quando vuoi tu.
+          </p>
+          <Image src={PelletImg} alt="" class="hero-image" />
+        </div>
+        <div class="right">
+          <form id="whatsapp-form">
+            <p>Richiedi informazioni su WhatsApp</p>
 
-          <label>Quanto pellet ti serve?</label>
-          <input type="text" id="quantita" required />
+            <label
+              >Quanto pellet ti serve?
+              <input type="text" id="quantita" required />
+            </label>
 
-          <label>Dove sei?</label>
-          <input type="text" id="luogo" required />
+            <label
+              >Dove sei?
+              <input type="text" id="luogo" required />
+            </label>
 
-          <label>Caldaia o stufa?</label>
-          <select id="tipo-impianto" required>
-            <option value="">-- Seleziona --</option>
-            <option value="Caldaia">Caldaia</option>
-            <option value="Stufa">Stufa</option>
-          </select>
+            <label
+              >Caldaia o stufa?
+              <select id="tipo-impianto" required>
+                <option value="">-- Seleziona --</option>
+                <option value="Caldaia">Caldaia</option>
+                <option value="Stufa">Stufa</option>
+              </select>
+            </label>
 
-          <label>Pellet o a legna?</label>
-          <select id="tipo-combustibile" required>
-            <option value="">-- Seleziona --</option>
-            <option value="Pellet">Pellet</option>
-            <option value="Legna">Legna</option>
-          </select>
-          <button type="submit">
-            Contattaci su WhatsApp!
-            <svg
-              height="20px"
-              width="20px"
-              version="1.1"
-              id="Layer_1"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              viewBox="0 0 308 308"
-              xml:space="preserve"
-              stroke="#ffffff"
-            >
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                stroke-linecap="round"
-                stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <g id="XMLID_468_">
-                  <path
-                    id="XMLID_469_"
-                    d="M227.904,176.981c-0.6-0.288-23.054-11.345-27.044-12.781c-1.629-0.585-3.374-1.156-5.23-1.156 c-3.032,0-5.579,1.511-7.563,4.479c-2.243,3.334-9.033,11.271-11.131,13.642c-0.274,0.313-0.648,0.687-0.872,0.687 c-0.201,0-3.676-1.431-4.728-1.888c-24.087-10.463-42.37-35.624-44.877-39.867c-0.358-0.61-0.373-0.887-0.376-0.887 c0.088-0.323,0.898-1.135,1.316-1.554c1.223-1.21,2.548-2.805,3.83-4.348c0.607-0.731,1.215-1.463,1.812-2.153 c1.86-2.164,2.688-3.844,3.648-5.79l0.503-1.011c2.344-4.657,0.342-8.587-0.305-9.856c-0.531-1.062-10.012-23.944-11.02-26.348 c-2.424-5.801-5.627-8.502-10.078-8.502c-0.413,0,0,0-1.732,0.073c-2.109,0.089-13.594,1.601-18.672,4.802 c-5.385,3.395-14.495,14.217-14.495,33.249c0,17.129,10.87,33.302,15.537,39.453c0.116,0.155,0.329,0.47,0.638,0.922 c17.873,26.102,40.154,45.446,62.741,54.469c21.745,8.686,32.042,9.69,37.896,9.69c0.001,0,0.001,0,0.001,0 c2.46,0,4.429-0.193,6.166-0.364l1.102-0.105c7.512-0.666,24.02-9.22,27.775-19.655c2.958-8.219,3.738-17.199,1.77-20.458 C233.168,179.508,230.845,178.393,227.904,176.981z"
-                  ></path>
-                  <path
-                    id="XMLID_470_"
-                    d="M156.734,0C73.318,0,5.454,67.354,5.454,150.143c0,26.777,7.166,52.988,20.741,75.928L0.212,302.716 c-0.484,1.429-0.124,3.009,0.933,4.085C1.908,307.58,2.943,308,4,308c0.405,0,0.813-0.061,1.211-0.188l79.92-25.396 c21.87,11.685,46.588,17.853,71.604,17.853C240.143,300.27,308,232.923,308,150.143C308,67.354,240.143,0,156.734,0z M156.734,268.994c-23.539,0-46.338-6.797-65.936-19.657c-0.659-0.433-1.424-0.655-2.194-0.655c-0.407,0-0.815,0.062-1.212,0.188 l-40.035,12.726l12.924-38.129c0.418-1.234,0.209-2.595-0.561-3.647c-14.924-20.392-22.813-44.485-22.813-69.677 c0-65.543,53.754-118.867,119.826-118.867c66.064,0,119.812,53.324,119.812,118.867 C276.546,215.678,222.799,268.994,156.734,268.994z"
-                  ></path>
+            <label
+              >Pellet o a legna?
+              <select id="tipo-combustibile" required>
+                <option value="">-- Seleziona --</option>
+                <option value="Pellet">Pellet</option>
+                <option value="Legna">Legna</option>
+              </select>
+            </label>
+
+            <button type="submit">
+              Contattaci su WhatsApp!
+              <svg
+                height="20px"
+                width="20px"
+                version="1.1"
+                id="Layer_1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink"
+                viewBox="0 0 308 308"
+                xml:space="preserve"
+                stroke="#ffffff"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                  <g id="XMLID_468_">
+                    <path
+                      id="XMLID_469_"
+                      d="M227.904,176.981c-0.6-0.288-23.054-11.345-27.044-12.781c-1.629-0.585-3.374-1.156-5.23-1.156 c-3.032,0-5.579,1.511-7.563,4.479c-2.243,3.334-9.033,11.271-11.131,13.642c-0.274,0.313-0.648,0.687-0.872,0.687 c-0.201,0-3.676-1.431-4.728-1.888c-24.087-10.463-42.37-35.624-44.877-39.867c-0.358-0.61-0.373-0.887-0.376-0.887 c0.088-0.323,0.898-1.135,1.316-1.554c1.223-1.21,2.548-2.805,3.83-4.348c0.607-0.731,1.215-1.463,1.812-2.153 c1.86-2.164,2.688-3.844,3.648-5.79l0.503-1.011c2.344-4.657,0.342-8.587-0.305-9.856c-0.531-1.062-10.012-23.944-11.02-26.348 c-2.424-5.801-5.627-8.502-10.078-8.502c-0.413,0,0,0-1.732,0.073c-2.109,0.089-13.594,1.601-18.672,4.802 c-5.385,3.395-14.495,14.217-14.495,33.249c0,17.129,10.87,33.302,15.537,39.453c0.116,0.155,0.329,0.47,0.638,0.922 c17.873,26.102,40.154,45.446,62.741,54.469c21.745,8.686,32.042,9.69,37.896,9.69c0.001,0,0.001,0,0.001,0 c2.46,0,4.429-0.193,6.166-0.364l1.102-0.105c7.512-0.666,24.02-9.22,27.775-19.655c2.958-8.219,3.738-17.199,1.77-20.458 C233.168,179.508,230.845,178.393,227.904,176.981z"
+                    ></path>
+                    <path
+                      id="XMLID_470_"
+                      d="M156.734,0C73.318,0,5.454,67.354,5.454,150.143c0,26.777,7.166,52.988,20.741,75.928L0.212,302.716 c-0.484,1.429-0.124,3.009,0.933,4.085C1.908,307.58,2.943,308,4,308c0.405,0,0.813-0.061,1.211-0.188l79.92-25.396 c21.87,11.685,46.588,17.853,71.604,17.853C240.143,300.27,308,232.923,308,150.143C308,67.354,240.143,0,156.734,0z M156.734,268.994c-23.539,0-46.338-6.797-65.936-19.657c-0.659-0.433-1.424-0.655-2.194-0.655c-0.407,0-0.815,0.062-1.212,0.188 l-40.035,12.726l12.924-38.129c0.418-1.234,0.209-2.595-0.561-3.647c-14.924-20.392-22.813-44.485-22.813-69.677 c0-65.543,53.754-118.867,119.826-118.867c66.064,0,119.812,53.324,119.812,118.867 C276.546,215.678,222.799,268.994,156.734,268.994z"
+                    ></path>
+                  </g>
                 </g>
-              </g>
-            </svg>
-          </button>
-        </form>
+              </svg>
+            </button>
+          </form>
+        </div>
       </div>
     </div>
 
-    <div class="margin-container">
-      <div class="row why">
+    <div class="row-small why dark-bg">
+      <div class="margin-container">
         <h2>Perché comprare adesso?</h2>
         <ul>
           <li>
-            Prezzo bloccato — Acquistando in primavera eviti i rincari
-            autunnali. Il prezzo del pellet sale ogni anno con l'avvicinarsi
-            della stagione fredda.
+            <strong>Prezzo bloccato</strong> — Acquistando in primavera eviti i rincari
+            autunnali. Il prezzo del pellet sale ogni anno con l'avvicinarsi della
+            stagione fredda.
           </li>
           <li>
-            Disponibilità garantita — In autunno il pellet scarseggia.
-            Prenotando ora ti assicuri il prodotto che preferisci, senza
-            rischiare di trovare scaffali vuoti.
+            <strong>Disponibilità garantita</strong> — In autunno il pellet scarseggia.
+            Prenotando ora ti assicuri il prodotto che preferisci, senza rischiare
+            di trovare scaffali vuoti.
           </li>
           <li>
-            Consegna programmata — Decidi tu quando riceverlo: in estate, a
-            settembre, o quando hai pronto lo spazio.
+            <strong>Consegna programmata</strong> — Decidi tu quando riceverlo: in
+            estate, a settembre, o quando hai pronto lo spazio.
           </li>
           <li>
-            Pellet certificato ENplus A1 — Vendiamo solo pellet di alta qualità
-            certificato, per massima resa e meno cenere.
+            <strong>Pellet certificato ENplus A1</strong> — Vendiamo solo pellet di
+            alta qualità certificato, per massima resa e meno cenere.
           </li>
         </ul>
       </div>
+    </div>
 
-      <div class="row how">
+    <div class="row-small how">
+      <div class="margin-container">
         <h2>Come funziona?</h2>
         <p>3 passi semplici:</p>
 
         <ol>
           <li>
-            Dicci di cosa hai bisogno — Quanti bancali, stufa o caldaia, zona di
-            consegna
+            <strong>Dicci di cosa hai bisogno</strong> — Quanti bancali, stufa o caldaia,
+            zona di consegna
           </li>
           <li>
-            Ricevi il preventivo — Ti rispondiamo su WhatsApp entro poche ore
+            <strong>Ricevi il preventivo</strong> — Ti rispondiamo su WhatsApp entro
+            poche ore
           </li>
           <li>
-            Prenotatelo subito — Con un piccolo acconto blocchi il prezzo e la
-            quantità
+            <strong>Prenotalo subito</strong> — Con un piccolo acconto blocchi il
+            prezzo e la quantità
           </li>
         </ol>
       </div>
+    </div>
 
-      <div class="row who">
+    <div class="row-small who dark-bg">
+      <div class="margin-container">
+        <Image src={logoImage} class="custom-logo" alt="" />
         <h2>Chi siamo</h2>
         <p>
           Pieroni srl è un'azienda di riferimento per l'edilizia e il
@@ -127,9 +148,21 @@ import Image from "../components/Image.astro";
           Da anni forniamo pellet di qualità a famiglie e professionisti, con un
           servizio diretto e senza intermediari.
         </p>
+        <div class="shop-container">
+          <div class="shop">
+            <p><strong>Diecimo</strong></p>
+            <p>Loc. Pastino 67, Diecimo</p>
+          </div>
+          <div class="shop">
+            <p><strong>Lucca</strong></p>
+            <p>Via della canovetta 341, Lucca</p>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="row faq">
+    <div class="margin-container">
+      <div class="row-small faq">
         <h2>Domande frequenti</h2>
         <details>
           <summary>Quando ricevo la consegna?</summary>
@@ -153,12 +186,21 @@ import Image from "../components/Image.astro";
         </details>
       </div>
     </div>
+  </div>
 
-    <div class="row reminder">
-      <p>
-        L'offerta prestagionale 2026 è limitata. Assicurati la tua fornitura
-      </p>
-      <a href="#whatsapp-form" class="button">Contattaci su WhatsApp</a>
+  <div class="reminder dark-bg">
+    <div class="margin-container">
+      <div class="featured">
+        <div class="featured__image">
+          <Image src={pellet} alt="" />
+        </div>
+        <div class="featured__content">
+          <p class="">
+            L'offerta prestagionale 2026 è limitata. Assicurati la tua fornitura
+          </p>
+          <a href="#whatsapp-form" class="button">Contattaci su WhatsApp</a>
+        </div>
+      </div>
     </div>
   </div>
 </LandingLayout>
@@ -174,37 +216,63 @@ import Image from "../components/Image.astro";
     position: relative;
   }
 
-  .bg-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    right: 0;
-    object-fit: cover;
-    width: 100%;
-  }
-
   .hero {
     position: relative;
     padding-block: 1rem;
-    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media (min-width: 960px) {
+      padding-block: 3rem;
+      flex-direction: row;
+      justify-content: center;
+      gap: 2rem;
+    }
+  }
+
+  .left {
+    flex: 1;
+  }
+
+  .right {
+    flex-basis: 400px;
   }
 
   h1 {
+    margin-block-end: 0.5rem;
     color: var(--color-blue);
     text-transform: uppercase;
   }
 
+  .subtitle {
+    margin-block-start: 0rem;
+  }
+
+  .hero-image {
+    border-radius: 0.5rem;
+    corner-shape: squircle;
+  }
+
   form {
-    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
     max-width: 500px;
-    background-color: #f9f9f9;
-    padding: 2em;
-    border-radius: 10px;
+    background-color: var(--color-blue);
+    color: var(--text-contrast);
+    padding: 1rem;
+    border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
     @media (min-width: 960px) {
       margin: 0;
+    }
+
+    p {
+      font-size: 1.35em;
+      margin-block-start: 0;
+      margin-block-end: 0;
     }
   }
 
@@ -213,9 +281,9 @@ import Image from "../components/Image.astro";
   button {
     display: block;
     width: 100%;
-    margin-bottom: 1em;
+    margin-block-start: 0.35rem;
     padding: 0.8em;
-    border: 1px solid #ccc;
+    border: 1px solid #aaa;
     border-radius: 5px;
     font-size: 1em;
   }
@@ -223,6 +291,7 @@ import Image from "../components/Image.astro";
   button:hover {
     background-color: #1eb955;
   }
+
   button {
     display: flex;
     background-color: #25d366;
@@ -235,6 +304,94 @@ import Image from "../components/Image.astro";
     gap: 5px;
     justify-content: center;
     align-items: center;
+  }
+
+  .dark-bg {
+    padding-block: 1.5rem;
+    background-color: #f5f5f5;
+  }
+
+  .why {
+    margin-block-start: 2rem;
+  }
+
+  .who {
+    h2 {
+      margin-block-end: 0.5rem;
+    }
+
+    p {
+      margin-block-start: 0;
+    }
+  }
+
+  .custom-logo {
+    width: 100%;
+    max-width: 180px;
+    margin-block-end: 1rem;
+  }
+
+  .shop {
+    margin-block-end: 1rem;
+    border: 1px solid var(--dark-border);
+    border-radius: var(--radius);
+    padding: 1rem;
+    background-color: var(--bg);
+
+    p {
+      margin: 0;
+    }
+
+    @media (min-width: 960px) {
+      display: inline-block;
+      padding-inline: 1.5rem;
+      margin-inline-end: 1rem;
+    }
+  }
+
+  .reminder {
+    padding-block-end: 3rem;
+  }
+
+  .featured {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+
+    @media (min-width: 960px) {
+      flex-direction: row;
+      align-items: start;
+    }
+  }
+
+  .featured__image {
+    @media (min-width: 960px) {
+      max-width: 170px;
+      flex: 1;
+    }
+
+    img {
+      border-radius: var(--radius);
+    }
+  }
+
+  .featured__content {
+    p {
+      margin-block-start: 0;
+      margin-block-end: 0.5em;
+      font-size: 1.5em;
+
+      @media (min-width: 960px) {
+        margin-block-end: 0.5em;
+        font-size: 1.5em;
+      }
+    }
+
+    a {
+      display: inline-block;
+    }
   }
 </style>
 

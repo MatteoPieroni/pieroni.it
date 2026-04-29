@@ -22,6 +22,7 @@
   --input-border: var(--color-blue);
   --bg: #ffffff;
   --bg-darker: #f0f0f0;
+  --dark-border: #ddd;
   --radius: 0.25rem;
 
   --page-margin: 1.5rem;
@@ -140,6 +141,58 @@ figure {
   height: auto;
   max-width: 100%;
   display: block;
+}
+
+details {
+  border-bottom: solid var(--dark-border) 2px;
+
+  p {
+    padding: 0.75rem;
+    padding-block-start: 0;
+    margin: 0;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: #eee;
+  }
+}
+
+details:first-of-type {
+  border-top: solid var(--dark-border) 2px;
+}
+
+details[open] {
+  background-color: #eee;
+  border-left: 3px solid var(--color-orange);
+}
+
+summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0.75rem;
+  font-weight: bold;
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+summary::after {
+  content: "";
+  border: solid var(--color-orange);
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 4px;
+  transition: 0.3s;
+  transform: rotate(45deg);
+}
+
+details[open] > summary::after {
+  transform: rotate(-135deg);
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 
 .show-on-desktop {

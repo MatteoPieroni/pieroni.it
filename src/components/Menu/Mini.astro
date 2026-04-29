@@ -30,13 +30,13 @@ const { accentColor = "#142863" } = Astro.props;
     display: flex;
     justify-content: center;
     background-color: var(--accent-color);
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
+    padding-block: 0.5rem;
     color: white;
     text-align: center;
     z-index: 1;
 
     @media (min-width: 960px) {
+      padding-block: 0.75rem;
       min-height: calc(50px + 1.5rem);
     }
   }
