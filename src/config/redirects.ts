@@ -60,6 +60,8 @@ const retiredLandings = {
   "/stufa-pellet-tutto-compreso-989-euro*":
     "https://www.pieroni.it/negozio/riscaldamento/stufe-a-pellet-e-legna/",
   "/chiusura-camini*": "https://www.pieroni.it/stufe-caldaie-pellet/",
+  "/promo-camini*":
+    "https://www.pieroni.it/negozio/riscaldamento/camini-inserti/",
 };
 
 const retiredArticles = {
