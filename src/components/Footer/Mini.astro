@@ -1,0 +1,34 @@
+---
+import Scripts from "./Scripts.astro";
+
+type Props = {
+  accentColor?: string;
+};
+
+const { accentColor = "#142863" } = Astro.props;
+---
+
+<footer style={{ "--accent-color": accentColor }}>
+  <p>
+    Pieroni S.r.l. Loc. Pastino 67, Diecimo (LU) – Via della Canovetta 341,
+    Lucca Tel. 0583-838375 – Mail. <a
+      class="contrast"
+      href="mailt:info@pieroni.it">info@pieroni.it</a
+    >
+  </p>
+</footer>
+<Scripts />
+
+<style>
+  footer {
+    background: var(--accent-color);
+    color: var(--text-contrast);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    text-align: center;
+
+    @media (min-width: 960px) {
+      min-height: calc(50px + 1.5rem);
+    }
+  }
+</style>
