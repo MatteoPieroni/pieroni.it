@@ -203,3 +203,17 @@ figure {
   width: 1px;
   word-wrap: normal;
 }
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--button-bg);
+  color: var(--button-text);
+  padding: 0.5rem;
+  z-index: 100;
+
+  &:focus {
+    top: 0;
+  }
+}

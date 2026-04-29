@@ -1,0 +1,47 @@
+---
+import Image from "../Image.astro";
+import Link from "../Link.astro";
+
+import LogoWhite from "../../assets/images/logo-white.png";
+
+type Props = {
+  accentColor?: string;
+};
+
+const { accentColor = "#142863" } = Astro.props;
+---
+
+<header
+  id="masthead"
+  class="site-header"
+  role="banner"
+  style={{ "--accent-color": accentColor }}
+>
+  <a class="skip-link" href="#content">Vai al contenuto</a>
+
+  <Link href="/">
+    <Image src={LogoWhite} alt="Pieroni srl" />
+  </Link>
+</header>
+
+<style>
+  header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    background-color: var(--accent-color);
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    color: white;
+    text-align: center;
+    z-index: 1;
+
+    @media (min-width: 960px) {
+      min-height: calc(50px + 1.5rem);
+    }
+  }
+
+  header img {
+    width: 120px;
+  }
+</style>

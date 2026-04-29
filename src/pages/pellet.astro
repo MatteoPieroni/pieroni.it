@@ -1,23 +1,15 @@
 ---
 import Scripts from "../components/Footer/Scripts.astro";
 import LandingLayout from "../layouts/LandingLayout.astro";
-import LogoWhite from "../assets/images/logo-white.png";
 import PelletImg from "../assets/images/prestagionale-pellet-landing-pianta.jpg";
 import Image from "../components/Image.astro";
-import Link from "../components/Link.astro";
 ---
 
 <LandingLayout
   title="Ordina Pellet via WhatsApp"
   description="Ordina il tuo pellet via whatsapp"
 >
-  <div class="header">
-    <Link href="/">
-      <Image src={LogoWhite} alt="Pieroni srl" />
-    </Link>
-  </div>
-
-  <div class="main">
+  <div class="container">
     <Image src={PelletImg} alt="" class="bg-container" />
     <form id="whatsapp-form">
       <h1 style="text-align: center">
@@ -92,7 +84,6 @@ import Link from "../components/Link.astro";
 </LandingLayout>
 
 <style>
-  .header,
   footer {
     background-color: #142863;
     padding-top: 0.75rem;
@@ -105,12 +96,6 @@ import Link from "../components/Link.astro";
     }
   }
 
-  .header img {
-    display: block;
-    margin-inline: auto;
-    width: 120px;
-  }
-
   h1 {
     color: #142863;
     font-weight: 900;
@@ -118,7 +103,7 @@ import Link from "../components/Link.astro";
     text-transform: uppercase;
   }
 
-  .main {
+  .container {
     position: relative;
     background-color: transparent;
     display: flex;
