@@ -28,6 +28,7 @@ This repository contains the code for Pieroni srl website.
 
 ## TODO
 
+- add connected articles to sections (ie esterni on that page)
 - mobile menu revamp
 - old articles disclaimer
 - cta block
@@ -37,7 +38,6 @@ This repository contains the code for Pieroni srl website.
 ### SEO
 
 - better schema data
-- redirect old articles
 - new content
   - cornerstone articles
   - spruce up
