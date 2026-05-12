@@ -20,6 +20,12 @@
   --button-bg-hover-contrast: #ff8900;
   --button-border-hover-contrast: var(--color-blue);
   --input-border: var(--color-blue);
+  --table-border-color: #f0f0f0;
+  --table-head-bg: var(--color-blue);
+  --table-head-text: var(--text-contrast);
+  --table-row-bg: #f9f9f9;
+  --table-row-hover-bg: #d0d0d0;
+  --table-row-hover-text: var(--text);
   --bg: #ffffff;
   --bg-darker: #f0f0f0;
   --dark-border: #ddd;
@@ -193,6 +199,61 @@ details[open] > summary::after {
 
 summary::-webkit-details-marker {
   display: none;
+}
+
+table {
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid var(--table-border-color);
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: var(--table-head-bg);
+  color: var(--table-head-text);
+}
+
+th,
+td {
+  padding: 0.75rem;
+  border: 1px solid var(--table-border-color);
+}
+
+th {
+  font-weight: 600;
+  text-align: left;
+}
+
+td[scope="row"] {
+  font-weight: 600;
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--table-row-bg);
+}
+
+tbody tr:hover {
+  background-color: var(--table-row-hover-bg);
+  color: var(--table-row-hover-text);
+}
+
+blockquote {
+  background: var(--bg-darker);
+  border-left: 10px solid var(--table-border-color);
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C" "\201D" "\2018" "\2019";
+}
+blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+blockquote p {
+  display: inline;
 }
 
 .show-on-desktop {
