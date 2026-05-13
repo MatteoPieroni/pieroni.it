@@ -30,12 +30,19 @@ const { text, id, name } = Astro.props as Props;
   }
 
   .checkbox-wrapper label {
+    width: 100%;
+    display: inline-block;
     cursor: pointer;
     padding: 0.5rem 0.5rem;
     border-radius: var(--radius);
     overflow: hidden;
     transition: all var(--spring-duration) var(--spring-easing);
     display: inline-block;
+    line-height: 0;
+
+    @media (min-width: 960px) {
+      width: auto;
+    }
   }
 
   .checkbox-wrapper label:not(:last-child) {
@@ -51,11 +58,12 @@ const { text, id, name } = Astro.props as Props;
   }
 
   .checkbox-wrapper label span {
-    float: left;
     vertical-align: middle;
     transform: translate3d(0, 0, 0);
   }
+
   .checkbox-wrapper label span:first-child {
+    display: inline-block;
     position: relative;
     width: 18px;
     height: 18px;
@@ -101,7 +109,7 @@ const { text, id, name } = Astro.props as Props;
 
     /* position it within the label, on top of the SVG */
     top: 0.5rem;
-    left: 0.25rem;
+    left: 0.5rem;
   }
 
   .checkbox-wrapper input:checked + label span:first-child {
@@ -112,6 +120,8 @@ const { text, id, name } = Astro.props as Props;
 
   .checkbox-wrapper input:checked + label span:first-child svg {
     stroke-dashoffset: 0;
+    transition-timing-function: var(--spring-easing);
+    transition-duration: var(--spring-duration);
   }
 
   .checkbox-wrapper .inline-svg {
@@ -121,12 +131,7 @@ const { text, id, name } = Astro.props as Props;
     pointer-events: none;
     user-select: none;
   }
-  @media screen and (max-width: 640px) {
-    .checkbox-wrapper label {
-      width: 100%;
-      display: inline-block;
-    }
-  }
+
   @-moz-keyframes wave {
     50% {
       transform: scale(0.9);

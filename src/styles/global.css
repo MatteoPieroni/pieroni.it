@@ -170,7 +170,16 @@ figure {
 }
 
 details {
+  --spring-duration: 0.3s;
   border-bottom: solid var(--dark-border) 2px;
+
+  &::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      content-visibility var(--spring-duration) allow-discrete,
+      block-size var(--spring-duration) var(--spring-easing);
+  }
 
   p {
     padding: 0.75rem;
@@ -182,6 +191,10 @@ details {
   &:focus-visible {
     background-color: #eee;
   }
+
+  @media (prefers-reduced-motion: no-preference) {
+    interpolate-size: allow-keywords;
+  }
 }
 
 details:first-of-type {
@@ -191,6 +204,10 @@ details:first-of-type {
 details[open] {
   background-color: #eee;
   border-left: 3px solid var(--detail-border-color);
+
+  &::details-content {
+    block-size: auto;
+  }
 }
 
 summary {

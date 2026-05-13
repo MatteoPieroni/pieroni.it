@@ -68,12 +68,12 @@ import Checkbox from "../components/Checkbox.astro";
               id="tipo-finanziamento"
               name="tipo-finanziamento"
             />
-          </form>
 
-          <button type="submit" form="whatsapp-form">
-            <Whatsapp />
-            Contattaci su WhatsApp!
-          </button>
+            <button type="submit" form="whatsapp-form">
+              <Whatsapp />
+              Contattaci su WhatsApp!
+            </button>
+          </form>
         </div>
       </div>
     </div>
@@ -354,6 +354,7 @@ import Checkbox from "../components/Checkbox.astro";
     display: flex;
     flex-direction: column;
     gap: 0.8rem;
+    margin: 0 auto;
     max-width: 500px;
     background-color: var(--color-blue);
     color: var(--text-contrast);
@@ -378,11 +379,14 @@ import Checkbox from "../components/Checkbox.astro";
   button {
     display: block;
     width: 100%;
-    margin-block-start: 0.35rem;
     padding: 0.8em;
-    border: 1px solid #aaa;
-    border-radius: 5px;
+    border-radius: var(--radius);
     font-size: 1em;
+  }
+
+  input,
+  select {
+    margin-block-start: 0.35rem;
   }
 
   button:hover {
