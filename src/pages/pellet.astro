@@ -5,6 +5,7 @@ import Image from "../components/Image.astro";
 import Whatsapp from "../components/icons/Whatsapp.astro";
 import pellet from "../assets/images/prestagionale-pellet-home.jpg";
 import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.png";
+import Checkbox from "../components/Checkbox.astro";
 ---
 
 <LandingLayout
@@ -36,7 +37,7 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
 
             <label
               >Quanto pellet ti serve?
-              <input type="text" id="quantita" required />
+              <input type="text" id="quantita" class="anchor-field" required />
             </label>
 
             <label
@@ -62,229 +63,232 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
               </select>
             </label>
 
-            <button type="submit">
-              <Whatsapp />
-              Contattaci su WhatsApp!
-            </button>
+            <Checkbox
+              text="Mi interessano le opzioni di finanziamento"
+              id="tipo-finanziamento"
+              name="tipo-finanziamento"
+            />
           </form>
+
+          <button type="submit" form="whatsapp-form">
+            <Whatsapp />
+            Contattaci su WhatsApp!
+          </button>
         </div>
-      </div>
-    </div>
-
-    <div class="row-small why dark-bg">
-      <div class="margin-container">
-        <h2>I vantaggi del prestagionale Pieroni</h2>
-        <blockquote>
-          <p>
-            Ogni autunno è la stessa storia: i prezzi salgono, le scorte di
-            qualità si esauriscono, e chi ha aspettato si trova a pagare di più
-            per pellet che brucia male, sporca il braciere e fa spegnere la
-            stufa.
-          </p>
-        </blockquote>
-
-        <p>Il prestagionale Pieroni ti aiuta a spezzare il circolo vizioso!</p>
-
-        <div class="cards-container">
-          <div class="card">
-            <h3>Blocca il prezzo adesso</h3>
-            <p>
-              I prezzi prestagionali sono i più bassi della stagione. Prenota
-              oggi e non ti importa più di cosa succede al mercato in autunno.
-            </p>
-          </div>
-          <div class="card">
-            <h3>Pellet ENplus A1</h3>
-            <p>
-              Quello che brucia davvero — Più potere calorifico, meno cenere,
-              fiamma stabile. Consumi meno sacchi e risparmi due volte: sul
-              prezzo e sui consumi.
-            </p>
-          </div>
-          <div class="card">
-            <h3>Pagalo in rate</h3>
-            <p>
-              Non devi pagare tutto subito. Con le nostre opzioni di pagamento
-              flessibili puoi bloccare il prezzo prestagionale e rateizzare
-              l'importo secondo le tue esigenze.
-            </p>
-          </div>
-          <div class="card">
-            <h3>Scorte garantite</h3>
-            <p>
-              In autunno il pellet di qualità finisce per primo. Chi prenota
-              adesso si assicura il prodotto che vuole, non quello che rimane.
-            </p>
-          </div>
-          <div class="card">
-            <h3>Proteggi la tua stufa o caldaia</h3>
-            <p>
-              Il pellet scadente accumula residui e riduce la vita utile degli
-              apparecchi. Quello certificato mantiene tutto efficiente stagione
-              dopo stagione.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row-small how">
-      <div class="margin-container">
-        <h2>
-          Non è solo il prezzo al sacco. È quanto spendi davvero a fine inverno.
-        </h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th scope="col"
-                ><span class="screen-reader-text">Aspetto da considerare</span
-                ></th
-              >
-              <th scope="col">Aspetti l'autunno</th>
-              <th scope="col">Prenoti adesso con Pieroni</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td scope="row">Prezzo per bancale</td>
-              <td>Più alto</td>
-              <td>Bloccato al prezzo prestagionale</td>
-            </tr>
-            <tr>
-              <td scope="row">Qualità disponibile</td>
-              <td>Quello che rimane</td>
-              <td>ENplus A1, il migliore</td>
-            </tr>
-            <tr>
-              <td scope="row">Sacchi consumati</td>
-              <td>Di più</td>
-              <td>Di meno (più potere calorifico)</td>
-            </tr>
-            <tr>
-              <td scope="row">Pulizia braciere</td>
-              <td>Frequente</td>
-              <td>Ridotta</td>
-            </tr>
-            <tr>
-              <td scope="row">Blocchi della stufa</td>
-              <td>Frequenti</td>
-              <td>Rari</td>
-            </tr>
-            <tr>
-              <td scope="row">Spesa reale a fine inverno</td>
-              <td>Più alta</td>
-              <td>Più bassa</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <blockquote>
-          <p>
-            "Il pellet migliore non è quello che costa meno al sacco. È quello
-            che ti fa spendere meno a fine inverno."
-          </p>
-        </blockquote>
-      </div>
-    </div>
-
-    <div class="row-small how">
-      <div class="margin-container">
-        <h2>Tre passi per battere i rincari — e scaldarsi meglio.</h2>
-
-        <ol>
-          <li>
-            <strong>Dicci di cosa hai bisogno</strong> - Quanti bancali, stufa o caldaia,
-            dove sei. Ti aiutiamo a trovare il prodotto giusto per il tuo apparecchio.
-          </li>
-          <li>
-            <strong>Blocca il prezzo prestagionale</strong> - Con un acconto fissi
-            il tuo prezzo adesso, qualunque cosa succeda al mercato in autunno.
-          </li>
-          <li>
-            <strong>Ricevi quando sei pronto</strong> - Programmiamo la consegna insieme:
-            in estate, a settembre, quando hai lo spazio.
-          </li>
-        </ol>
-      </div>
-    </div>
-
-    <div class="row-small who dark-bg">
-      <div class="margin-container">
-        <Image src={logoImage} class="custom-logo" alt="" />
-        <h2>Chi siamo</h2>
-        <p>
-          Pieroni srl è un'azienda di riferimento per l'edilizia e il
-          riscaldamento in provincia di Lucca, con magazzini a Diecimo e Lucca.
-          Da anni forniamo pellet di qualità a famiglie e professionisti, con un
-          servizio diretto e senza intermediari.
-        </p>
-        <div class="shop-container">
-          <div class="shop">
-            <p><strong>Diecimo</strong></p>
-            <p>Loc. Pastino 67, Diecimo</p>
-          </div>
-          <div class="shop">
-            <p><strong>Lucca</strong></p>
-            <p>Via della canovetta 341, Lucca</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="margin-container">
-      <div class="row-small faq">
-        <h2>Domande frequenti</h2>
-        <details>
-          <summary>I prezzi salgono davvero ogni autunno?</summary>
-          <p>
-            Sì, è un andamento costante: la domanda aumenta a settembre-ottobre
-            e i prezzi seguono. Chi prenota in primavera-estate paga sempre
-            meno.
-          </p>
-        </details>
-        <details>
-          <summary>Posso pagare a rate?</summary>
-          <p>
-            Sì, offriamo opzioni di pagamento flessibili oltre al classico
-            prestagionale con acconto e saldo. Contattaci su WhatsApp per sapere
-            qual è la soluzione più adatta a te.
-          </p>
-        </details>
-        <details>
-          <summary>Cosa significa ENplus A1?</summary>
-          <p>
-            È la certificazione europea più alta per il pellet. Garantisce
-            umidità sotto il 10%, ceneri sotto lo 0,7%, potere calorifico
-            superiore a 4,6 kWh/kg e assenza di additivi chimici.
-          </p>
-        </details>
-        <details>
-          <summary
-            >Come faccio a sapere se il mio pellet attuale è di qualità?</summary
-          >
-          <p>
-            Se la tua stufa si spegne spesso, produce molta cenere o ha fiamma
-            irregolare, probabilmente stai usando pellet di qualità inferiore.
-          </p>
-        </details>
-        <details>
-          <summary
-            >Il pellet certificato è compatibile con la mia stufa?
-          </summary>
-          <p>
-            Sì, tutti i produttori raccomandano pellet ENplus certificato per
-            non invalidare la garanzia dell'apparecchio.
-          </p>
-        </details>
-        <details>
-          <summary>Quanto devo pagare?</summary>
-          <p>Acconto del 50% all'ordine, saldo entro fine prestagionale.</p>
-        </details>
       </div>
     </div>
   </div>
 
+  <div class="row-small why dark-bg">
+    <div class="margin-container">
+      <h2>I vantaggi del prestagionale Pieroni</h2>
+      <blockquote>
+        <p>
+          Ogni autunno è la stessa storia: i prezzi salgono, le scorte di
+          qualità si esauriscono, e chi ha aspettato si trova a pagare di più
+          per pellet che brucia male, sporca il braciere e fa spegnere la stufa.
+        </p>
+      </blockquote>
+
+      <p>Il prestagionale Pieroni ti aiuta a spezzare il circolo vizioso!</p>
+
+      <div class="cards-container">
+        <div class="card">
+          <h3>Blocca il prezzo adesso</h3>
+          <p>
+            I prezzi prestagionali sono i più bassi della stagione. Prenota oggi
+            e smetti di preoccuparti di cosa succederà al mercato in autunno.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Pellet ENplus A1</h3>
+          <p>
+            Quello che brucia davvero - più potere calorifico, meno cenere,
+            fiamma stabile. Consumi meno sacchi e risparmi due volte: sul prezzo
+            e sui consumi.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Pagalo in rate</h3>
+          <p>
+            Non devi pagare tutto subito. Con le nostre opzioni di pagamento
+            flessibili puoi bloccare il prezzo prestagionale e rateizzare
+            l'importo secondo le tue esigenze.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Scorte garantite</h3>
+          <p>
+            In autunno il pellet di qualità finisce per primo. Chi prenota
+            adesso si assicura il prodotto che vuole, non quello che rimane.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Proteggi la tua stufa o caldaia</h3>
+          <p>
+            Il pellet scadente accumula residui e riduce la vita utile degli
+            apparecchi. Quello certificato mantiene tutto efficiente stagione
+            dopo stagione.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row-small how">
+    <div class="margin-container">
+      <h2>
+        Non è solo il prezzo al sacco. È quanto spendi davvero a fine inverno.
+      </h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"
+              ><span class="screen-reader-text">Aspetto da considerare</span
+              ></th
+            >
+            <th scope="col">Aspetti l'autunno</th>
+            <th scope="col">Prenoti adesso con Pieroni</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td scope="row">Prezzo per bancale</td>
+            <td>Più alto</td>
+            <td>Bloccato al prezzo prestagionale</td>
+          </tr>
+          <tr>
+            <td scope="row">Qualità disponibile</td>
+            <td>Quello che rimane</td>
+            <td>ENplus A1, il migliore</td>
+          </tr>
+          <tr>
+            <td scope="row">Sacchi consumati</td>
+            <td>Di più</td>
+            <td>Di meno (più potere calorifico)</td>
+          </tr>
+          <tr>
+            <td scope="row">Pulizia braciere</td>
+            <td>Frequente</td>
+            <td>Ridotta</td>
+          </tr>
+          <tr>
+            <td scope="row">Blocchi della stufa</td>
+            <td>Frequenti</td>
+            <td>Rari</td>
+          </tr>
+          <tr>
+            <td scope="row">Spesa reale a fine inverno</td>
+            <td>Più alta</td>
+            <td>Più bassa</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <blockquote>
+        <p>
+          Il pellet migliore non è quello che costa meno al sacco. È quello che
+          ti fa spendere meno a fine inverno.
+        </p>
+      </blockquote>
+    </div>
+  </div>
+
+  <div class="row-small how">
+    <div class="margin-container">
+      <h2>Tre passi per battere i rincari e scaldarsi meglio.</h2>
+
+      <ol>
+        <li>
+          <strong>Dicci di cosa hai bisogno</strong> - Quanti bancali, stufa o caldaia,
+          dove sei. Ti aiutiamo a trovare il prodotto giusto per il tuo apparecchio.
+        </li>
+        <li>
+          <strong>Blocca il prezzo prestagionale</strong> - Con un acconto fissi il
+          tuo prezzo adesso, qualunque cosa succeda al mercato in autunno.
+        </li>
+        <li>
+          <strong>Ricevi quando sei pronto</strong> - Programmiamo la consegna insieme:
+          in estate, a settembre, quando hai lo spazio.
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="row-small who dark-bg">
+    <div class="margin-container">
+      <Image src={logoImage} class="custom-logo" alt="" />
+      <h2>Chi siamo</h2>
+      <p>
+        Pieroni srl è un'azienda di riferimento per l'edilizia e il
+        riscaldamento in provincia di Lucca, con magazzini a Diecimo e Lucca. Da
+        anni forniamo pellet di qualità a famiglie e professionisti, con un
+        servizio diretto e senza intermediari.
+      </p>
+      <div class="shop-container">
+        <div class="shop">
+          <p><strong>Diecimo</strong></p>
+          <p>Loc. Pastino 67, Diecimo</p>
+        </div>
+        <div class="shop">
+          <p><strong>Lucca</strong></p>
+          <p>Via della canovetta 341, Lucca</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="margin-container">
+    <div class="row-small faq">
+      <h2>Domande frequenti</h2>
+      <details>
+        <summary>I prezzi salgono davvero ogni autunno?</summary>
+        <p>
+          Sì, è un andamento costante: la domanda aumenta a settembre-ottobre e
+          i prezzi seguono. Chi prenota in primavera-estate paga sempre meno.
+        </p>
+      </details>
+      <details>
+        <summary>Posso pagare a rate?</summary>
+        <p>
+          Sì, offriamo opzioni di pagamento flessibili oltre al classico
+          prestagionale con acconto e saldo. Contattaci su WhatsApp per sapere
+          qual è la soluzione più adatta a te.
+        </p>
+      </details>
+      <details>
+        <summary>Cosa significa ENplus A1?</summary>
+        <p>
+          È la certificazione europea più alta per il pellet. Garantisce umidità
+          sotto il 10%, ceneri sotto lo 0,7%, potere calorifico superiore a 4,6
+          kWh/kg e assenza di additivi chimici.
+        </p>
+      </details>
+      <details>
+        <summary
+          >Come faccio a sapere se il mio pellet attuale è di qualità?</summary
+        >
+        <p>
+          Se la tua stufa si spegne spesso, produce molta cenere o ha fiamma
+          irregolare, probabilmente stai usando pellet di qualità inferiore.
+        </p>
+      </details>
+      <details>
+        <summary
+          >Il pellet certificato è compatibile con la mia stufa?
+        </summary>
+        <p>
+          Sì, tutti i produttori raccomandano pellet ENplus certificato per non
+          invalidare la garanzia dell'apparecchio.
+        </p>
+      </details>
+      <details>
+        <summary>Quanto devo pagare?</summary>
+        <p>Acconto del 50% all'ordine, saldo entro fine prestagionale.</p>
+      </details>
+    </div>
+  </div>
   <div class="reminder dark-bg">
     <div class="margin-container">
       <div class="featured">
@@ -296,7 +300,7 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
             I prezzi prestagionali non durano per sempre. Blocca il tuo adesso —
             e scegli il pellet che brucia davvero.
           </p>
-          <a href="#whatsapp-form" class="button">Contattaci su WhatsApp</a>
+          <a href="#quantita" class="button">Contattaci su WhatsApp</a>
         </div>
       </div>
     </div>
@@ -304,12 +308,6 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
 </LandingLayout>
 
 <style>
-  .container {
-    @media (min-width: 960px) {
-      min-height: calc(100vh - calc(calc(50px + 1.5rem) * 2));
-    }
-  }
-
   .hero-wrapper {
     position: relative;
   }
@@ -360,6 +358,7 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
     background-color: var(--color-blue);
     color: var(--text-contrast);
     padding: 1rem;
+    padding-block-end: 2rem;
     border-radius: 0.5rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 
@@ -404,6 +403,10 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
     align-items: center;
   }
 
+  .anchor-field {
+    scroll-margin-block-start: 6rem;
+  }
+
   .dark-bg {
     padding-block: 1.5rem;
     background-color: #f5f5f5;
@@ -440,9 +443,12 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
     border: 1px solid var(--dark-border);
     border-radius: var(--radius);
     padding: 1rem;
-    min-width: 360px;
-    max-width: 30%;
     background-color: var(--bg);
+
+    @media (min-width: 960px) {
+      min-width: 360px;
+      max-width: 30%;
+    }
   }
 
   .custom-logo {
@@ -488,7 +494,8 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
 
   .featured__image {
     @media (min-width: 960px) {
-      max-width: 170px;
+      min-width: 170px;
+      max-width: 230px;
       flex: 1;
     }
 
@@ -515,22 +522,26 @@ import logoImage from "../assets/images/logo-pieroni-srl-edilizia-sala-mostra.pn
   }
 </style>
 
-<script is:inline>
-  document
-    .getElementById("whatsapp-form")
-    .addEventListener("submit", function (e) {
-      e.preventDefault();
+<script>
+  if (document) {
+    document
+      .getElementById("whatsapp-form")
+      ?.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-      const quantita = document.getElementById("quantita").value.trim();
-      const luogo = document.getElementById("luogo").value.trim();
-      const impianto = document.getElementById("tipo-impianto").value;
-      const combustibile = document.getElementById("tipo-combustibile").value;
+        const quantita = document.getElementById("quantita").value.trim();
+        const luogo = document.getElementById("luogo").value.trim();
+        const impianto = document.getElementById("tipo-impianto").value;
+        const combustibile = document.getElementById("tipo-combustibile").value;
+        const finanziamento =
+          document.getElementById("tipo-finanziamento").checked;
 
-      const numeroWhatsApp = "390583838375";
+        const numeroWhatsApp = "390583838375";
 
-      const messaggio = `Richiesta pellet:%0A- Quantità: ${quantita}%0A- Luogo: ${luogo}%0A- Impianto: ${impianto}%0A- Tipo: ${combustibile}`;
+        const messaggio = `Richiesta pellet:%0A- Quantità: ${quantita}%0A- Luogo: ${luogo}%0A- Impianto: ${impianto}%0A- Tipo: ${combustibile}%0A- Finanziamento: ${finanziamento ? "Interessato" : "No"}`;
 
-      const url = `https://wa.me/${numeroWhatsApp}?text=${messaggio}`;
-      window.open(url, "_blank");
-    });
+        const url = `https://wa.me/${numeroWhatsApp}?text=${messaggio}`;
+        window.open(url, "_blank");
+      });
+  }
 </script>

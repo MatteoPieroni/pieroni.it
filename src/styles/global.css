@@ -26,12 +26,32 @@
   --table-row-bg: #f9f9f9;
   --table-row-hover-bg: #d0d0d0;
   --table-row-hover-text: var(--text);
+  --detail-border-color: var(--color-blue);
+  --blockquote-border-color: var(--color-blue);
   --bg: #ffffff;
   --bg-darker: #f0f0f0;
   --dark-border: #ddd;
   --radius: 0.25rem;
 
   --page-margin: 1.5rem;
+
+  --spring-easing: linear(
+    0,
+    0.035,
+    0.141 4.4%,
+    0.938 16.7%,
+    1.077 20.4%,
+    1.149 24.3%,
+    1.163 27%,
+    1.154 29.9%,
+    1.017 43.1%,
+    0.991,
+    0.977 51%,
+    0.975 57.1%,
+    1.003 76.9%,
+    1
+  );
+  --spring-duration: 0.5s;
 
   @media (min-width: 960px) {
     --page-margin: 2rem;
@@ -170,7 +190,7 @@ details:first-of-type {
 
 details[open] {
   background-color: #eee;
-  border-left: 3px solid var(--color-orange);
+  border-left: 3px solid var(--detail-border-color);
 }
 
 summary {
@@ -204,6 +224,7 @@ summary::-webkit-details-marker {
 table {
   width: 100%;
   margin: 0 auto;
+  margin-block-end: 1.2em;
   border: 1px solid var(--table-border-color);
   border-collapse: collapse;
 }
@@ -238,20 +259,23 @@ tbody tr:hover {
 }
 
 blockquote {
-  background: var(--bg-darker);
-  border-left: 10px solid var(--table-border-color);
-  margin: 1.5em 10px;
-  padding: 0.5em 10px;
+  border: none;
+  border-left: 4px solid var(--blockquote-border-color);
+  margin: 0;
+  margin-block-end: 1.25rem;
+  padding: 1rem;
   quotes: "\201C" "\201D" "\2018" "\2019";
 }
+
 blockquote:before {
   color: #ccc;
   content: open-quote;
   font-size: 4em;
   line-height: 0.1em;
-  margin-right: 0.25em;
+  margin-inline-end: 0.1em;
   vertical-align: -0.4em;
 }
+
 blockquote p {
   display: inline;
 }
