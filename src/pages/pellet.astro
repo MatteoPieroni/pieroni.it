@@ -54,15 +54,6 @@ import Checkbox from "../components/Checkbox.astro";
               </select>
             </label>
 
-            <label
-              >Pellet o a legna?
-              <select id="tipo-combustibile" required>
-                <option value="">-- Seleziona --</option>
-                <option value="Pellet">Pellet</option>
-                <option value="Legna">Legna</option>
-              </select>
-            </label>
-
             <Checkbox
               text="Mi interessano le opzioni di finanziamento"
               id="tipo-finanziamento"
@@ -233,7 +224,7 @@ import Checkbox from "../components/Checkbox.astro";
         </div>
         <div class="shop">
           <p><strong>Lucca</strong></p>
-          <p>Via della canovetta 341, Lucca</p>
+          <p>Via della Canovetta 341, Lucca</p>
         </div>
       </div>
     </div>
@@ -536,13 +527,12 @@ import Checkbox from "../components/Checkbox.astro";
         const quantita = document.getElementById("quantita").value.trim();
         const luogo = document.getElementById("luogo").value.trim();
         const impianto = document.getElementById("tipo-impianto").value;
-        const combustibile = document.getElementById("tipo-combustibile").value;
         const finanziamento =
           document.getElementById("tipo-finanziamento").checked;
 
         const numeroWhatsApp = "390583838375";
 
-        const messaggio = `Richiesta pellet:%0A- Quantità: ${quantita}%0A- Luogo: ${luogo}%0A- Impianto: ${impianto}%0A- Tipo: ${combustibile}%0A- Finanziamento: ${finanziamento ? "Interessato" : "No"}`;
+        const messaggio = `Richiesta pellet:%0A- Quantità: ${quantita}%0A- Luogo: ${luogo}%0A- Impianto: ${impianto}%0A- Finanziamento: ${finanziamento ? "Interessato" : "No"}`;
 
         const url = `https://wa.me/${numeroWhatsApp}?text=${messaggio}`;
         window.open(url, "_blank");
