@@ -1,12 +1,14 @@
 ---
 import "../styles/global.css";
 import Head from "../components/Head/Head.astro";
+import MiniHeader from "../components/Menu/Mini.astro";
+import MiniFooter from "../components/Footer/Mini.astro";
 import type { PageProps } from "./types";
 import { ensureTrailingSlash } from "../utils/slugs";
 
-type Props = Omit<PageProps, "breadcrumbs">;
+type Props = Omit<PageProps, "breadcrumbs"> & { accentColor?: string };
 
-const { title, description, canonicalUrl } = Astro.props;
+const { title, description, canonicalUrl, accentColor } = Astro.props;
 ---
 
 <html lang="it">
@@ -19,8 +21,12 @@ const { title, description, canonicalUrl } = Astro.props;
   />
 
   <body>
+    <MiniHeader accentColor={accentColor} />
+
     <main id="content">
       <slot />
     </main>
+
+    <MiniFooter accentColor={accentColor} />
   </body>
 </html>
