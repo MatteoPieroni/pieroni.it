@@ -13,10 +13,13 @@ type Props = PageProps & {
   };
   phone: string;
   email: string;
-  hours: Array<{
-    day: string;
-    times: string;
-  }>;
+  timetable: {
+    title: string;
+    hours: Array<{
+      day: string;
+      times: string;
+    }>;
+  }[];
   seoTitle: string;
 };
 
@@ -27,7 +30,7 @@ const {
   address,
   phone,
   email,
-  hours,
+  timetable,
   breadcrumbs,
   seoTitle,
   description,
@@ -63,27 +66,29 @@ const {
       </p>
     </div>
 
-    <div class="location-hours row">
-      <h2>Orari {title}</h2>
-      <table class="hours-table">
-        <thead>
-          <tr>
-            <th>Giorni</th>
-            <th>Orario</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            hours.map((hour) => (
+    {
+      timetable.map((location) => (
+        <div class="location-hours row">
+          <h2>Orari {location.title}</h2>
+          <table class="hours-table">
+            <thead>
               <tr>
-                <td>{hour.day || ""}</td>
-                <td>{hour.times}</td>
+                <th>Giorni</th>
+                <th>Orario</th>
               </tr>
-            ))
-          }
-        </tbody>
-      </table>
-    </div>
+            </thead>
+            <tbody>
+              {location.hours.map((hour) => (
+                <tr>
+                  <td>{hour.day || ""}</td>
+                  <td>{hour.times}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ))
+    }
   </div>
 </MenuLayout>
 
